@@ -11,7 +11,13 @@
   <PropertyGroup>
     <NuGetAuditMode>all</NuGetAuditMode>
     <NuGetAudit>True</NuGetAudit>
-    <BaseOutputPath>C:\Users\ekudr\source\repos\twitchtoolkit\TwitchToolkit\v1.6\Assemblies</BaseOutputPath>
+    <BaseOutputPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\TwitchToolkit\v1.6\Assemblies</BaseOutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\TwitchToolkit\v1.6\Assemblies</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
   </PropertyGroup>
   <ItemGroup>
     <Packageerence Include="Krafs.Rimworld." Version="1.4.3520-beta" />
@@ -40,21 +46,72 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ToolkitCore">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\ToolkitCore.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Client">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\Assemblies\TwitchLib.Client.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Client.Enums">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Client.Models">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\Assemblies\TwitchLib.Client.Models.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Communication">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\Assemblies\TwitchLib.Communication.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Core">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Data">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Drawing">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.IO.Compression.FileSystem">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Numerics">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Runtime.Serialization">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Xml">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Xml.Linq">
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 </Project>
