@@ -8,7 +8,10 @@
     <LangVersion>Preview</LangVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup />
+  <PropertyGroup>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAudit>True</NuGetAudit>
+  </PropertyGroup>
   <ItemGroup>
     <Packageerence Include="Krafs.Rimworld." Version="1.4.3520-beta" />
     <Packageerence Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime">
@@ -29,13 +32,16 @@
     <erence Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4495-beta" />
-    <PackageReference Include="Lib.Harmony" Version="2.3.1.1" />
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4566" />
+    <PackageReference Include="Lib.Harmony" Version="2.4.1" />
     <PackageReference Include="MoonSharp" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="ToolkitCore">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\Assemblies\ToolkitCore.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\ToolkitCore.dll</HintPath>
     </Reference>
     <Reference Include="TwitchLib.Client">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\Assemblies\TwitchLib.Client.dll</HintPath>
