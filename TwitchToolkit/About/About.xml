@@ -6,13 +6,18 @@
     <li>1.6</li>
   </supportedVersions>
   <packageId>CaptoLamia.twitchtoolkit</packageId>
-  <description>A fork of Twitch Tookit by Hodlhodl.
-  1.6 Support only
-  
-  Used AI for fixes and Enhanced code.
-  AI Models used:
-	Deepseek
-	
+  <description>
+    A fork of Twitch Tookit by Hodlhodl.
+    1.6 Support only
+    This version has been updated to use the latest Harmony and Toolkit Core versions.
+    This version is not compatible with older versions of Rimworld.
+    Please report any issues on the GitHub page.
+    GitHub: https://github.com/ekudram/twitchtoolkit
+    This version experimented with AI tools to help with development.
+          
+    AI Models used:
+    Deepseek
+
   </description>
   <modDependencies>
     <li>
@@ -29,7 +34,7 @@
     </li>
   </modDependencies>
   <loadAfter>
-      <li>brrainz.harmony</li>
+    <li>brrainz.harmony</li>
 	  <li>CaptoLamia.toolkitcore</li>
   </loadAfter>
 </ModMetaData>
