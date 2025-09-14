@@ -84,6 +84,7 @@ public static class Helper
         return new Color(0.01f * (float)r, 0.01f * (float)g, 0.01f * (float)b);
     }
 
+    // Note: This method is deprecated. Please use ToolkitLogger for new code
     public static void Log(string message)
     {
         Verse.Log.Message("<color=#6441A4>[Toolkit]</color> " + message);
