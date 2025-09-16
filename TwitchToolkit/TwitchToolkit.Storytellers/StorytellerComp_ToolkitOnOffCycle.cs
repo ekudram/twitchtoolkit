@@ -1,6 +1,17 @@
-using System;
+/*
+ * File: StorytellerComp_ToolkitOnOffCycle.cs
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 16, 2025
+ * 
+ * Changes:
+ * 1. // private Stopwatch stopwatch; removed unused field
+ * 2. Removed unused usings:
+ *	
+ */
+
+
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using RimWorld;
 using TwitchToolkit.Votes;

@@ -1,3 +1,11 @@
+/*
+ * File: FarmAnimalsWanderIn.cs
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 16, 2025
+ * 
+ * Changes: 	// private Map map; removed unused field
+ */
 using RimWorld;
 using TwitchToolkit.Votes;
 using Verse;

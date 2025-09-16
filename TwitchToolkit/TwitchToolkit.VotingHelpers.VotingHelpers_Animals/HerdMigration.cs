@@ -1,21 +1,27 @@
+/*
+ * File: HerdMigration.cs
+ * Project: TwitchToolkit
+ * 
+ * Changes:
+ * 1.  // private Map map; removed unused field
+ * 2. removed using Verse; as it was unused
+ * 
+ */
 using RimWorld;
 using TwitchToolkit.Votes;
-using Verse;
 
 namespace TwitchToolkit.VotingHelpers.VotingHelpers_Animals;
 
 public class HerdMigration : VotingHelper
 {
-	private Map map;
+	// private Map map;
 
-	private IncidentWorker worker;
+	private Incide/ntWorker worker;
 
 	private IncidentParms parms;
 
 	public override bool IsPossible()
 	{
-		//IL_0002: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_000c: Expected O, but got Unknown
 		worker = (IncidentWorker)new IncidentWorker_HerdMigration();
 		worker.def = IncidentDef.Named("HerdMigration");
 		parms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, target);
