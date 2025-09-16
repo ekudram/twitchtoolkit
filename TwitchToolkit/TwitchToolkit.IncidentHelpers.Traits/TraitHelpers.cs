@@ -31,7 +31,7 @@ public static class TraitHelpers
 		}
 		for (int i = 0; i < pawn.story.traits.allTraits.Count; i++)
 		{
-			int num2 = 0;
+			// int num2 = 0;
 			var skillIndex = pawn.story.traits.allTraits[i].CurrentData.skillGains.FirstIndexOf(x => x.skill == sk);
 			if (skillIndex != -1)
 			{

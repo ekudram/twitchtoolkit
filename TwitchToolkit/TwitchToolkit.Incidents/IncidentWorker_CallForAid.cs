@@ -1,3 +1,12 @@
+/* IncidentWorker_CallForAid.cs
+ * 
+ * Updated: September 16, 2025
+ * 
+ * Change log:
+ * 1. Line 128: This change checks if any worn apparel has a CompShield component instead of checking if the apparel itself is a CompShield, which correctly identifies shield belts while eliminating the type checking warning.
+ * 
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +25,6 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
 
 	protected override bool TryResolveRaidFaction(IncidentParms parms)
 	{
-		//IL_0007: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_000d: Expected O, but got Unknown
 		Map map = (Map)parms.target;
 		if (parms.faction != null)
 		{
@@ -33,22 +40,11 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
 
 	public override bool FactionCanBeGroupSource(Faction f, IncidentParms parms, bool desperate = true)
 	{
-		//IL_0029: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_002f: Invalid comparison between Unknown and I4
 		return f.def != FactionDefOf.PlayerColony && f.def != FactionDefOf.PlayerTribe && !f.def.hidden && (int)f.PlayerRelationKind >= 1;
 	}
 
 	protected override bool TryExecuteWorker(IncidentParms parms)
 	{
-		//IL_01aa: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01af: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01b8: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01bd: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_023b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0283: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_02d0: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_02f8: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_02f9: Unknown result type (might be due to invalid IL or missing erences)
 		ResolveRaidPoints(parms);
 		if (!TryResolveRaidFaction(parms))
 		{
@@ -115,8 +111,9 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
 		{
 			for (int j = 0; j < list.Count; j++)
 			{
-				if (GenCollection.Any<Apparel>(list[j].apparel.WornApparel, (Predicate<Apparel>)((Apparel ap) => ap is CompShield)))
-				{
+                // old code: f (GenCollection.Any<Apparel>(list[j].apparel.WornApparel, (Predicate<Apparel>)((Apparel ap) => ap is CompShield)))
+                if (GenCollection.Any<Apparel>(list[j].apparel.WornApparel, (Predicate<Apparel>)((Apparel ap) => ap.TryGetComp<CompShield>() != null)))
+                {
 					LessonAutoActivator.TeachOpportunity(ConceptDefOf.ShieldBelts, (OpportunityType)2);
 					break;
 				}
