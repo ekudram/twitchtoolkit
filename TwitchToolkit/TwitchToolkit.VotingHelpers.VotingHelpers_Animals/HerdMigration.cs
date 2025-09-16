@@ -16,7 +16,7 @@ public class HerdMigration : VotingHelper
 {
 	// private Map map;
 
-	private Incide/ntWorker worker;
+	private IncidentWorker worker;
 
 	private IncidentParms parms;
 
