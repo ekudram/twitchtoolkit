@@ -1,3 +1,12 @@
+/*
+ * File: CheckUser.cs
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 14, 2025
+ * 
+ * Summary of Changes:
+
+ */
 using System;
 using ToolkitCore;
 using TwitchLib.Client.Models.Interfaces;
@@ -9,7 +18,6 @@ public class CheckUser : CommandDriver
 {
 	public override void RunCommand(ITwitchMessage twitchMessage)
 	{
-		//IL_0058: Unknown result type (might be due to invalid IL or missing references)
 		try
 		{
 			string[] command = twitchMessage.Message.Split(' ');
@@ -22,7 +30,7 @@ public class CheckUser : CommandDriver
 		}
 		catch (InvalidCastException e)
 		{
-			Helper.Log("Invalid Check User Command " + e.Message);
+			ToolkitLogger.Log("Invalid Check User Command " + e.Message);
 		}
 	}
 }

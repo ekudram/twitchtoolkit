@@ -1,3 +1,14 @@
+/*
+ * File: Settings_Karma.cs
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 15, 2025
+ * 
+ * Summary of Changes:
+ * 1. Fixed minimum karma setting layout to display label on left and input field on right
+ * 2. Replaced TextFieldNumericLabeled with manual Widgets layout for better UI alignment
+ */
+
 using System;
 using UnityEngine;
 using Verse;
@@ -8,39 +19,16 @@ public static class Settings_Karma
 {
 	public static void DoWindowContents(Rect rect, Listing_Standard optionsListing)
 	{
-		//IL_0007: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0040: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0079: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00d5: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00fd: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0136: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0187: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0192: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_019e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01d7: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0210: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0261: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_026c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0278: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_02b1: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_02ea: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_033b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0346: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0352: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_038b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_03c4: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0415: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0420: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_042c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0465: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_049e: Unknown result type (might be due to invalid IL or missing erences)
 		optionsListing.SliderLabeled("TwitchToolkitStartingKarma".Translate(),  ref ToolkitSettings.StartingKarma, Math.Round((double)ToolkitSettings.StartingKarma).ToString(), 50f, 250f);
 		optionsListing.SliderLabeled("TwitchToolkitKarmaCap".Translate(),  ref ToolkitSettings.KarmaCap, Math.Round((double)ToolkitSettings.KarmaCap).ToString(), 150f, 600f);
 		optionsListing.CheckboxLabeled("TwitchToolkitBanViewersWhoAreBad".Translate(), ref ToolkitSettings.BanViewersWhoPurchaseAlwaysBad, null);
-		optionsListing.Gap(12f);
-		string minKarmaBuffer = ToolkitSettings.KarmaMinimum.ToString();
-		optionsListing.TextFieldNumericLabeled<int>("What is the minimum amount of karma viewers can reach?", ref ToolkitSettings.KarmaMinimum, ref minKarmaBuffer, -100f, 100f);
-		optionsListing.Gap(12f);
+
+        var lineRect = optionsListing.GetRect(Text.LineHeight);
+        Widgets.Label(lineRect.LeftPart(0.7f), "What is the minimum amount of karma viewers can reach?");
+        string minKarmaBuffer = ToolkitSettings.KarmaMinimum.ToString();
+        Widgets.TextFieldNumeric<int>(lineRect.RightPart(0.3f), ref ToolkitSettings.KarmaMinimum, ref minKarmaBuffer, -100f, 100f);
+
+        optionsListing.Gap(12f); optionsListing.Gap(12f);
 		optionsListing.CheckboxLabeled("TwitchToolkitKarmaReqsForGifting".Translate(), ref ToolkitSettings.KarmaReqsForGifting, null);
 		optionsListing.Gap(12f);
 		optionsListing.SliderLabeled("TwitchToolkitMinKarmaForGifts".Translate(), ref  ToolkitSettings.MinimumKarmaToRecieveGifts, Math.Round((double)ToolkitSettings.MinimumKarmaToRecieveGifts).ToString(), 10f);

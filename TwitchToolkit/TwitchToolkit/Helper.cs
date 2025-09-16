@@ -70,9 +70,6 @@ public static class Helper
 
     public static Color HexToColor(string hexString)
     {
-        //IL_0078: Unknown result type (might be due to invalid IL or missing references)
-        //IL_007d: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0081: Unknown result type (might be due to invalid IL or missing references)
         if (hexString.IndexOf('#') != -1)
         {
             hexString = hexString.Replace("#", "");
@@ -97,8 +94,6 @@ public static class Helper
 
     public static void Vote(string message, LetterDef type)
     {
-        //IL_0021: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0027: Unknown result type (might be due to invalid IL or missing references)
         if (message == null)
         {
             message = "";
@@ -108,9 +103,6 @@ public static class Helper
 
     public static void Vote(string message, LetterDef type, Thing thing)
     {
-        //IL_0021: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0027: Unknown result type (might be due to invalid IL or missing references)
-        //IL_002e: Unknown result type (might be due to invalid IL or missing references)
         if (message == null)
         {
             message = "";
@@ -120,10 +112,6 @@ public static class Helper
 
     public static void Vote(string message, LetterDef type, List<Thing> things)
     {
-        //IL_001c: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0022: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0029: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0037: Expected O, but got Unknown
         if (message == null)
         {
             message = "";
@@ -133,10 +121,6 @@ public static class Helper
 
     public static void Vote(string message, LetterDef type, List<Pawn> pawns)
     {
-        //IL_001c: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0022: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0029: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0037: Expected O, but got Unknown
         if (message == null)
         {
             message = "";
@@ -146,10 +130,6 @@ public static class Helper
 
     public static void Vote(string message, LetterDef type, IntVec3 vec)
     {
-        //IL_0021: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0027: Unknown result type (might be due to invalid IL or missing references)
-        //IL_002d: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0034: Unknown result type (might be due to invalid IL or missing references)
         if (message == null)
         {
             message = "";
@@ -159,10 +139,6 @@ public static class Helper
 
     public static void CarePackage(string message, LetterDef type, IntVec3 vec)
     {
-        //IL_0021: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0027: Unknown result type (might be due to invalid IL or missing references)
-        //IL_002d: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0034: Unknown result type (might be due to invalid IL or missing references)
         if (message == null)
         {
             message = "";
@@ -274,15 +250,6 @@ public static class Helper
 
     public static bool BlightPossible()
     {
-        //IL_0001: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0007: Expected O, but got Unknown
-        //IL_0008: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0012: Expected O, but got Unknown
-        //IL_0024: Unknown result type (might be due to invalid IL or missing references)
-        //IL_002e: Expected O, but got Unknown
-        //IL_0040: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0045: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0055: Expected O, but got Unknown
         IncidentWorker_CropBlight incident = new IncidentWorker_CropBlight();
         ((IncidentWorker)incident).def = new IncidentDef();
         ((IncidentWorker)incident).def.tale = null;
@@ -296,15 +263,6 @@ public static class Helper
 
     public static void Blight(string quote = null)
     {
-        //IL_0001: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0007: Expected O, but got Unknown
-        //IL_0008: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0012: Expected O, but got Unknown
-        //IL_0049: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0053: Expected O, but got Unknown
-        //IL_0065: Unknown result type (might be due to invalid IL or missing references)
-        //IL_006a: Unknown result type (might be due to invalid IL or missing references)
-        //IL_007a: Expected O, but got Unknown
         IncidentWorker_CropBlight incident = new IncidentWorker_CropBlight();
         ((IncidentWorker)incident).def = new IncidentDef();
         if (quote != null)
@@ -323,13 +281,6 @@ public static class Helper
 
     public static bool AnimalTamePossible()
     {
-        //IL_0001: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0007: Expected O, but got Unknown
-        //IL_0019: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0023: Expected O, but got Unknown
-        //IL_0035: Unknown result type (might be due to invalid IL or missing references)
-        //IL_003a: Unknown result type (might be due to invalid IL or missing references)
-        //IL_004a: Expected O, but got Unknown
         IncidentWorker_SelfTame incident = new IncidentWorker_SelfTame();
         ((IncidentWorker)incident).def.tale = null;
         ((IncidentWorker)incident).def.category = new IncidentCategoryDef();
@@ -342,15 +293,6 @@ public static class Helper
 
     public static void AnimalTame(string quote = null)
     {
-        //IL_0001: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0007: Expected O, but got Unknown
-        //IL_0008: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0012: Expected O, but got Unknown
-        //IL_0049: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0053: Expected O, but got Unknown
-        //IL_0065: Unknown result type (might be due to invalid IL or missing references)
-        //IL_006a: Unknown result type (might be due to invalid IL or missing references)
-        //IL_007a: Expected O, but got Unknown
         IncidentWorker_SelfTame incident = new IncidentWorker_SelfTame();
         ((IncidentWorker)incident).def = new IncidentDef();
         if (quote != null)
@@ -378,9 +320,6 @@ public static class Helper
 
     public static void Vomit(Map map)
     {
-        //IL_0027: Unknown result type (might be due to invalid IL or missing references)
-        //IL_002d: Expected O, but got Unknown
-        //IL_005a: Unknown result type (might be due to invalid IL or missing references)
         ThingDef vomitDef = ThingDef.Named("DropPodIncoming");
         ((Def)vomitDef).label = "vomit (incoming)";
         vomitDef.graphicData.texPath = "Things/Filth/PoolSoft";
@@ -394,11 +333,6 @@ public static class Helper
 
     public static void Meteorite(string quote)
     {
-        //IL_0001: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0007: Expected O, but got Unknown
-        //IL_003d: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0042: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0052: Expected O, but got Unknown
         IncidentWorker_MeteoriteImpact incident = new IncidentWorker_MeteoriteImpact();
         ((IncidentWorker)incident).def = IncidentDef.Named("MeteoriteImpact");
         if (quote != null)

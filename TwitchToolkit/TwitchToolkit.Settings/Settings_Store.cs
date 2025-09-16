@@ -1,3 +1,14 @@
+/*
+ * File: Settings_Store.cs
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 15, 2025
+ * 
+ * Summary of Changes:
+ * 1. Centralized store settings implementation
+ * 2. Provides store management UI with item and event editors
+ * 3. Handles store-related configuration options
+ */
 using System;
 using TwitchToolkit.Windows;
 using UnityEngine;
@@ -9,11 +20,6 @@ public static class Settings_Store
 {
 	public static void DoWindowContents(Rect rect, Listing_Standard optionsListing)
 	{
-		//IL_0007: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0023: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_010f: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_012b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0147: Unknown result type (might be due to invalid IL or missing erences)
 		optionsListing.CheckboxLabeled("TwitchToolkitEarningCoins".Translate(), ref ToolkitSettings.EarningCoins, null);
 		optionsListing.AddLabeledTextField("TwitchToolkitCustomPricingLink".Translate(), ref ToolkitSettings.CustomPricingSheetLink);
 		optionsListing.Gap(12f);

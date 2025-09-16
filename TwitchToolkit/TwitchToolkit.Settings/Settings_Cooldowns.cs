@@ -1,3 +1,14 @@
+/*
+ * File: Settings_Cooldowns.cs
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 15, 2025
+ * 
+ * Summary of Changes:
+ * 1. Comprehensive cooldown and event limit settings
+ * 2. Provides full event management capabilities
+ * 3. Includes max events per interval limits for balance control
+ */
 using System;
 using UnityEngine;
 using Verse;
@@ -8,12 +19,6 @@ public static class Settings_Cooldowns
 {
 	public static void DoWindowContents(Rect rect, Listing_Standard optionsListing)
 	{
-		//IL_0042: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_006a: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0094: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00be: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00e8: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_011e: Unknown result type (might be due to invalid IL or missing erences)
 		optionsListing.SliderLabeled("Days per cooldown period",  ref ToolkitSettings.EventCooldownInterval, Math.Round((double)ToolkitSettings.EventCooldownInterval).ToString(), 1f, 15f);
 		optionsListing.Gap(12f);
 		optionsListing.CheckboxLabeled("TwitchToolkitMaxEventsLimit".Translate(), ref ToolkitSettings.MaxEvents, null);

@@ -1,7 +1,22 @@
+/*
+ * File: 
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 16, 2025
+ * 
+ * Class Use:  (if known)
+ * Summary of Changes:
+ * 1. Maintains backward compatibility with the timer field that ToolkitUtils expects
+ * 2. Removes threading by eliminating the separate registration thread
+ * 3. Uses RimWorld's tick system for periodic registration checks
+ * 4. Includes proper error handling with ToolkitLogger
+ * 5. Adds cleanup with the Destroy method
+ * 6. Preserves all original functionality while making it thread-safe
+ * Reason for Change:
+ */
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using RimWorld;
 using TwitchToolkit.Store;
 using TwitchToolkit.Votes;
@@ -12,179 +27,202 @@ namespace TwitchToolkit;
 
 public class Ticker : Thing
 {
-	public Timer timer = null;
+    // Add back the timer field for backward compatibility with ToolkitUtils
+    // Mark it as obsolete to warn other modders not to use it
+    [Obsolete("This field is maintained for backward compatibility only. Do not use in new code.")]
+    public System.Threading.Timer timer = null;
 
-	public static long LastIRCPong = 0L;
+    public static long LastIRCPong = 0L;
+    public static DateTime lastEvent;
 
-	public static Queue<FiringIncident> FiringIncidents = new Queue<FiringIncident>();
+    public static Queue<FiringIncident> FiringIncidents = new Queue<FiringIncident>();
+    public static Queue<VoteEvent> VoteEvents = new Queue<VoteEvent>();
+    public static Queue<IncidentWorker> Incidents = new Queue<IncidentWorker>();
+    public static Queue<IncidentHelper> IncidentHelpers = new Queue<IncidentHelper>();
+    public static Queue<IncidentHelperVariables> IncidentHelperVariables = new Queue<IncidentHelperVariables>();
 
-	public static Queue<VoteEvent> VoteEvents = new Queue<VoteEvent>();
+    private static Game _game;
+    private static TwitchToolkit _mod = Toolkit.Mod;
+    private static Ticker _instance;
 
-	public static Queue<IncidentWorker> Incidents = new Queue<IncidentWorker>();
+    private int[] _baseTimes = new int[5] { 20, 60, 120, 180, 999999 };
+    private int _lastMinute = -1;
+    private int _lastCoinReward = -1;
 
-	public static Queue<IncidentHelper> IncidentHelpers = new Queue<IncidentHelper>();
+    // Add tick counter for registration checks
+    private int _registrationCheckTickCounter = 0;
+    private const int RegistrationCheckInterval = 60; // Check every 60 ticks (~1 second)
 
-	public static Queue<IncidentHelperVariables> IncidentHelperVariables = new Queue<IncidentHelperVariables>();
+    public bool CreatedByController { get; internal set; }
 
-	private static Thread _registerThread;
 
-	private static Game _game;
+    public static Ticker Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new Ticker();
+            }
+            return _instance;
+        }
+    }
 
-	private static TwitchToolkit _mod = Toolkit.Mod;
+    public Ticker()
+    {
+        base.def = new ThingDef
+        {
+            tickerType = TickerType.Normal,
+            isSaveable = false
+        };
 
-	private static Ticker _instance;
+        // Initialize the timer field for backward compatibility
+        // Create a dummy timer that doesn't actually do anything
+#pragma warning disable CS0618 // Type or member is obsolete
+        timer = new System.Threading.Timer(_ => {
+            // Empty callback - this timer doesn't actually do anything
+            ToolkitLogger.Warn("Legacy timer callback called - this timer is deprecated and does nothing");
+        }, null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+#pragma warning restore CS0618 // Type or member is obsolete
 
-	private int[] _baseTimes = new int[5] { 20, 60, 120, 180, 999999 };
+        // Initial registration attempt
+        TryRegisterWithCurrentGame();
 
-	private int _lastMinute = -1;
+        lastEvent = DateTime.Now;
+        LastIRCPong = DateTime.Now.ToFileTime();
+    }
 
-	private int _lastCoinReward = -1;
+    // Replace thread-based registration with tick-based registration
+    private void TryRegisterWithCurrentGame()
+    {
+        try
+        {
+            if (_game != Current.Game)
+            {
+                if (_game != null)
+                {
+                    _game.tickManager.DeRegisterAllTickabilityFor(this);
+                    _game = null;
+                }
 
-	public static DateTime lastEvent;
-
-	public bool CreatedByController { get; internal set; }
-
-	public static Ticker Instance
-	{
-		get
-		{
-			if (_instance == null)
-			{
-				_instance = new Ticker();
-			}
-			return _instance;
-		}
-	}
-
-	public Ticker()
-	{
-		//IL_0035: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_003a: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_003c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0041: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_004d: Expected O, but got Unknown
-		base.def = new ThingDef
-		{
-			tickerType = (TickerType)1,
-			isSaveable = false
-		};
-		_registerThread = new Thread(Register);
-		_registerThread.Start();
-		lastEvent = DateTime.Now;
-		LastIRCPong = DateTime.Now.ToFileTime();
-	}
-
-	private void Register()
-	{
-		while (true)
-		{
-			try
-			{
-				if (_game != Current.Game)
-				{
-					if (_game != null)
-					{
-						_game.tickManager.DeRegisterAllTickabilityFor((Thing)(object)this);
-						_game = null;
-					}
-					_game = Current.Game;
-					if (_game != null)
-					{
-						_game = Current.Game;
-						_game.tickManager.RegisterAllTickabilityFor((Thing)(object)this);
-						Toolkit.Mod.RegisterTicker();
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				Helper.Log("Exception: " + ex.Message + "\n" + ex.StackTrace);
-			}
-			finally
-			{
-				Thread.Sleep(1000);
-			}
-		}
-	}
+                _game = Current.Game;
+                if (_game != null)
+                {
+                    _game.tickManager.RegisterAllTickabilityFor(this);
+                    Toolkit.Mod.RegisterTicker();
+                    ToolkitLogger.Log("Ticker successfully registered with current game");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ToolkitLogger.Error($"Exception in TryRegisterWithCurrentGame: {ex.Message}\n{ex.StackTrace}");
+        }
+    }
 
     protected override void Tick()
-	{
-		//IL_0191: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0198: Expected O, but got Unknown
-		try
-		{
-			if (_game == null || _mod == null)
-			{
-				return;
-			}
-			_mod.Tick();
-			int minutes = (int)(_game.Info.RealPlayTimeInteracting / 60f);
-			double getTime = (double)Time.time / 60.0;
-			int time = Convert.ToInt32(Math.Truncate(getTime));
-			if (IncidentHelpers.Count > 0)
-			{
-				while (IncidentHelpers.Count > 0)
-				{
-					IncidentHelper incidentHelper2 = IncidentHelpers.Dequeue();
-					if (!(incidentHelper2 is VotingHelper))
-					{
-						Purchase_Handler.QueuePlayerMessage(incidentHelper2.Viewer, incidentHelper2.message);
-					}
-					incidentHelper2.TryExecute();
-				}
-				Helper.playerMessages = new List<string>();
-			}
-			if (IncidentHelperVariables.Count > 0)
-			{
-				while (IncidentHelperVariables.Count > 0)
-				{
-					IncidentHelperVariables incidentHelper = IncidentHelperVariables.Dequeue();
-					Purchase_Handler.QueuePlayerMessage(incidentHelper.Viewer, incidentHelper.message, incidentHelper.storeIncident.variables);
-					incidentHelper.TryExecute();
-					if (Purchase_Handler.viewerNamesDoingVariableCommands.Contains(incidentHelper.Viewer.username))
-					{
-						Purchase_Handler.viewerNamesDoingVariableCommands.Remove(incidentHelper.Viewer.username);
-					}
-				}
-				Helper.playerMessages = new List<string>();
-			}
-			if (Incidents.Count > 0)
-			{
-				IncidentWorker incident2 = Incidents.Dequeue();
-				IncidentParms incidentParms = new IncidentParms();
-				incidentParms.target = (IIncidentTarget)(object)Helper.AnyPlayerMap;
-				incident2.TryExecute(incidentParms);
-			}
-			if (FiringIncidents.Count > 0)
-			{
-				Helper.Log("Firing " + ((Def)FiringIncidents.First().def).defName);
-				FiringIncident incident = FiringIncidents.Dequeue();
-				incident.def.Worker.TryExecute(incident.parms);
-			}
-			VoteHandler.CheckForQueuedVotes();
-			if (_lastCoinReward < 0)
-			{
-				_lastCoinReward = time;
-			}
-			else if (ToolkitSettings.EarningCoins && time - _lastCoinReward >= ToolkitSettings.CoinInterval && Viewers.jsonallviewers != null)
-			{
-				_lastCoinReward = time;
-				Viewers.AwardViewersCoins();
-			}
-			if (_lastMinute < 0)
-			{
-				_lastMinute = time;
-			}
-			else if (_lastMinute < time)
-			{
-				_lastMinute = time;
-				Toolkit.JobManager.CheckAllJobs();
-				Viewers.RefreshViewers();
-			}
-		}
-		catch (Exception ex)
-		{
-			Helper.Log("Exception: " + ex.Message + ex.StackTrace);
-		}
-	}
+    {
+        try
+        {
+            // Check for game registration periodically
+            _registrationCheckTickCounter++;
+            if (_registrationCheckTickCounter >= RegistrationCheckInterval)
+            {
+                _registrationCheckTickCounter = 0;
+                TryRegisterWithCurrentGame();
+            }
+
+            if (_game == null || _mod == null)
+            {
+                return;
+            }
+
+            _mod.Tick();
+            int minutes = (int)(_game.Info.RealPlayTimeInteracting / 60f);
+            double getTime = (double)Time.time / 60.0;
+            int time = Convert.ToInt32(Math.Truncate(getTime));
+
+            if (IncidentHelpers.Count > 0)
+            {
+                while (IncidentHelpers.Count > 0)
+                {
+                    IncidentHelper incidentHelper2 = IncidentHelpers.Dequeue();
+                    if (!(incidentHelper2 is VotingHelper))
+                    {
+                        Purchase_Handler.QueuePlayerMessage(incidentHelper2.Viewer, incidentHelper2.message);
+                    }
+                    incidentHelper2.TryExecute();
+                }
+                Helper.playerMessages = new List<string>();
+            }
+
+            if (IncidentHelperVariables.Count > 0)
+            {
+                while (IncidentHelperVariables.Count > 0)
+                {
+                    IncidentHelperVariables incidentHelper = IncidentHelperVariables.Dequeue();
+                    Purchase_Handler.QueuePlayerMessage(incidentHelper.Viewer, incidentHelper.message, incidentHelper.storeIncident.variables);
+                    incidentHelper.TryExecute();
+                    if (Purchase_Handler.viewerNamesDoingVariableCommands.Contains(incidentHelper.Viewer.username))
+                    {
+                        Purchase_Handler.viewerNamesDoingVariableCommands.Remove(incidentHelper.Viewer.username);
+                    }
+                }
+                Helper.playerMessages = new List<string>();
+            }
+
+            if (Incidents.Count > 0)
+            {
+                IncidentWorker incident2 = Incidents.Dequeue();
+                IncidentParms incidentParms = new IncidentParms();
+                incidentParms.target = (IIncidentTarget)(object)Helper.AnyPlayerMap;
+                incident2.TryExecute(incidentParms);
+            }
+
+            if (FiringIncidents.Count > 0)
+            {
+                ToolkitLogger.Log("Firing " + ((Def)FiringIncidents.First().def).defName);
+                FiringIncident incident = FiringIncidents.Dequeue();
+                incident.def.Worker.TryExecute(incident.parms);
+            }
+
+            VoteHandler.CheckForQueuedVotes();
+
+            if (_lastCoinReward < 0)
+            {
+                _lastCoinReward = time;
+            }
+            else if (ToolkitSettings.EarningCoins && time - _lastCoinReward >= ToolkitSettings.CoinInterval && Viewers.jsonallviewers != null)
+            {
+                _lastCoinReward = time;
+                Viewers.AwardViewersCoins();
+            }
+
+            if (_lastMinute < 0)
+            {
+                _lastMinute = time;
+            }
+            else if (_lastMinute < time)
+            {
+                _lastMinute = time;
+                Toolkit.JobManager.CheckAllJobs();
+                Viewers.RefreshViewers();
+            }
+        }
+        catch (Exception ex)
+        {
+            ToolkitLogger.Error($"Exception in Ticker.Tick: {ex.Message}{ex.StackTrace}");
+        }
+    }
+
+    // Add proper cleanup when the ticker is destroyed
+    public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
+    {
+        if (_game != null)
+        {
+            _game.tickManager.DeRegisterAllTickabilityFor(this);
+            _game = null;
+        }
+        base.Destroy(mode);
+    }
 }

@@ -1,3 +1,14 @@
+/*
+ * File: ViewerUpdater.cs
+ * 
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 14, 2025
+ * 
+ * Summary of Changes:
+
+ */
+
 using ToolkitCore;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.PawnQueue;

@@ -1,3 +1,13 @@
+/*
+ * File: Settings_Coins.cs  
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 15, 2025
+ * 
+ * Summary of Changes:
+ * 1. Centralized coin settings implementation for reuse
+ * 2. Provides consistent coin settings UI across the mod
+ */
 using System;
 using UnityEngine;
 using Verse;

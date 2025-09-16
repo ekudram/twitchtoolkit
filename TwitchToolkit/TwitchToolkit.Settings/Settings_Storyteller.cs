@@ -1,3 +1,14 @@
+/*
+ * File: Toolkitsettings.cs
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 14, 2025
+ * 
+ * Summary of Changes:
+ * 1. Added storytelleer button option
+ * 2. Implemented DoWindowContents method to use passed Listing_Standard
+ */
+
 using System;
 using System.Collections.Generic;
 using TwitchToolkit.Storytellers.StorytellerPackWindows;
@@ -89,27 +100,28 @@ public static class Settings_Storyteller
 		};
 	}
 
-	public static void DoWindowContents(Rect rect, Listing_Standard optionsListing)
-	{
-		//IL_000d: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0025: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_005e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0097: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00b3: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00cf: Unknown result type (might be due to invalid IL or missing erences)
-		optionsListing.Label("All");
-		optionsListing.GapLine(12f);
-		optionsListing.SliderLabeled("TwitchToolkitVoteTime".Translate(), ref ToolkitSettings.VoteTime, Math.Round((double)ToolkitSettings.VoteTime).ToString(), 1f, 15f);
-		optionsListing.SliderLabeled("TwitchToolkitVoteOptions".Translate(), ref ToolkitSettings.VoteOptions, Math.Round((double)ToolkitSettings.VoteOptions).ToString(), 2f, 5f);
-		optionsListing.CheckboxLabeled("TwitchToolkitVotingChatMsgs".Translate(), ref ToolkitSettings.VotingChatMsgs, null);
-		optionsListing.CheckboxLabeled("TwitchToolkitVotingWindow".Translate(), ref ToolkitSettings.VotingWindow, null);
-		optionsListing.CheckboxLabeled("TwitchToolkitLargeVotingWindow".Translate(), ref ToolkitSettings.LargeVotingWindow, null);
-		optionsListing.Gap(12f);
-		if (optionsListing.ButtonTextLabeled("Edit Storyteller Packs", "Storyteller Packs"))
-		{
-			Window_StorytellerPacks window = new Window_StorytellerPacks();
-			Find.WindowStack.TryRemove(window.GetType(), true);
-			Find.WindowStack.Add(window);
-		}
-	}
+    public static void DoWindowContents(Rect rect, Listing_Standard optionsListing)
+    {
+
+        optionsListing.Label("Storyteller");
+        optionsListing.Gap(12f);
+        optionsListing.Label("All");
+        optionsListing.GapLine(12f);
+        optionsListing.SliderLabeled("TwitchToolkitVoteTime".Translate(), ref ToolkitSettings.VoteTime, Math.Round((double)ToolkitSettings.VoteTime).ToString(), 1f, 15f);
+        optionsListing.SliderLabeled("TwitchToolkitVoteOptions".Translate(), ref ToolkitSettings.VoteOptions, Math.Round((double)ToolkitSettings.VoteOptions).ToString(), 2f, 5f);
+        optionsListing.CheckboxLabeled("TwitchToolkitVotingChatMsgs".Translate(), ref ToolkitSettings.VotingChatMsgs, null);
+        optionsListing.CheckboxLabeled("TwitchToolkitVotingWindow".Translate(), ref ToolkitSettings.VotingWindow, null);
+        optionsListing.CheckboxLabeled("TwitchToolkitLargeVotingWindow".Translate(), ref ToolkitSettings.LargeVotingWindow, null);
+        optionsListing.Gap(12f);
+
+        // Added: Always show storyteller button option
+        optionsListing.CheckboxLabeled("Always Show Storyteller Button", ref ToolkitSettings.AlwaysShowStorytellerButton);
+
+        if (optionsListing.ButtonTextLabeled("Edit Storyteller Packs", "Storyteller Packs"))
+        {
+            Window_StorytellerPacks window = new Window_StorytellerPacks();
+            Find.WindowStack.TryRemove(window.GetType(), true);
+            Find.WindowStack.Add(window);
+        }
+    }
 }

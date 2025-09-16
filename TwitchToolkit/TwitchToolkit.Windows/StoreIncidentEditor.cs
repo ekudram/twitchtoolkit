@@ -2,7 +2,7 @@
  * File: StoreIncidentEditor.cs
  * Project: TwitchToolkit
  * 
- * Updated: [Current Date]
+ * Updated: September 13, 2025
  * 
  * Summary of Changes:
  * 1. Added proper error handling and null checking
@@ -95,19 +95,43 @@ namespace TwitchToolkit.Windows
         //    setKarmaType = storeIncident.karmaType.ToString();
         //}
 
-        public override void PostClose()
+public override void PostClose()
+{
+    try
+    {
+        MakeSureSaveExists();
+        Store_IncidentEditor.UpdatePriceSheet();
+        
+        // Use the proper way to access the mod instance
+        var modInstance = Toolkit.ModInstance;
+        if (modInstance != null)
         {
-            try
-            {
-                MakeSureSaveExists();
-                Store_IncidentEditor.UpdatePriceSheet();
-                ((Mod)Toolkit.Mod)?.WriteSettings();
-            }
-            catch (Exception ex)
-            {
-                ToolkitLogger.Error($"Error in PostClose: {ex}");
-            }
+            modInstance.WriteSettings();
         }
+        else
+        {
+            ToolkitLogger.Warn("Mod instance is null in PostClose - settings not saved");
+        }
+    }
+    catch (Exception ex)
+    {
+        ToolkitLogger.Error($"Error in PostClose: {ex}");
+    }
+}
+
+        //public override void PostClose()
+        //{
+        //    try
+        //    {
+        //        MakeSureSaveExists();
+        //        Store_IncidentEditor.UpdatePriceSheet();
+        //        ((Mod)Toolkit.Mod)?.WriteSettings();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ToolkitLogger.Error($"Error in PostClose: {ex}");
+        //    }
+        //}
 
         public override void DoWindowContents(Rect inRect)
         {

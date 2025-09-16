@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Viewer Settings -->
+  <TwitchToolkitEnableViewerQueue>Enable viewer queue</TwitchToolkitEnableViewerQueue>
+  <TwitchToolkitEnableViewerQueueDesc>Allows viewers to join a queue for taking turns</TwitchToolkitEnableViewerQueueDesc>
+
+  <TwitchToolkitViewerColonistQueue>Viewer named colonist queue</TwitchToolkitViewerColonistQueue>
+  <TwitchToolkitViewerColonistQueueDesc>Only allow viewers with named colonists to join queue</TwitchToolkitViewerColonistQueueDesc>
+
+  <TwitchToolkitChargeViewersForQueue>Charge viewers for queue</TwitchToolkitChargeViewersForQueue>
+  <TwitchToolkitChargeViewersForQueueDesc>Require viewers to pay coins to join the queue</TwitchToolkitChargeViewersForQueueDesc>
+
+  <TwitchToolkitCostToJoinQueue>Cost to join queue</TwitchToolkitCostToJoinQueue>
+  <TwitchToolkitCostToJoinQueueDesc>Amount of coins required to join the viewer queue</TwitchToolkitCostToJoinQueueDesc>
+
+  <TwitchToolkitSpecialViewers>Special Viewers</TwitchToolkitSpecialViewers>
+
+  <!-- Subscribers -->
+  <TwitchToolkitSubscribers>Subscribers</TwitchToolkitSubscribers>
+  <TwitchToolkitSubscriberExtraCoins>Subscriber extra coins</TwitchToolkitSubscriberExtraCoins>
+  <TwitchToolkitSubscriberExtraCoinsDesc>Bonus coins subscribers receive</TwitchToolkitSubscriberExtraCoinsDesc>
+  <TwitchToolkitSubscriberCoinMultiplier>Subscriber coin multiplier</TwitchToolkitSubscriberCoinMultiplier>
+  <TwitchToolkitSubscriberCoinMultiplierDesc>Coin earning multiplier for subscribers</TwitchToolkitSubscriberCoinMultiplierDesc>
+  <TwitchToolkitSubscriberExtraVotes>Subscriber extra votes</TwitchToolkitSubscriberExtraVotes>
+  <TwitchToolkitSubscriberExtraVotesDesc>Additional votes subscribers receive</TwitchToolkitSubscriberExtraVotesDesc>
+
+  <!-- VIPs -->
+  <TwitchToolkitVIPs>VIPs</TwitchToolkitVIPs>
+  <TwitchToolkitVIPExtraCoins>VIP extra coins</TwitchToolkitVIPExtraCoins>
+  <TwitchToolkitVIPExtraCoinsDesc>Bonus coins VIPs receive</TwitchToolkitVIPExtraCoinsDesc>
+  <TwitchToolkitVIPCoinMultiplier>VIP coin multiplier</TwitchToolkitVIPCoinMultiplier>
+  <TwitchToolkitVIPCoinMultiplierDesc>Coin earning multiplier for VIPs</TwitchToolkitVIPCoinMultiplierDesc>
+  <TwitchToolkitVIPExtraVotes>VIP extra votes</TwitchToolkitVIPExtraVotes>
+  <TwitchToolkitVIPExtraVotesDesc>Additional votes VIPs receive</TwitchToolkitVIPExtraVotesDesc>
+
+  <!-- Moderators -->
+  <TwitchToolkitModerators>Moderators</TwitchToolkitModerators>
+  <TwitchToolkitModExtraCoins>Moderator extra coins</TwitchToolkitModExtraCoins>
+  <TwitchToolkitModExtraCoinsDesc>Bonus coins moderators receive</TwitchToolkitModExtraCoinsDesc>
+  <TwitchToolkitModCoinMultiplier>Moderator coin multiplier</TwitchToolkitModCoinMultiplier>
+  <TwitchToolkitModCoinMultiplierDesc>Coin earning multiplier for moderators</TwitchToolkitModCoinMultiplierDesc>
+  <TwitchToolkitModExtraVotes>Moderator extra votes</TwitchToolkitModExtraVotes>
+  <TwitchToolkitModExtraVotesDesc>Additional votes moderators receive</TwitchToolkitModExtraVotesDesc>
+
+</LanguageData>
