@@ -10,6 +10,8 @@
  * 3. Added thread-safe initialization
  * 4. Maintained exact backward compatibility with static field access
  * 5. Added warning system for legacy access
+ * 6. added version property for easy access to mod version
+ * 
  */
 
 using System;
@@ -30,7 +32,7 @@ namespace TwitchToolkit
 
         private static TwitchToolkit _modInstance;
         private static readonly object _lock = new object();
-
+        public static string Version => Mod?.Version ?? "unknown";
         /// <summary>
         /// Gets the mod instance (thread-safe)
         /// </summary>
@@ -88,6 +90,7 @@ namespace TwitchToolkit
                 throw new ArgumentNullException(nameof(modInstance));
 
             ModInstance = modInstance;
+            Mod = modInstance;
             ToolkitLogger.Success("Toolkit initialized successfully");
         }
     }

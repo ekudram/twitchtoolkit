@@ -31,7 +31,7 @@ namespace TwitchToolkit.Commands.ViewerCommands
         {
             if (twitchMessage == null)
             {
-                Log.Warning("[TwitchToolkit] Received null twitch message in InstalledMods command");
+                ToolkitLogger.Log("Received null twitch message in InstalledMods command");
                 return;
             }
 
