@@ -6,16 +6,11 @@ namespace TwitchToolkit.VotingHelpers.VotingHelpers_Animals;
 
 public class FarmAnimalsWanderIn : VotingHelper
 {
-	private Map map;
-
+	// private Map map;
 	private IncidentWorker worker;
-
 	private IncidentParms parms;
-
 	public override bool IsPossible()
 	{
-		//IL_0002: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_000c: Expected O, but got Unknown
 		worker = (IncidentWorker)new IncidentWorker_FarmAnimalsWanderIn();
 		worker.def = IncidentDef.Named("FarmAnimalsWanderIn");
 		parms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, target);

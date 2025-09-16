@@ -9,7 +9,7 @@ namespace TwitchToolkit.Storytellers.StorytellerPackWindows;
 
 public class Window_GlobalVoteWeights : Window
 {
-	private Vector2 scrollPosition;
+	// private Vector2 scrollPosition;
 
 	private int totalWeights = 1;
 
@@ -22,10 +22,6 @@ public class Window_GlobalVoteWeights : Window
 
 	public override void DoWindowContents(Rect inRect)
 	{
-		//IL_0001: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0007: Expected O, but got Unknown
-		//IL_0063: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_008c: Unknown result type (might be due to invalid IL or missing erences)
 		Listing_Standard listing = new Listing_Standard();
 		List<VotingIncident> allVotes = DefDatabase<VotingIncident>.AllDefs.ToList();
 		Rect outRect = new Rect(0f, 0f, ((Rect)(inRect)).width, ((Rect)(inRect)).height - 50f);

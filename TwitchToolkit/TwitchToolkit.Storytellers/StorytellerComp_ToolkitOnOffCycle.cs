@@ -10,7 +10,7 @@ namespace TwitchToolkit.Storytellers;
 
 public class StorytellerComp_ToolkitOnOffCycle : StorytellerComp
 {
-	private Stopwatch stopwatch;
+	// private Stopwatch stopwatch;
 
 	protected StorytellerCompProperties_ToolkitOnOffCycle Props => (StorytellerCompProperties_ToolkitOnOffCycle)(object)base.props;
 
