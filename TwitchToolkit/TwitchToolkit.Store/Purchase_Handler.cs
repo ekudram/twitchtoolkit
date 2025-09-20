@@ -71,13 +71,13 @@ namespace TwitchToolkit.Store
         {
             if (viewer == null)
             {
-                ToolkitLogger.Warn("Null viewer in ResolvePurchase");
+                ToolkitLogger.Warning("Null viewer in ResolvePurchase");
                 return;
             }
 
             if (twitchMessage == null)
             {
-                ToolkitLogger.Warn("Null twitchMessage in ResolvePurchase");
+                ToolkitLogger.Warning("Null twitchMessage in ResolvePurchase");
                 return;
             }
 
@@ -155,7 +155,7 @@ namespace TwitchToolkit.Store
         {
             if (incident == null)
             {
-                ToolkitLogger.Warn("Null incident in ResolvePurchaseSimple");
+                ToolkitLogger.Warning("Null incident in ResolvePurchaseSimple");
                 return;
             }
 
@@ -174,7 +174,7 @@ namespace TwitchToolkit.Store
             IncidentHelper helper = StoreIncidentMaker.MakeIncident(incident);
             if (helper == null)
             {
-                ToolkitLogger.Warn("Missing helper for incident " + incident.defName);
+                ToolkitLogger.Warning("Missing helper for incident " + incident.defName);
                 TwitchWrapper.SendChatMessage($"@{viewer.username} Error: Could not create incident helper.");
                 return;
             }
@@ -222,7 +222,7 @@ namespace TwitchToolkit.Store
         {
             if (incident == null)
             {
-                ToolkitLogger.Warn("Null incident in ResolvePurchaseVariables");
+                ToolkitLogger.Warning("Null incident in ResolvePurchaseVariables");
                 return;
             }
 

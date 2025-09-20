@@ -81,7 +81,7 @@ public class Ticker : Thing
 #pragma warning disable CS0618 // Type or member is obsolete
         timer = new System.Threading.Timer(_ => {
             // Empty callback - this timer doesn't actually do anything
-            ToolkitLogger.Warn("Legacy timer callback called - this timer is deprecated and does nothing");
+            ToolkitLogger.Warning("Legacy timer callback called - this timer is deprecated and does nothing");
         }, null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
 #pragma warning restore CS0618 // Type or member is obsolete
 

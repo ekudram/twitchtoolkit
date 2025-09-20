@@ -110,7 +110,7 @@ public override void PostClose()
         }
         else
         {
-            ToolkitLogger.Warn("Mod instance is null in PostClose - settings not saved");
+            ToolkitLogger.Warning("Mod instance is null in PostClose - settings not saved");
         }
     }
     catch (Exception ex)

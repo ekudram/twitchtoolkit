@@ -95,7 +95,7 @@ public class CommandDriver
     {
         if (string.IsNullOrEmpty(input))
         {
-            ToolkitLogger.Warn("Input string is null or empty in FilterTags");
+            ToolkitLogger.Warning("Input string is null or empty in FilterTags");
             return string.Empty;
         }
 
@@ -147,7 +147,7 @@ public class CommandDriver
     {
         if (string.IsNullOrEmpty(function))
         {
-            ToolkitLogger.Warn("MoonSharp function string is null or empty");
+            ToolkitLogger.Warning("MoonSharp function string is null or empty");
             return string.Empty;
         }
 
@@ -174,7 +174,7 @@ public class CommandDriver
     {
         if (string.IsNullOrEmpty(function))
         {
-            ToolkitLogger.Warn("MoonSharp function string is null or empty");
+            ToolkitLogger.Warning("MoonSharp function string is null or empty");
             return 0.0;
         }
 

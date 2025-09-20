@@ -40,7 +40,7 @@ public static class CommandsHandler
     {
         if (twitchMessage == null)
         {
-            ToolkitLogger.Warn("Received null twitch message in CheckCommand");
+            ToolkitLogger.Warning("Received null twitch message in CheckCommand");
             return;
         }
 
@@ -57,7 +57,7 @@ public static class CommandsHandler
 
         if (viewer == null)
         {
-            ToolkitLogger.Warn($"Viewer not found for username: {user}");
+            ToolkitLogger.Warning($"Viewer not found for username: {user}");
             return;
         }
 

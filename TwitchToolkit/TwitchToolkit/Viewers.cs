@@ -38,7 +38,7 @@ public static class Viewers
         List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
         if (usernames == null)
         {
-            ToolkitLogger.Warn("AwardViewersCoins: No active viewers found to award coins");
+            ToolkitLogger.Warning("AwardViewersCoins: No active viewers found to award coins");
             return;
         }
 
@@ -49,7 +49,7 @@ public static class Viewers
                 Viewer viewer = GetViewer(username);
                 if (viewer == null)
                 {
-                    ToolkitLogger.Warn($"AwardViewersCoins: Could not find viewer {username}");
+                    ToolkitLogger.Warning($"AwardViewersCoins: Could not find viewer {username}");
                     continue;
                 }
 
@@ -124,7 +124,7 @@ public static class Viewers
             List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
             if (usernames == null)
             {
-                ToolkitLogger.Warn("GiveAllViewersCoins: No active viewers found");
+                ToolkitLogger.Warning("GiveAllViewersCoins: No active viewers found");
                 return;
             }
 
@@ -158,7 +158,7 @@ public static class Viewers
 
             if (All == null)
             {
-                ToolkitLogger.Warn("SetAllViewersCoins: All viewers list is null");
+                ToolkitLogger.Warning("SetAllViewersCoins: All viewers list is null");
                 return;
             }
 
@@ -192,7 +192,7 @@ public static class Viewers
             List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
             if (usernames == null)
             {
-                ToolkitLogger.Warn("GiveAllViewersKarma: No active viewers found");
+                ToolkitLogger.Warning("GiveAllViewersKarma: No active viewers found");
                 return;
             }
 
@@ -229,7 +229,7 @@ public static class Viewers
 
             if (All == null)
             {
-                ToolkitLogger.Warn("TakeAllViewersKarma: All viewers list is null");
+                ToolkitLogger.Warning("TakeAllViewersKarma: All viewers list is null");
                 return;
             }
 
@@ -259,7 +259,7 @@ public static class Viewers
 
             if (All == null)
             {
-                ToolkitLogger.Warn("SetAllViewersKarma: All viewers list is null");
+                ToolkitLogger.Warning("SetAllViewersKarma: All viewers list is null");
                 return;
             }
 
@@ -283,7 +283,7 @@ public static class Viewers
 
             if (GenText.NullOrEmpty(json))
             {
-                ToolkitLogger.Warn("ParseViewersFromJson: JSON data is null or empty");
+                ToolkitLogger.Warning("ParseViewersFromJson: JSON data is null or empty");
                 return null;
             }
 
@@ -351,7 +351,7 @@ public static class Viewers
             ToolkitLogger.Log("Saving Usernames From Json Response");
             if (request == null || string.IsNullOrEmpty(request.jsonString))
             {
-                ToolkitLogger.Warn("SaveUsernamesFromJsonResponse: Invalid request or empty JSON");
+                ToolkitLogger.Warning("SaveUsernamesFromJsonResponse: Invalid request or empty JSON");
                 return false;
             }
 
@@ -377,7 +377,7 @@ public static class Viewers
         {
             if (string.IsNullOrEmpty(user))
             {
-                ToolkitLogger.Warn("GetViewer: Username is null or empty");
+                ToolkitLogger.Warning("GetViewer: Username is null or empty");
                 return null;
             }
 
@@ -446,7 +446,7 @@ public static class Viewers
         {
             if (All == null)
             {
-                ToolkitLogger.Warn("ResetViewersCoins: All viewers list is null");
+                ToolkitLogger.Warning("ResetViewersCoins: All viewers list is null");
                 return;
             }
 
@@ -468,7 +468,7 @@ public static class Viewers
         {
             if (All == null)
             {
-                ToolkitLogger.Warn("ResetViewersKarma: All viewers list is null");
+                ToolkitLogger.Warning("ResetViewersKarma: All viewers list is null");
                 return;
             }
 

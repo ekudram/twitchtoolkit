@@ -70,7 +70,7 @@ public class Command : Def
     public void RunCommand(ITwitchMessage twitchMessage)
     {
         // Log reaching this point for debugging purposes
-        ToolkitLogger.Warn("Reached this.");
+        ToolkitLogger.Warning("Reached this.");
 
         if (twitchMessage == null)
         {
@@ -89,7 +89,7 @@ public class Command : Def
             // Create command driver instance with null checking
             if (commandDriver == null)
             {
-                ToolkitLogger.Warn($"Command driver type is null for command: {command}, using default CommandDriver");
+                ToolkitLogger.Warning($"Command driver type is null for command: {command}, using default CommandDriver");
                 commandDriver = typeof(CommandDriver);
             }
 

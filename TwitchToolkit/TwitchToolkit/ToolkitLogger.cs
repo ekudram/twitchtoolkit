@@ -20,7 +20,7 @@ namespace TwitchToolkit
             Verse.Log.Message($"{Prefix} {message}");
         }
 
-        public static void Warn(string message)
+        public static void Warning(string message)
         {
             Verse.Log.Warning($"{Prefix} <color=#FFFF00>{message}</color>");
         }

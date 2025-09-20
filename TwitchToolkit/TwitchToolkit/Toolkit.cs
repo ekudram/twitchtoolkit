@@ -51,7 +51,7 @@ namespace TwitchToolkit
                             if (Mod != null)
                             {
                                 _modInstance = Mod;
-                                ToolkitLogger.Warn("Using legacy Mod field for backward compatibility. Please update calling code to use ModInstance property.");
+                                ToolkitLogger.Warning("Using legacy Mod field for backward compatibility. Please update calling code to use ModInstance property.");
                             }
                             else
                             {
