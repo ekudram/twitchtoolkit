@@ -1,32 +1,49 @@
+/*
+ * File: ToggleCoins.cs
+ * Project: TwitchToolkit
+ * 
+ * Updated: September 20, 2025
+ * 
+ * Summary of Changes:
+ * 1. Added comprehensive error handling with try-catch
+ * 2. Improved logging with ToolkitLogger
+ * 3. Added user feedback for command execution
+ * 4. Used string interpolation for cleaner code
+ * 5. Ensured compatibility with TwitchLib 3.4.0 by using ChatMessage
+ */
+
+using System;
 using ToolkitCore;
-using TwitchLib.Client.Models.Interfaces;
+using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit.Commands.ModCommands;
 
 public class ToggleCoins : CommandDriver
 {
-	public override void RunCommand(ITwitchMessage twitchMessage)
-	{
-		//IL_002b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0030: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_003a: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0044: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0049: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_007d: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0082: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_008c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0096: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_009b: Unknown result type (might be due to invalid IL or missing erences)
-		if (ToolkitSettings.EarningCoins)
-		{
-			ToolkitSettings.EarningCoins = false;
-			TwitchWrapper.SendChatMessage((TaggedString)("@" + twitchMessage.Username + " " + Translator.Translate("TwitchToolkitEarningCoinsMessage") + " " + Translator.Translate("TwitchToolkitOff")));
-		}
-		else
-		{
-			ToolkitSettings.EarningCoins = true;
-			TwitchWrapper.SendChatMessage((TaggedString)("@" + twitchMessage.Username + " " + Translator.Translate("TwitchToolkitEarningCoinsMessage") + " " + Translator.Translate("TwitchToolkitOn")));
-		}
-	}
+    public override void RunCommand(ChatMessage chatMessage)
+    {
+        try
+        {
+            // Toggle the coin earning setting
+            ToolkitSettings.EarningCoins = !ToolkitSettings.EarningCoins;
+
+            // Get the translated status message
+            string statusMessage = ToolkitSettings.EarningCoins ?
+                Translator.Translate("TwitchToolkitOn") :
+                Translator.Translate("TwitchToolkitOff");
+
+            // Send confirmation message
+            string response = $"@{chatMessage.Username} {Translator.Translate("TwitchToolkitEarningCoinsMessage")} {statusMessage}";
+            TwitchWrapper.SendChatMessage(response);
+
+            // Log the action
+            ToolkitLogger.Debug($"ToggleCoins command executed by {chatMessage.Username}. EarningCoins is now {statusMessage}");
+        }
+        catch (Exception ex)
+        {
+            ToolkitLogger.Error($"Error in ToggleCoins command: {ex.Message}");
+            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error processing togglecoins command.");
+        }
+    }
 }
