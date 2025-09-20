@@ -89,7 +89,7 @@ public static class Helper
 
     public static void LogPaste(string message)
     {
-        Verse.Log.Message(message);
+        ToolkitLogger.Message(message);
     }
 
     public static void Vote(string message, LetterDef type)

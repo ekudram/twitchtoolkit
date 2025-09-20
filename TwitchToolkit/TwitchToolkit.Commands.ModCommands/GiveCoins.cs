@@ -8,7 +8,7 @@ namespace TwitchToolkit.Commands.ModCommands;
 
 public class GiveCoins : CommandDriver
 {
-	public override void RunCommand(ITwitchMessage twitchMessage)
+	public override void RunCommand( ITwitchMessage twitchMessage)
 	{
 		//IL_0094: Unknown result type (might be due to invalid IL or missing erences)
 		//IL_0099: Unknown result type (might be due to invalid IL or missing erences)

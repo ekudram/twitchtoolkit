@@ -7,6 +7,7 @@
  * Helper class to standardize logging with color-coded messages
  */
 
+using ToolkitCore;
 using Verse;
 
 namespace TwitchToolkit
@@ -30,7 +31,7 @@ namespace TwitchToolkit
             Verse.Log.Error($"{Prefix} <color=#FF0000>{message}</color>");
         }
 
-        public static void Success(string message)
+        public static void Message(string message)
         {
             Verse.Log.Message($"{Prefix} <color=#00FF00>{message}</color>");
         }
@@ -41,6 +42,11 @@ namespace TwitchToolkit
 #if DEBUG
             Verse.Log.Message($"{Prefix} <color=#888888>[DEBUG] {message}</color>");
 #endif
+
+            // Runtime toggle for debug logging in any build
+            if (ToolkitCoreSettings.enableDebugLogging)
+                Verse.Log.Message($"{Prefix} <color=#888888>[DEBUG] {message}</color>");
         }
+
     }
 }

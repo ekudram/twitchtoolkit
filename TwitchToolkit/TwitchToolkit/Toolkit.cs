@@ -91,7 +91,7 @@ namespace TwitchToolkit
 
             ModInstance = modInstance;
             Mod = modInstance;
-            ToolkitLogger.Success("Toolkit initialized successfully");
+            ToolkitLogger.Message("Toolkit initialized successfully");
         }
     }
 }
