@@ -9,7 +9,7 @@
  */
 using System;
 using ToolkitCore;
-using TwitchLib.Client.Models.Interfaces;
+using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit.Commands.ModCommands;

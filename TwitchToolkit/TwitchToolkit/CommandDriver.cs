@@ -2,14 +2,15 @@
  * File: CommandDriver.cs
  * Project: TwitchToolkit
  * 
- * Updated: [Current Date]
+ * Updated: September 20, 2025
  * 
  * Summary of Changes:
  * 1. Added comprehensive XML documentation
  * 2. Replaced Helper.Log with ToolkitLogger
  * 3. Added null checking and error handling
  * 4. Improved MoonSharp script execution safety
- * 5. Maintained backward compatibility
+ * 5. Updated to use ChatMessage instead of ITwitchMessage for TwitchLib 3.4.0 compatibility
+ * 6. Maintained backward compatibility
  */
 
 using System;
@@ -17,7 +18,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using MoonSharp.Interpreter;
 using ToolkitCore;
-using TwitchLib.Client.Models.Interfaces;
+using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit;
@@ -32,14 +33,14 @@ public class CommandDriver
     /// <summary>
     /// Executes the command with MoonSharp Lua scripting support
     /// </summary>
-    /// <param name="twitchMessage">The Twitch message that triggered the command</param>
-    /// <exception cref="ArgumentNullException">Thrown if twitchMessage or command is null</exception>
-    public virtual void RunCommand(ITwitchMessage twitchMessage)
+    /// <param name="chatMessage">The Twitch message that triggered the command</param>
+    /// <exception cref="ArgumentNullException">Thrown if chatMessage or command is null</exception>
+    public virtual void RunCommand(ChatMessage chatMessage)
     {
-        if (twitchMessage == null)
+        if (chatMessage == null)
         {
             ToolkitLogger.Error("Twitch message cannot be null");
-            throw new ArgumentNullException(nameof(twitchMessage));
+            throw new ArgumentNullException(nameof(chatMessage));
         }
 
         if (command == null)
@@ -48,10 +49,10 @@ public class CommandDriver
             throw new InvalidOperationException("Command cannot be null");
         }
 
-        Log.Warning("Reached That"); // Debug line to see if this is reached leave this in for now
+        ToolkitLogger.Debug("Reached CommandDriver.RunCommand"); // Updated debug line
 
         ToolkitLogger.Debug("Filtering command");
-        string output = FilterTags(twitchMessage, command.outputMessage);
+        string output = FilterTags(chatMessage, command.outputMessage);
         ToolkitLogger.Debug("Command filtered");
 
         try
@@ -76,7 +77,7 @@ public class CommandDriver
 
             string resultMessage = res.CastToString();
             TwitchWrapper.SendChatMessage(resultMessage);
-            Log.Message(resultMessage);
+            ToolkitLogger.Debug($"Sent chat message: {resultMessage}");
         }
         catch (Exception ex)
         {
@@ -88,10 +89,10 @@ public class CommandDriver
     /// <summary>
     /// Replaces template tags in the input string with viewer-specific data
     /// </summary>
-    /// <param name="twitchMessage">The source Twitch message</param>
+    /// <param name="chatMessage">The source Twitch message</param>
     /// <param name="input">The input string with template tags</param>
     /// <returns>The processed string with tags replaced</returns>
-    public string FilterTags(ITwitchMessage twitchMessage, string input)
+    public string FilterTags(ChatMessage chatMessage, string input)
     {
         if (string.IsNullOrEmpty(input))
         {
@@ -100,7 +101,7 @@ public class CommandDriver
         }
 
         ToolkitLogger.Debug("Starting filter");
-        Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
+        Viewer viewer = Viewers.GetViewer(chatMessage.Username);
         StringBuilder output = new StringBuilder(input);
 
         // Replace basic template tags
@@ -196,82 +197,3 @@ public class CommandDriver
         return "";
     }
 }
-/**
-using System.Text;
-using System.Text.RegularExpressions;
-using MoonSharp.Interpreter;
-using ToolkitCore;
-using TwitchLib.Client.Models.Interfaces;
-using Verse;
-
-namespace TwitchToolkit;
-
-public class CommandDriver
-{
-	public Command command = null;
-
-	public virtual void RunCommand(ITwitchMessage twitchMessage)
-	{
-		Log.Warning("Reached That"); // Debug line to see if this is reached leave this in for now
-        Helper.Log("filtering command");
-		string output = FilterTags(twitchMessage, command.outputMessage);
-		Helper.Log("command filtered");
-		if (!UserData.IsTypeRegistered<Functions>())
-		{
-			UserData.RegisterType<Functions>();
-			UserData.RegisterType<Viewer>();
-		}
-		Helper.Log("creating script");
-		Script script = new Script();
-		script.DebuggerEnabled = true;
-		DynValue functions = UserData.Create(new Functions());
-		script.Globals.Set("functions", functions);
-		Helper.Log("Parsing Script " + output);
-		DynValue res = script.DoString(output);
-		TwitchWrapper.SendChatMessage(res.CastToString());
-		Log.Message(res.CastToString());
-	}
-
-	public string FilterTags(ITwitchMessage twitchMessage, string input)
-	{
-		Helper.Log("starting filter");
-		Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
-		StringBuilder output = new StringBuilder(input);
-		output.Replace("{username}", viewer.username);
-		output.Replace("{balance}", viewer.GetViewerCoins().ToString());
-		output.Replace("{karma}", viewer.GetViewerKarma().ToString());
-		output.Replace("{purchaselist}", ToolkitSettings.CustomPricingSheetLink);
-		output.Replace("{coin-reward}", ToolkitSettings.CoinAmount.ToString());
-		output.Replace("\n", "");
-		Helper.Log("starting regex");
-		Regex regex = new Regex("\\[(.*?)\\]");
-		MatchCollection matches = regex.Matches(output.ToString());
-		foreach (Match match in matches)
-		{
-			Helper.Log("found match " + match.Value);
-			string code = match.Value;
-			code = code.Replace("[", "");
-			code = code.Replace("]", "");
-			output.Replace(match.Value, MoonSharpString(code));
-		}
-		return output.ToString();
-	}
-
-	public string MoonSharpString(string function)
-	{
-		DynValue res = Script.RunString(function);
-		return res.String;
-	}
-
-	public double MoonSharpDouble(string function)
-	{
-		DynValue res = Script.RunString(function);
-		return res.Number;
-	}
-
-	private static string TokenizeObjects()
-	{
-		return "";
-	}
-}
-**/

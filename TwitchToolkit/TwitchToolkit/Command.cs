@@ -2,17 +2,17 @@
  * File: Command.cs
  * Project: TwitchToolkit
  * 
- * Updated: [Current Date]
- * 
+ * Updated: September 20, 2025
  * Summary of Changes:
  * 1. Added XML documentation comments for all members
  * 2. Improved error handling with ToolkitLogger
  * 3. Added null checking for commandDriver instantiation
- * 4. Maintained backward compatibility
+ * 4. Changed from ITwitchMessage to ChatMessage for TwitchLib 3.4.0 compatibility
+ * 5. Maintained backward compatibility
  */
 
 using System;
-using TwitchLib.Client.Models.Interfaces;
+using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit;
@@ -64,18 +64,17 @@ public class Command : Def
     /// <summary>
     /// Executes this command with the provided Twitch message
     /// </summary>
-    /// <param name="twitchMessage">The Twitch message that triggered the command</param>
-    /// <exception cref="ArgumentNullException">Thrown if twitchMessage is null</exception>
+    /// <param name="chatMessage">The Twitch chat message that triggered the command</param>
+    /// <exception cref="ArgumentNullException">Thrown if chatMessage is null</exception>
     /// <exception cref="InvalidOperationException">Thrown if command text is null</exception>
-    public void RunCommand(ITwitchMessage twitchMessage)
+    public void RunCommand(ChatMessage chatMessage)
     {
-        // Log reaching this point for debugging purposes
-        ToolkitLogger.Warning("Reached this.");
+        ToolkitLogger.Debug($"Running command: {command}");
 
-        if (twitchMessage == null)
+        if (chatMessage == null)
         {
-            ToolkitLogger.Error("Twitch message cannot be null");
-            throw new ArgumentNullException(nameof(twitchMessage));
+            ToolkitLogger.Error("Chat message cannot be null");
+            throw new ArgumentNullException(nameof(chatMessage));
         }
 
         if (command == null)
@@ -96,7 +95,7 @@ public class Command : Def
             if (Activator.CreateInstance(commandDriver) is CommandDriver driver)
             {
                 driver.command = this;
-                driver.RunCommand(twitchMessage);
+                driver.RunCommand(chatMessage);
             }
             else
             {
@@ -108,55 +107,16 @@ public class Command : Def
             ToolkitLogger.Error($"Error executing command '{command}': {ex}");
         }
     }
+
+    // Optional: Add a method for whisper commands if needed
+    /// <summary>
+    /// Executes this command with the provided Twitch whisper message
+    /// </summary>
+    /// <param name="whisperMessage">The Twitch whisper message that triggered the command</param>
+    public void RunWhisperCommand(WhisperMessage whisperMessage)
+    {
+        ToolkitLogger.Debug($"Running whisper command: {command}");
+        // Implementation for whisper commands if needed
+        // This would require a separate WhisperCommandDriver class
+    }
 }
-/*** Command.cs
-using System;
-using System.Threading.Tasks;
-using TwitchLib.Client.Models.Interfaces;
-using Verse;
-
-namespace TwitchToolkit;
-
-public class Command : Def
-{
-	public string command = null;
-
-	public bool enabled = true;
-
-	public bool shouldBeInSeparateRoom = false;
-
-	public Type commandDriver = typeof(CommandDriver);
-
-	public bool requiresMod = false;
-
-	public bool requiresAdmin = false;
-
-	public string outputMessage = "";
-
-	public bool isCustomMessage = false;
-
-	public string Label
-	{
-		get
-		{
-			if (base.label != null && base.label != "")
-			{
-				return base.label;
-			}
-			return base.defName;
-		}
-	}
-
-	public void RunCommand(ITwitchMessage twitchMessage)
-	{
-            ToolkitLogger.Warn("Reached this.");
-            if (command == null)
-            {
-                throw new Exception("Command is null");
-            }
-            CommandDriver driver = (CommandDriver)Activator.CreateInstance(commandDriver);
-            driver.command = this;
-            driver.RunCommand(twitchMessage);
-	}
-}
-**/
