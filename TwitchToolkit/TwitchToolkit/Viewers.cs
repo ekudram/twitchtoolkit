@@ -14,6 +14,9 @@
  * 7. Improved JSON parsing safety with null checks on JSON nodes
  * 8. Added input validation for empty usernames and other parameters
  * 9. Preserved all existing functionality while making error handling more robust
+ * 
+ * Future Recommendations:
+ * 1. Add Subscriber teirs for more granular rewards
  * */
 using SimpleJSON;
 using System;
