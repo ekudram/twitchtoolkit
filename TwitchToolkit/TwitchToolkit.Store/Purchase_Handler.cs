@@ -63,7 +63,6 @@ namespace TwitchToolkit.Store
             }
         }
 
-
         public static void ResolvePurchase(Viewer viewer, ChatMessage chatMessage, bool separateChannel = false)
         {
             if (viewer == null)
