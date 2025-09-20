@@ -9,12 +9,14 @@
  * 2. Added null checking for message parameters
  * 3. Improved message formatting for Twitch character limits
  * 4. Added XML documentation comments
+ * 5. Fixed variable name in catch block
+ * 6. Improved message splitting logic
  */
 
 using System;
 using System.Linq;
 using ToolkitCore;
-using TwitchLib.Client.Models.Interfaces;
+using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit.Commands.ViewerCommands
@@ -27,11 +29,11 @@ namespace TwitchToolkit.Commands.ViewerCommands
         private const double COOLDOWN_SECONDS = 15.0;
         private const int TWITCH_MESSAGE_MAX_LENGTH = 500; // Twitch's actual limit is 500 characters
 
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand(ChatMessage chatMessage)
         {
-            if (twitchMessage == null)
+            if (chatMessage == null)
             {
-                ToolkitLogger.Log("Received null twitch message in InstalledMods command");
+                ToolkitLogger.Error("Received null twitch message in InstalledMods command");
                 return;
             }
 
@@ -41,7 +43,7 @@ namespace TwitchToolkit.Commands.ViewerCommands
             {
                 double remainingCooldown = COOLDOWN_SECONDS - timeSinceLastUse.TotalSeconds;
                 TwitchWrapper.SendChatMessage(
-                    $"@{twitchMessage.Username} Command is on cooldown. " +
+                    $"@{chatMessage.Username} Command is on cooldown. " +
                     $"Please wait {Math.Ceiling(remainingCooldown)} seconds."
                 );
                 return;
@@ -58,11 +60,17 @@ namespace TwitchToolkit.Commands.ViewerCommands
                     .Select(m => m.Name)
                     .ToArray();
 
+                if (mods.Length == 0)
+                {
+                    TwitchWrapper.SendChatMessage($"@{chatMessage.Username} No mods installed.");
+                    return;
+                }
+
                 // Send mod list in chunks that fit Twitch's message limit
                 string currentMessage = modmsg;
-                for (int i = 0; i < mods.Length; i++)
+                foreach (string mod in mods)
                 {
-                    string modAddition = mods[i] + ", ";
+                    string modAddition = mod + ", ";
 
                     // If adding this mod would exceed the limit, send current message and start new one
                     if (currentMessage.Length + modAddition.Length > TWITCH_MESSAGE_MAX_LENGTH)
@@ -70,59 +78,24 @@ namespace TwitchToolkit.Commands.ViewerCommands
                         // Remove trailing comma and space
                         currentMessage = currentMessage.TrimEnd(',', ' ');
                         TwitchWrapper.SendChatMessage(currentMessage);
-                        currentMessage = "";
+                        currentMessage = "Mods continued: ";
                     }
 
                     currentMessage += modAddition;
+                }
 
-                    // If this is the last mod, send the message
-                    if (i == mods.Length - 1)
-                    {
-                        currentMessage = currentMessage.TrimEnd(',', ' ');
-                        TwitchWrapper.SendChatMessage(currentMessage);
-                    }
+                // Send the final message if it has content
+                if (currentMessage.Length > "Mods continued: ".Length)
+                {
+                    currentMessage = currentMessage.TrimEnd(',', ' ');
+                    TwitchWrapper.SendChatMessage(currentMessage);
                 }
             }
             catch (Exception ex)
             {
                 ToolkitLogger.Error($"Error in InstalledMods command: {ex}");
-                TwitchWrapper.SendChatMessage($"@{twitchMessage.Username} Error retrieving mod list.");
+                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error retrieving mod list.");
             }
         }
     }
 }
-
-/**
-using System;
-using System.Linq;
-using ToolkitCore;
-using TwitchLib.Client.Models.Interfaces;
-using Verse;
-
-namespace TwitchToolkit.Commands.ViewerCommands;
-
-public class InstalledMods : CommandDriver
-{
-	public override void RunCommand(ITwitchMessage twitchMessage)
-	{
-		if ((DateTime.Now - Cooldowns.modsCommandCooldown).TotalSeconds <= 15.0)
-		{
-			return;
-		}
-		Cooldowns.modsCommandCooldown = DateTime.Now;
-		string modmsg = "Version: " + Toolkit.Mod.Version + ", Mods: ";
-		string[] mods = (from m in LoadedModManager.RunningMods
-			select m.Name).ToArray();
-		for (int i = 0; i < mods.Length; i++)
-		{
-			modmsg = modmsg + mods[i] + ", ";
-			if (i == mods.Length - 1 || modmsg.Length > 256)
-			{
-				modmsg = modmsg.Substring(0, modmsg.Length - 2);
-				TwitchWrapper.SendChatMessage(modmsg);
-				modmsg = "";
-			}
-		}
-	}
-}
-**/
