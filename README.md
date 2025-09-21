@@ -1,3 +1,16 @@
+#WARNING
+Do not pull from this
+This fork is a major upgrade that does not use the same TwitchLib or Toolkitcore mods.  
+This is a major upgrade in progress.
+
+Current Progress:
+Upgrade to TwitchLib 3.4 in progress 
+Removed most if not all Threading outside of the Rimworld Main Thread for Stability.
+Todo:  Handle WhisperMessage Parsing. 
+Fixed: ITwitchMessage Removed changed to ChatMessage (New Method from TwitchLib)
+
+
+
 # Build
 Either use your preferred way to compile C# code, just make sure to target .NET 3.5 and then manually copy the files to the RimWorld Mods folder.
 Or you can use the provided Makefile, which also automates the copying part including filling up missing languages.
