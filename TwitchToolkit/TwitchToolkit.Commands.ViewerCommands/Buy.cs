@@ -12,9 +12,9 @@
  * 5. Added more descriptive debug logging
  */
 
+// Buy.cs (example command driver)
 using System.Linq;
 using ToolkitCore;
-using TwitchLib.Client.Models;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -22,32 +22,32 @@ namespace TwitchToolkit.Commands.ViewerCommands;
 
 public class Buy : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper message)
     {
         ToolkitLogger.Debug("Buy command received and processing");
 
-        Viewer viewer = Viewers.GetViewer(chatMessage.Username);
+        Viewer viewer = Viewers.GetViewer(message.Username);
         if (viewer == null)
         {
-            ToolkitLogger.Warning($"Could not find viewer for username: {chatMessage.Username}");
+            ToolkitLogger.Warning($"Could not find viewer for username: {message.Username}");
             return;
         }
 
         if (viewer.IsBanned)
         {
-            ToolkitLogger.Debug($"Viewer {chatMessage.Username} is banned, skipping purchase");
+            ToolkitLogger.Debug($"Viewer {message.Username} is banned, skipping purchase");
             return;
         }
 
-        string[] commandParts = chatMessage.Message.Split(' ');
+        string[] commandParts = message.Message.Split(' ');
         if (commandParts.Length < 2)
         {
-            ToolkitLogger.Debug($"Invalid buy command format from {chatMessage.Username}: {chatMessage.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Usage: !buy <item>");
+            ToolkitLogger.Debug($"Invalid buy command format from {message.Username}: {message.Message}");
+            TwitchWrapper.SendChatMessage($"@{message.Username} Usage: !buy <item>");
             return;
         }
 
-        ToolkitLogger.Debug($"Processing purchase request from {chatMessage.Username} for: {commandParts[1]}");
-        Purchase_Handler.ResolvePurchase(viewer, chatMessage);
+        ToolkitLogger.Debug($"Processing purchase request from {message.Username} for: {commandParts[1]}");
+        Purchase_Handler.ResolvePurchase(viewer, message);
     }
 }

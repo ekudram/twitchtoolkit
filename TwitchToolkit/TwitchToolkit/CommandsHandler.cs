@@ -14,9 +14,9 @@
  * 7. Removed unused SendToChatroom method
  */
 
+// CommandsHandler.cs
 using System;
 using System.Linq;
-using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit;
@@ -32,27 +32,24 @@ public static class CommandsHandler
     /// <summary>
     /// Processes and executes a Twitch chat command if valid
     /// </summary>
-    /// <param name="chatMessage">The Twitch message to process</param>
-    /// <remarks>
-    /// This method handles command validation, permission checking, and execution
-    /// </remarks>
-    public static void CheckCommand(ChatMessage chatMessage)
+    /// <param name="message">The wrapped Twitch message to process</param>
+    public static void CheckCommand(TwitchMessageWrapper message)
     {
-        if (chatMessage == null)
+        if (message == null)
         {
             ToolkitLogger.Warning("Received null twitch message in CheckCommand");
             return;
         }
 
-        ToolkitLogger.Debug($"Checking command - {chatMessage.Message}");
+        ToolkitLogger.Debug($"Checking command - {message.Message}");
 
-        if (string.IsNullOrEmpty(chatMessage.Message))
+        if (string.IsNullOrEmpty(message.Message))
         {
             ToolkitLogger.Debug("Message is null or empty");
             return;
         }
 
-        string user = chatMessage.Username;
+        string user = message.Username;
         Viewer viewer = Viewers.GetViewer(user);
 
         if (viewer == null)
@@ -73,31 +70,25 @@ public static class CommandsHandler
 
         // Find the command definition that matches the message
         Command commandDef = DefDatabase<Command>.AllDefs
-            .FirstOrDefault(s => chatMessage.Message.StartsWith("!" + s.command));
+            .FirstOrDefault(s => message.Message.StartsWith("!" + s.command));
 
         if (commandDef == null)
         {
-            ToolkitLogger.Debug($"No command definition found for message: {chatMessage.Message}");
+            ToolkitLogger.Debug($"No command definition found for message: {message.Message}");
             return;
         }
 
-        string permissionError = ValidateCommandPermissions(commandDef, viewer);
+        string permissionError = ValidateCommandPermissions(commandDef, viewer, message);
         if (!string.IsNullOrEmpty(permissionError))
         {
             SendFeedback(permissionError);
             return;
         }
 
-        ExecuteCommand(commandDef, chatMessage);
+        ExecuteCommand(commandDef, message);
     }
 
-    /// <summary>
-    /// Validates if a viewer has permission to execute a command
-    /// </summary>
-    /// <param name="commandDef">The command definition</param>
-    /// <param name="viewer">The viewer attempting to execute the command</param>
-    /// <returns>Error message if the viewer doesn't have permission, otherwise null</returns>
-    private static string ValidateCommandPermissions(Command commandDef, Viewer viewer)
+    private static string ValidateCommandPermissions(Command commandDef, Viewer viewer, TwitchMessageWrapper message)
     {
         if (!commandDef.enabled)
         {
@@ -105,7 +96,7 @@ public static class CommandsHandler
             return $"Sorry {viewer.username}, that command is currently disabled.";
         }
 
-        if (commandDef.requiresMod && !viewer.mod && !IsChannelOwner(viewer))
+        if (commandDef.requiresMod && !viewer.mod && !message.IsModerator && !IsChannelOwner(viewer))
         {
             ToolkitLogger.Debug($"Viewer {viewer.username} lacks mod privileges for command '{commandDef.command}'");
             return $"Sorry {viewer.username}, you need to be a moderator to use that command.";
@@ -120,39 +111,25 @@ public static class CommandsHandler
         return null;
     }
 
-    /// <summary>
-    /// Checks if the viewer is the channel owner
-    /// </summary>
-    /// <param name="viewer">The viewer to check</param>
-    /// <returns>True if the viewer is the channel owner</returns>
     private static bool IsChannelOwner(Viewer viewer)
     {
         return viewer.username.Equals(ToolkitSettings.Channel, StringComparison.OrdinalIgnoreCase);
     }
 
-    /// <summary>
-    /// Executes a command with proper error handling
-    /// </summary>
-    /// <param name="commandDef">The command definition to execute</param>
-    /// <param name="chatMessage">The Twitch message that triggered the command</param>
-    private static void ExecuteCommand(Command commandDef, ChatMessage chatMessage)
+    private static void ExecuteCommand(Command commandDef, TwitchMessageWrapper message)
     {
         try
         {
-            ToolkitLogger.Log($"Executing command '{commandDef.command}' for viewer '{chatMessage.Username}'");
-            commandDef.RunCommand(chatMessage);
+            ToolkitLogger.Log($"Executing command '{commandDef.command}' for viewer '{message.Username}'");
+            commandDef.RunCommand(message);
         }
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error executing command '{commandDef.command}': {ex}");
-            SendFeedback($"Sorry {chatMessage.Username}, there was an error executing your command.");
+            SendFeedback($"Sorry {message.Username}, there was an error executing your command.");
         }
     }
 
-    /// <summary>
-    /// Sends a feedback message to the user through Twitch chat
-    /// </summary>
-    /// <param name="message">The message to send</param>
     private static void SendFeedback(string message)
     {
         try

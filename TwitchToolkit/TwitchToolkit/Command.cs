@@ -2,17 +2,17 @@
  * File: Command.cs
  * Project: TwitchToolkit
  * 
- * Updated: September 20, 2025
+ * Updated: [Current Date]
  * Summary of Changes:
  * 1. Added XML documentation comments for all members
  * 2. Improved error handling with ToolkitLogger
  * 3. Added null checking for commandDriver instantiation
- * 4. Changed from ITwitchMessage to ChatMessage for TwitchLib 3.4.0 compatibility
- * 5. Maintained backward compatibility
+ * 4. Changed to use TwitchMessageWrapper for unified message handling
+ * 5. Removed unused RunWhisperCommand method
+ * 6. Maintained backward compatibility
  */
 
 using System;
-using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit;
@@ -62,19 +62,19 @@ public class Command : Def
     }
 
     /// <summary>
-    /// Executes this command with the provided Twitch message
+    /// Executes this command with the provided Twitch message wrapper
     /// </summary>
-    /// <param name="chatMessage">The Twitch chat message that triggered the command</param>
-    /// <exception cref="ArgumentNullException">Thrown if chatMessage is null</exception>
+    /// <param name="messageWrapper">The wrapped Twitch message that triggered the command</param>
+    /// <exception cref="ArgumentNullException">Thrown if messageWrapper is null</exception>
     /// <exception cref="InvalidOperationException">Thrown if command text is null</exception>
-    public void RunCommand(ChatMessage chatMessage)
+    public void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         ToolkitLogger.Debug($"Running command: {command}");
 
-        if (chatMessage == null)
+        if (messageWrapper == null)
         {
-            ToolkitLogger.Error("Chat message cannot be null");
-            throw new ArgumentNullException(nameof(chatMessage));
+            ToolkitLogger.Error("Message wrapper cannot be null");
+            throw new ArgumentNullException(nameof(messageWrapper));
         }
 
         if (command == null)
@@ -95,7 +95,7 @@ public class Command : Def
             if (Activator.CreateInstance(commandDriver) is CommandDriver driver)
             {
                 driver.command = this;
-                driver.RunCommand(chatMessage);
+                driver.RunCommand(messageWrapper);
             }
             else
             {
@@ -106,17 +106,5 @@ public class Command : Def
         {
             ToolkitLogger.Error($"Error executing command '{command}': {ex}");
         }
-    }
-
-    // Optional: Add a method for whisper commands if needed
-    /// <summary>
-    /// Executes this command with the provided Twitch whisper message
-    /// </summary>
-    /// <param name="whisperMessage">The Twitch whisper message that triggered the command</param>
-    public void RunWhisperCommand(WhisperMessage whisperMessage)
-    {
-        ToolkitLogger.Debug($"Running whisper command: {command}");
-        // Implementation for whisper commands if needed
-        // This would require a separate WhisperCommandDriver class
     }
 }

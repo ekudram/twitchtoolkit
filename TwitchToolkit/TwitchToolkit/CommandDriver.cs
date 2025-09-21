@@ -35,7 +35,7 @@ public class CommandDriver
     /// </summary>
     /// <param name="chatMessage">The Twitch message that triggered the command</param>
     /// <exception cref="ArgumentNullException">Thrown if chatMessage or command is null</exception>
-    public virtual void RunCommand(ChatMessage chatMessage)
+    public virtual void RunCommand(TwitchMessageWrapper chatMessage)
     {
         if (chatMessage == null)
         {
@@ -92,7 +92,7 @@ public class CommandDriver
     /// <param name="chatMessage">The source Twitch message</param>
     /// <param name="input">The input string with template tags</param>
     /// <returns>The processed string with tags replaced</returns>
-    public string FilterTags(ChatMessage chatMessage, string input)
+    public string FilterTags(TwitchMessageWrapper chatMessage, string input)
     {
         if (string.IsNullOrEmpty(input))
         {
