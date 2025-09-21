@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using RimWorld;
 using ToolkitCore;
-using TwitchLib.Client.Models.Interfaces;
+using TwitchLib.Client.Models;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -18,32 +18,11 @@ public class PawnCommands : TwitchInterfaceBase
 	{
 	}
 
-	public override void ParseMessage(ITwitchMessage twitchMessage)
+	public override void ParseMessage(ChatMessage ChatMessage)
 	{
-		//IL_00f4: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0123: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0156: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_015c: Invalid comparison between Unknown and I4
-		//IL_017b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0181: Invalid comparison between Unknown and I4
-		//IL_02f8: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0317: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_031c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_031e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0321: Invalid comparison between Unknown and I4
-		//IL_0336: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_033b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0345: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_035c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_037b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0380: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_038e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_03a6: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0732: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_073c: Expected O, but got Unknown
-		Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
+		Viewer viewer = Viewers.GetViewer(ChatMessage.Username);
 		GameComponentPawns component = Current.Game.GetComponent<GameComponentPawns>();
-		if (twitchMessage.Message.StartsWith("!mypawnskills"))
+		if (ChatMessage.Message.StartsWith("!mypawnskills"))
 		{
 			if (!component.HasUserBeenNamed(viewer.username))
 			{
@@ -71,7 +50,7 @@ public class PawnCommands : TwitchInterfaceBase
 			}
 			TwitchWrapper.SendChatMessage(output);
 		}
-		if (twitchMessage.Message.StartsWith("!mypawnstory"))
+		if (ChatMessage.Message.StartsWith("!mypawnstory"))
 		{
 			if (!component.HasUserBeenNamed(viewer.username))
 			{
@@ -129,9 +108,9 @@ public class PawnCommands : TwitchInterfaceBase
 			}
 			TwitchWrapper.SendChatMessage(output2);
 		}
-		if (twitchMessage.Message.StartsWith("!changepawnname"))
+		if (ChatMessage.Message.StartsWith("!changepawnname"))
 		{
-			string[] command3 = twitchMessage.Message.Split(' ');
+			string[] command3 = ChatMessage.Message.Split(' ');
 			if (command3.Length < 2)
 			{
 				return;
@@ -157,13 +136,13 @@ public class PawnCommands : TwitchInterfaceBase
 		}
 		if (Viewer.IsModerator(viewer.username) || viewer.username == ToolkitSettings.Channel)
 		{
-			if (twitchMessage.Message.StartsWith("!unstickpeople"))
+			if (ChatMessage.Message.StartsWith("!unstickpeople"))
 			{
 				Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
 			}
-			if (twitchMessage.Message.StartsWith("!approvename"))
+			if (ChatMessage.Message.StartsWith("!approvename"))
 			{
-				string[] command2 = twitchMessage.Message.Split(' ');
+				string[] command2 = ChatMessage.Message.Split(' ');
 				if (command2.Length < 2)
 				{
 					return;
@@ -184,9 +163,9 @@ public class PawnCommands : TwitchInterfaceBase
 				pawn.Name = ((Name)new NameTriple(old.First, nameRequests[username2], old.Last));
 				TwitchWrapper.SendChatMessage($"@{viewer.username} approved request for name change from {old} to {pawn.Name}");
 			}
-			if (twitchMessage.Message.StartsWith("!declinename"))
+			if (ChatMessage.Message.StartsWith("!declinename"))
 			{
-				string[] command = twitchMessage.Message.Split(' ');
+				string[] command = ChatMessage.Message.Split(' ');
 				if (command.Length < 2)
 				{
 					return;
@@ -210,8 +189,6 @@ public class PawnCommands : TwitchInterfaceBase
 
 	private static IEnumerable<WorkTags> WorkTagsFrom(WorkTags tags)
 	{
-		//IL_0008: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0009: Unknown result type (might be due to invalid IL or missing erences)
 		foreach (WorkTags workTag in Gen.GetAllSelectedItems<WorkTags>((Enum)(object)tags))
 		{
 			if ((int)workTag > 0)
