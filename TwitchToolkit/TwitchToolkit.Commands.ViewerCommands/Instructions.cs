@@ -8,7 +8,7 @@
 
 using ToolkitCore;
 using TwitchLib.Client.Models;
-using TwitchToolkit.TwitchToolkit.Utilities;
+using TwitchToolkit.Utilities;
 using Verse;
 
 namespace TwitchToolkit.Commands.ViewerCommands;
@@ -18,7 +18,7 @@ public class Instructions : CommandDriver
    
         public override void RunCommand(ChatMessage ChatMessage)
         {
-            TwitchWrapper.SendChatMessage(TwitchToolkit.MessageHelpers.GetInstructionsMessage(ChatMessage.Username));
+            TwitchWrapper.SendChatMessage(MessageHelpers.GetInstructionsMessage(ChatMessage.Username));
         }
    
 }

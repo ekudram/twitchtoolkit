@@ -76,6 +76,11 @@ public class MessageInterface : TwitchInterfaceBase
         }
     }
 
+    public override void ParseWhisper(WhisperMessage whisperMessage)
+    {
+        throw new System.NotImplementedException();
+    }
+
     private void ProcessCommand(ChatMessage message)
     {
         if (Helper.ModActive)

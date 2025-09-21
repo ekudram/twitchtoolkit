@@ -45,8 +45,6 @@ public class Store_Lookup : TwitchInterfaceBase
 
 	public void FindLookup(ChatMessage ChatMessage, string searchObject, string searchQuery)
 	{
-		//IL_0297: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_029c: Unknown result type (might be due to invalid IL or missing erences)
 		List<string> results = new List<string>();
 		switch (searchObject)
 		{
@@ -72,10 +70,6 @@ public class Store_Lookup : TwitchInterfaceBase
 		{
 			IncidentDef[] allDiseases = DefDatabase<IncidentDef>.AllDefs.Where(delegate(IncidentDef s)
 			{
-				//IL_0013: Unknown result type (might be due to invalid IL or missing erences)
-				//IL_0018: Unknown result type (might be due to invalid IL or missing erences)
-				//IL_004d: Unknown result type (might be due to invalid IL or missing erences)
-				//IL_0052: Unknown result type (might be due to invalid IL or missing erences)
 				int result;
 				if (s.category == IncidentCategoryDefOf.DiseaseHuman)
 				{
@@ -110,10 +104,6 @@ public class Store_Lookup : TwitchInterfaceBase
 		{
 			SkillDef[] allSkills = DefDatabase<SkillDef>.AllDefs.Where(delegate(SkillDef s)
 			{
-				//IL_0006: Unknown result type (might be due to invalid IL or missing erences)
-				//IL_000b: Unknown result type (might be due to invalid IL or missing erences)
-				//IL_0040: Unknown result type (might be due to invalid IL or missing erences)
-				//IL_0045: Unknown result type (might be due to invalid IL or missing erences)
 				TaggedString labelCap4 = ((Def)s).LabelCap;
 				int result3;
 				if (!string.Join("", ((TaggedString)( labelCap4)).RawText.Split(' ')).ToLower().Contains(searchQuery))
@@ -164,10 +154,6 @@ public class Store_Lookup : TwitchInterfaceBase
 		{
 			PawnKindDef[] allAnimals = DefDatabase<PawnKindDef>.AllDefs.Where(delegate(PawnKindDef s)
 			{
-				//IL_0016: Unknown result type (might be due to invalid IL or missing erences)
-				//IL_001b: Unknown result type (might be due to invalid IL or missing erences)
-				//IL_0050: Unknown result type (might be due to invalid IL or missing erences)
-				//IL_0055: Unknown result type (might be due to invalid IL or missing erences)
 				int result2;
 				if (s.RaceProps.Animal)
 				{
@@ -231,4 +217,9 @@ public class Store_Lookup : TwitchInterfaceBase
 		}
 		TwitchWrapper.SendChatMessage(output);
 	}
+
+    public override void ParseWhisper(WhisperMessage whisperMessage)
+    {
+        throw new System.NotImplementedException();
+    }
 }

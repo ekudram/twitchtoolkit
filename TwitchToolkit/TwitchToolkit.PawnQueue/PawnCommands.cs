@@ -197,4 +197,9 @@ public class PawnCommands : TwitchInterfaceBase
 			}
 		}
 	}
+
+    public override void ParseWhisper(WhisperMessage whisperMessage)
+    {
+        throw new NotImplementedException();
+    }
 }

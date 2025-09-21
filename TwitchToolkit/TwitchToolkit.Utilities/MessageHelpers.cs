@@ -10,7 +10,7 @@
 
 using Verse;
 
-namespace TwitchToolkit.TwitchToolkit.Utilities
+namespace TwitchToolkit.Utilities
 {
     internal class MessageHelpers
     {
