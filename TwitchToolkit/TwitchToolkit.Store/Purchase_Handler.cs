@@ -5,7 +5,7 @@
  * Updated: September 20, 2025
  * 
  * Summary of Changes:
- * 1. Replaced ITwitchMessage with ChatMessage for TwitchLib 3.4.0 compatibility
+ * 1. Replaced ITwitchMessage with TwitchMessageWrapper for unified message handling
  * 2. Replaced Helper.Log calls with ToolkitLogger for consistent logging
  * 3. Improved error handling and null checking
  * 4. Enhanced code readability and maintainability
@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ToolkitCore;
-using TwitchLib.Client.Models;
 using TwitchToolkit.Incidents;
 using Verse;
 
@@ -63,7 +62,7 @@ namespace TwitchToolkit.Store
             }
         }
 
-        public static void ResolvePurchase(Viewer viewer, ChatMessage chatMessage, bool separateChannel = false)
+        public static void ResolvePurchase(Viewer viewer, TwitchMessageWrapper messageWrapper, bool separateChannel = false)
         {
             if (viewer == null)
             {
@@ -71,17 +70,17 @@ namespace TwitchToolkit.Store
                 return;
             }
 
-            if (chatMessage == null)
+            if (messageWrapper == null)
             {
-                ToolkitLogger.Warning("Null chatMessage in ResolvePurchase");
+                ToolkitLogger.Warning("Null messageWrapper in ResolvePurchase");
                 return;
             }
 
             try
             {
-                ToolkitLogger.Debug($"Processing purchase for viewer: {viewer.username}, message: {chatMessage.Message}");
+                ToolkitLogger.Debug($"Processing purchase for viewer: {viewer.username}, message: {messageWrapper.Message}");
 
-                List<string> command = chatMessage.Message.Split(' ').ToList();
+                List<string> command = messageWrapper.Message.Split(' ').ToList();
                 if (command.Count < 2)
                 {
                     TwitchWrapper.SendChatMessage($"@{viewer.username} Invalid command format. Usage: !buy <item>");
@@ -104,7 +103,7 @@ namespace TwitchToolkit.Store
 
                 if (incident != null)
                 {
-                    ResolvePurchaseSimple(viewer, chatMessage, incident, formattedMessage);
+                    ResolvePurchaseSimple(viewer, messageWrapper, incident, formattedMessage);
                     return;
                 }
 
@@ -113,7 +112,7 @@ namespace TwitchToolkit.Store
 
                 if (incidentVariables != null)
                 {
-                    ResolvePurchaseVariables(viewer, chatMessage, incidentVariables, formattedMessage);
+                    ResolvePurchaseVariables(viewer, messageWrapper, incidentVariables, formattedMessage);
                     return;
                 }
 
@@ -123,7 +122,7 @@ namespace TwitchToolkit.Store
                 {
                     ToolkitLogger.Debug($"Found item: {item.defname} for product key: {productKey}");
 
-                    List<string> commandSplit = chatMessage.Message.Split(' ').ToList();
+                    List<string> commandSplit = messageWrapper.Message.Split(' ').ToList();
                     commandSplit.Insert(1, "item");
 
                     if (commandSplit.Count < 4)
@@ -137,7 +136,7 @@ namespace TwitchToolkit.Store
                     }
 
                     formattedMessage = string.Join(" ", commandSplit.ToArray());
-                    ResolvePurchaseVariables(viewer, chatMessage, StoreIncidentDefOf.Item, formattedMessage);
+                    ResolvePurchaseVariables(viewer, messageWrapper, StoreIncidentDefOf.Item, formattedMessage);
                     return;
                 }
 
@@ -150,7 +149,7 @@ namespace TwitchToolkit.Store
                 TwitchWrapper.SendChatMessage($"@{viewer.username} Error processing your purchase.");
             }
         }
-        public static void ResolvePurchaseSimple(Viewer viewer, ChatMessage chatMessage,
+        public static void ResolvePurchaseSimple(Viewer viewer, TwitchMessageWrapper messageWrapper,
             StoreIncidentSimple incident, string formattedMessage, bool separateChannel = false)
         {
             if (incident == null)
@@ -221,7 +220,7 @@ namespace TwitchToolkit.Store
             ToolkitLogger.Debug($"Successfully processed purchase of {incident.defName} for {viewer.username}");
         }
 
-        public static void ResolvePurchaseVariables(Viewer viewer, ChatMessage chatMessage,
+        public static void ResolvePurchaseVariables(Viewer viewer, TwitchMessageWrapper messageWrapper,
             StoreIncidentVariables incident, string formattedMessage, bool separateChannel = false)
         {
             if (incident == null)
@@ -282,7 +281,7 @@ namespace TwitchToolkit.Store
                 Ticker.IncidentHelperVariables.Enqueue(helper);
             }
 
-            Store_Logger.LogPurchase(viewer.username, chatMessage.Message);
+            Store_Logger.LogPurchase(viewer.username, messageWrapper.Message);
             component.LogIncident(incident);
 
             ToolkitLogger.Debug($"Successfully processed variable purchase of {incident.defName} for {viewer.username}");
