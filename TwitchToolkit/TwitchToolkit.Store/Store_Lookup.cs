@@ -1,3 +1,10 @@
+/*
+ * Project: Twitch Toolkit
+ * File: Store_Lookup.cs
+ * 
+ * Usage: Handles the !lookup command to search for diseases, skills, events, items, animals, and traits.
+ * 
+ */
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
