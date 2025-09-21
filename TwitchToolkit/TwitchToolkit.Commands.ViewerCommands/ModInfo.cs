@@ -1,16 +1,20 @@
+/* 
+ * Project: TwitchToolkit
+ * File: ModInfo.cs
+ * 
+ * Usage: Command to display mod information to the user in chat using !modinfo
+ * 
+ */
 using ToolkitCore;
-using TwitchLib.Client.Models.Interfaces;
+using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit.Commands.ViewerCommands;
 
 public class ModInfo : CommandDriver
 {
-	public override void RunCommand(ITwitchMessage twitchMessage)
+	public override void RunCommand(ChatMessage ChatMessage)
 	{
-		//IL_001b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0020: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_002a: Unknown result type (might be due to invalid IL or missing erences)
-		TwitchWrapper.SendChatMessage((TaggedString)("@" + twitchMessage.Username + " " + Translator.Translate("TwitchToolkitModInfo") + " https://discord.gg/qrtg224 !"));
+		TwitchWrapper.SendChatMessage((TaggedString)("@" + ChatMessage.Username + " " + Translator.Translate("TwitchToolkitModInfo") + " https://discord.gg/qrtg224 !"));
 	}
 }

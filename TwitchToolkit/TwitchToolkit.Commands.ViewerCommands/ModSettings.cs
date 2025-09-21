@@ -1,18 +1,22 @@
+/*
+ * Project: TwitchToolkit
+ * File: ModSettings.cs
+ * 
+ * Usage: Command to display current mod settings to the user in chat using !modsettings
+ * 
+ */
+
+
 using ToolkitCore;
-using TwitchLib.Client.Models.Interfaces;
+using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit.Commands.ViewerCommands;
 
 public class ModSettings : CommandDriver
 {
-	public override void RunCommand(ITwitchMessage twitchMessage)
+	public override void RunCommand(ChatMessage ChatMessage)
 	{
-		//IL_002f: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_003b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0052: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_005e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_006e: Unknown result type (might be due to invalid IL or missing erences)
 		Command buyCommand = DefDatabase<Command>.GetNamed("Buy", true);
 		string minutess = ((ToolkitSettings.CoinInterval > 1) ? "s" : "");
 		string storeon = (TaggedString)(buyCommand.enabled ? Translator.Translate("TwitchToolkitOn") : Translator.Translate("TwitchToolkitOff"));

@@ -17,7 +17,7 @@ namespace TwitchToolkit.TwitchToolkit.Utilities
         public static string GetInstructionsMessage(string username)
         {
             Command allCommandsCommand = DefDatabase<Command>.GetNamed("AvailableCommands", true);
-            return $"@{username} the toolkit is a mod where you earn coins while you watch. Check out the bit.ly/toolkit-guide or use !{allCommandsCommand.command} for a short list. {GenText.CapitalizeFirst(ToolkitSettings.Channel)} has a list of items/events to purchase at {ToolkitSettings.CustomPricingSheetLink}";
+            return $"@{username} the toolkit is a mod where you earn coins while you watch. Check out the bit.ly/toolkit-guide or use !{allCommandsCommand.command} for a short list. {ToolkitSettings.Channel.CapitalizeFirst()} has a list of items/events to purchase at {ToolkitSettings.CustomPricingSheetLink}";
         }
     }
 }
