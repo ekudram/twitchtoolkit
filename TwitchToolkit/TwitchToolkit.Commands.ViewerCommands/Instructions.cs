@@ -16,9 +16,9 @@ namespace TwitchToolkit.Commands.ViewerCommands;
 public class Instructions : CommandDriver
 {
    
-        public override void RunCommand(ChatMessage ChatMessage)
+        public override void RunCommand(TwitchMessageWrapper messageWrapper)
         {
-            TwitchWrapper.SendChatMessage(MessageHelpers.GetInstructionsMessage(ChatMessage.Username));
+            TwitchWrapper.SendChatMessage(MessageHelpers.GetInstructionsMessage(messageWrapper.Username));
         }
    
 }

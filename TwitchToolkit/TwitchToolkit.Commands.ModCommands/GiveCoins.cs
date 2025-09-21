@@ -23,17 +23,17 @@ namespace TwitchToolkit.Commands.ModCommands;
 
 public class GiveCoins : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
-            string[] command = chatMessage.Message.Split(' ');
+            string[] command = messageWrapper.Message.Split(' ');
 
             // Validate command format
             if (command.Length < 3)
             {
                 ToolkitLogger.Debug("GiveCoins command called with insufficient arguments");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Usage: !givecoins <username> <amount>");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Usage: !givecoins <username> <amount>");
                 return;
             }
 
@@ -43,16 +43,16 @@ public class GiveCoins : CommandDriver
             if (!int.TryParse(command[2], out int amount) || amount <= 0)
             {
                 ToolkitLogger.Debug("GiveCoins command: Invalid amount format");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Please provide a valid positive number of coins to give.");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Please provide a valid positive number of coins to give.");
                 return;
             }
 
             // Check if user is trying to give coins to themselves (unless they're the channel owner)
-            if (chatMessage.Username.ToLower() != ToolkitSettings.Channel.ToLower() &&
-                receiver.ToLower() == chatMessage.Username.ToLower())
+            if (messageWrapper.Username.ToLower() != ToolkitSettings.Channel.ToLower() &&
+                receiver.ToLower() == messageWrapper.Username.ToLower())
             {
-                ToolkitLogger.Debug($"GiveCoins command: User {chatMessage.Username} tried to give coins to themselves");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} {Translator.Translate("TwitchToolkitModCannotGiveCoins")}");
+                ToolkitLogger.Debug($"GiveCoins command: User {messageWrapper.Username} tried to give coins to themselves");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} {Translator.Translate("TwitchToolkitModCannotGiveCoins")}");
                 return;
             }
 
@@ -61,7 +61,7 @@ public class GiveCoins : CommandDriver
             if (giftee == null)
             {
                 ToolkitLogger.Debug($"GiveCoins command: Recipient '{receiver}' not found");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Viewer '{receiver}' not found.");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Viewer '{receiver}' not found.");
                 return;
             }
 
@@ -79,16 +79,16 @@ public class GiveCoins : CommandDriver
                 newbalance: giftee.coins.ToString()
             );
 
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} {response}");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} {response}");
 
             // Log the transaction
-            Store_Logger.LogGiveCoins(chatMessage.Username, giftee.username, amount);
-            ToolkitLogger.Debug($"GiveCoins command executed: {chatMessage.Username} gave {amount} coins to {giftee.username}");
+            Store_Logger.LogGiveCoins(messageWrapper.Username, giftee.username, amount);
+            ToolkitLogger.Debug($"GiveCoins command executed: {messageWrapper.Username} gave {amount} coins to {giftee.username}");
         }
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error in GiveCoins command: {ex.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error processing givecoins command.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error processing givecoins command.");
         }
     }
 }

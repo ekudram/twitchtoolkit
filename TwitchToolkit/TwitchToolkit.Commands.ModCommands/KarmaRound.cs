@@ -12,26 +12,25 @@
 
 using System;
 using ToolkitCore;
-using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit.Commands.ModCommands;
 
 public class KarmaRound : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
             // Award coins to all viewers based on karma system
             Viewers.AwardViewersCoins();
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} rewarded all active viewers with karma-based coins.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} rewarded all active viewers with karma-based coins.");
             ToolkitLogger.Debug("KarmaRound command executed: karma-based coins awarded to all viewers");
         }
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error in KarmaRound command: {ex.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error processing karmaround command.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error processing karmaround command.");
         }
     }
 }

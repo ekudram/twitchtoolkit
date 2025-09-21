@@ -14,8 +14,8 @@ namespace TwitchToolkit.Commands.ViewerCommands;
 
 public class PurchaseList : CommandDriver
 {
-	public override void RunCommand(ChatMessage ChatMessage)
+	public override void RunCommand(TwitchMessageWrapper messageWrapper)
 	{
-		TwitchWrapper.SendChatMessage((TaggedString)("@" + ChatMessage.Username + " " + Translator.Translate("TwitchToolkitPurchaseList") + (" " + ToolkitSettings.CustomPricingSheetLink)));
+		TwitchWrapper.SendChatMessage((TaggedString)("@" + messageWrapper.Username + " " + Translator.Translate("TwitchToolkitPurchaseList") + (" " + ToolkitSettings.CustomPricingSheetLink)));
 	}
 }

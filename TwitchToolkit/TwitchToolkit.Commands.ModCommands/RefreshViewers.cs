@@ -23,17 +23,17 @@ namespace TwitchToolkit.Commands.ModCommands;
 
 public class RefreshViewers : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
-            ToolkitLogger.Debug($"RefreshViewers command requested by {chatMessage.Username}");
+            ToolkitLogger.Debug($"RefreshViewers command requested by {messageWrapper.Username}");
 
             // Validate channel username
             if (string.IsNullOrEmpty(ToolkitCoreSettings.channel_username))
             {
                 ToolkitLogger.Error("Channel username is not set in settings");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error: Channel username is not configured.");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error: Channel username is not configured.");
                 return;
             }
 
@@ -45,13 +45,13 @@ public class RefreshViewers : CommandDriver
             // Make the API request
             WebRequest_BeginGetResponse.Main(apiUrl, Viewers.SaveUsernamesFromJsonResponse);
 
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Viewer refresh initiated. It may take a few moments to complete.");
-            ToolkitLogger.Debug($"Viewer refresh initiated by {chatMessage.Username}");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Viewer refresh initiated. It may take a few moments to complete.");
+            ToolkitLogger.Debug($"Viewer refresh initiated by {messageWrapper.Username}");
         }
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error in RefreshViewers command: {ex.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error refreshing viewers. Check logs for details.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error refreshing viewers. Check logs for details.");
         }
     }
 }

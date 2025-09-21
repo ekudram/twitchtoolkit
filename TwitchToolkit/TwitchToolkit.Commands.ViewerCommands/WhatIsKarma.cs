@@ -23,17 +23,17 @@ namespace TwitchToolkit.Commands.ViewerCommands;
 
 public class WhatIsKarma : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
-            ToolkitLogger.Debug($"WhatIsKarma command requested by {chatMessage.Username}");
+            ToolkitLogger.Debug($"WhatIsKarma command requested by {messageWrapper.Username}");
 
-            Viewer viewer = Viewers.GetViewer(chatMessage.Username);
+            Viewer viewer = Viewers.GetViewer(messageWrapper.Username);
             if (viewer == null)
             {
-                ToolkitLogger.Warning($"Could not find viewer for username: {chatMessage.Username}");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error: Could not retrieve your karma information.");
+                ToolkitLogger.Warning($"Could not find viewer for username: {messageWrapper.Username}");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error: Could not retrieve your karma information.");
                 return;
             }
 
@@ -46,7 +46,7 @@ public class WhatIsKarma : CommandDriver
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error in WhatIsKarma command: {ex.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error retrieving your karma information.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error retrieving your karma information.");
         }
     }
 }

@@ -29,9 +29,9 @@ namespace TwitchToolkit.Commands.ViewerCommands
         private const double COOLDOWN_SECONDS = 15.0;
         private const int TWITCH_MESSAGE_MAX_LENGTH = 500; // Twitch's actual limit is 500 characters
 
-        public override void RunCommand(ChatMessage chatMessage)
+        public override void RunCommand(TwitchMessageWrapper messageWrapper)
         {
-            if (chatMessage == null)
+            if (messageWrapper == null)
             {
                 ToolkitLogger.Error("Received null twitch message in InstalledMods command");
                 return;
@@ -43,7 +43,7 @@ namespace TwitchToolkit.Commands.ViewerCommands
             {
                 double remainingCooldown = COOLDOWN_SECONDS - timeSinceLastUse.TotalSeconds;
                 TwitchWrapper.SendChatMessage(
-                    $"@{chatMessage.Username} Command is on cooldown. " +
+                    $"@{messageWrapper.Username} Command is on cooldown. " +
                     $"Please wait {Math.Ceiling(remainingCooldown)} seconds."
                 );
                 return;
@@ -62,7 +62,7 @@ namespace TwitchToolkit.Commands.ViewerCommands
 
                 if (mods.Length == 0)
                 {
-                    TwitchWrapper.SendChatMessage($"@{chatMessage.Username} No mods installed.");
+                    TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} No mods installed.");
                     return;
                 }
 
@@ -94,7 +94,7 @@ namespace TwitchToolkit.Commands.ViewerCommands
             catch (Exception ex)
             {
                 ToolkitLogger.Error($"Error in InstalledMods command: {ex}");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error retrieving mod list.");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error retrieving mod list.");
             }
         }
     }

@@ -16,24 +16,23 @@
 
 using System;
 using ToolkitCore;
-using TwitchLib.Client.Models;
 using Verse;
 
 namespace TwitchToolkit.Commands.ModCommands;
 
 public class SetKarma : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
-            string[] command = chatMessage.Message.Split(' ');
+            string[] command = messageWrapper.Message.Split(' ');
 
             // Validate command format
             if (command.Length < 3)
             {
                 ToolkitLogger.Debug("SetKarma command called with insufficient arguments");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Usage: !setkarma <username> <amount>");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Usage: !setkarma <username> <amount>");
                 return;
             }
 
@@ -43,7 +42,7 @@ public class SetKarma : CommandDriver
             if (!int.TryParse(command[2], out int amount))
             {
                 ToolkitLogger.Debug("SetKarma command: Invalid amount format");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Please provide a valid number for karma amount.");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Please provide a valid number for karma amount.");
                 return;
             }
 
@@ -52,7 +51,7 @@ public class SetKarma : CommandDriver
             if (targeted == null)
             {
                 ToolkitLogger.Debug($"SetKarma command: Target viewer '{target}' not found");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Viewer '{target}' not found.");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Viewer '{target}' not found.");
                 return;
             }
 
@@ -67,13 +66,13 @@ public class SetKarma : CommandDriver
                 amount: amount.ToString()
             );
 
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} {response}");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} {response}");
             ToolkitLogger.Debug($"SetKarma command executed: Set {targeted.username}'s karma to {amount}");
         }
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error in SetKarma command: {ex.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error processing setkarma command.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error processing setkarma command.");
         }
     }
 }

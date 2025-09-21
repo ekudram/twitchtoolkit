@@ -21,7 +21,7 @@ namespace TwitchToolkit.Commands.ModCommands;
 
 public class ToggleCoins : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
@@ -34,16 +34,16 @@ public class ToggleCoins : CommandDriver
                 Translator.Translate("TwitchToolkitOff");
 
             // Send confirmation message
-            string response = $"@{chatMessage.Username} {Translator.Translate("TwitchToolkitEarningCoinsMessage")} {statusMessage}";
+            string response = $"@{messageWrapper.Username} {Translator.Translate("TwitchToolkitEarningCoinsMessage")} {statusMessage}";
             TwitchWrapper.SendChatMessage(response);
 
             // Log the action
-            ToolkitLogger.Debug($"ToggleCoins command executed by {chatMessage.Username}. EarningCoins is now {statusMessage}");
+            ToolkitLogger.Debug($"ToggleCoins command executed by {messageWrapper.Username}. EarningCoins is now {statusMessage}");
         }
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error in ToggleCoins command: {ex.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error processing togglecoins command.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error processing togglecoins command.");
         }
     }
 }

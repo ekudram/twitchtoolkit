@@ -25,41 +25,41 @@ namespace TwitchToolkit.Commands.ViewerCommands;
 
 public class GiftCoins : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
-            ToolkitLogger.Debug($"GiftCoins command requested by {chatMessage.Username}");
+            ToolkitLogger.Debug($"GiftCoins command requested by {messageWrapper.Username}");
 
-            Viewer viewer = Viewers.GetViewer(chatMessage.Username);
+            Viewer viewer = Viewers.GetViewer(messageWrapper.Username);
             if (viewer == null)
             {
-                ToolkitLogger.Warning($"Could not find viewer for username: {chatMessage.Username}");
+                ToolkitLogger.Warning($"Could not find viewer for username: {messageWrapper.Username}");
                 return;
             }
 
-            string[] command = chatMessage.Message.Split(' ');
+            string[] command = messageWrapper.Message.Split(' ');
             if (command.Count() < 3)
             {
-                ToolkitLogger.Debug($"Invalid gift command format from {chatMessage.Username}: {chatMessage.Message}");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Usage: !gift <username> <amount>");
+                ToolkitLogger.Debug($"Invalid gift command format from {messageWrapper.Username}: {messageWrapper.Message}");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Usage: !gift <username> <amount>");
                 return;
             }
 
             string target = command[1].Replace("@", "");
 
             // Prevent self-gifting
-            if (target.ToLower() == chatMessage.Username.ToLower())
+            if (target.ToLower() == messageWrapper.Username.ToLower())
             {
-                ToolkitLogger.Debug($"Viewer {chatMessage.Username} attempted to gift themselves");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} You cannot gift coins to yourself.");
+                ToolkitLogger.Debug($"Viewer {messageWrapper.Username} attempted to gift themselves");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} You cannot gift coins to yourself.");
                 return;
             }
 
             if (!int.TryParse(command[2], out int amount) || amount <= 0)
             {
-                ToolkitLogger.Debug($"Invalid amount format in gift command from {chatMessage.Username}: {command[2]}");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Please provide a valid positive number of coins to gift.");
+                ToolkitLogger.Debug($"Invalid amount format in gift command from {messageWrapper.Username}: {command[2]}");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Please provide a valid positive number of coins to gift.");
                 return;
             }
 
@@ -67,7 +67,7 @@ public class GiftCoins : CommandDriver
             if (giftee == null)
             {
                 ToolkitLogger.Debug($"Gift recipient not found: {target}");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Viewer '{target}' not found.");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Viewer '{target}' not found.");
                 return;
             }
 
@@ -77,14 +77,14 @@ public class GiftCoins : CommandDriver
                 if (giftee.GetViewerKarma() < ToolkitSettings.MinimumKarmaToRecieveGifts)
                 {
                     ToolkitLogger.Debug($"Gift recipient {target} doesn't meet karma requirements");
-                    TwitchWrapper.SendChatMessage($"@{chatMessage.Username} {target} doesn't have enough karma to receive gifts.");
+                    TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} {target} doesn't have enough karma to receive gifts.");
                     return;
                 }
 
                 if (viewer.GetViewerKarma() < ToolkitSettings.MinimumKarmaToSendGifts)
                 {
-                    ToolkitLogger.Debug($"Gift sender {chatMessage.Username} doesn't meet karma requirements");
-                    TwitchWrapper.SendChatMessage($"@{chatMessage.Username} You don't have enough karma to send gifts.");
+                    ToolkitLogger.Debug($"Gift sender {messageWrapper.Username} doesn't meet karma requirements");
+                    TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} You don't have enough karma to send gifts.");
                     return;
                 }
             }
@@ -92,8 +92,8 @@ public class GiftCoins : CommandDriver
             // Check if sender has enough coins
             if (viewer.GetViewerCoins() < amount)
             {
-                ToolkitLogger.Debug($"Viewer {chatMessage.Username} has insufficient coins for gift");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} You don't have enough coins to gift {amount} coins.");
+                ToolkitLogger.Debug($"Viewer {messageWrapper.Username} has insufficient coins for gift");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} You don't have enough coins to gift {amount} coins.");
                 return;
             }
 
@@ -116,7 +116,7 @@ public class GiftCoins : CommandDriver
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error in GiftCoins command: {ex.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error processing gift command.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error processing gift command.");
         }
     }
 }

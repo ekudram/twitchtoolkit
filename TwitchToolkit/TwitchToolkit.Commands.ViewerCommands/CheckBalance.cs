@@ -23,17 +23,17 @@ namespace TwitchToolkit.Commands.ViewerCommands;
 
 public class CheckBalance : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
-            ToolkitLogger.Debug($"CheckBalance command requested by {chatMessage.Username}");
+            ToolkitLogger.Debug($"CheckBalance command requested by {messageWrapper.Username}");
 
-            Viewer viewer = Viewers.GetViewer(chatMessage.Username);
+            Viewer viewer = Viewers.GetViewer(messageWrapper.Username);
             if (viewer == null)
             {
-                ToolkitLogger.Warning($"Could not find viewer for username: {chatMessage.Username}");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error: Could not retrieve your balance.");
+                ToolkitLogger.Warning($"Could not find viewer for username: {messageWrapper.Username}");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error: Could not retrieve your balance.");
                 return;
             }
 
@@ -53,7 +53,7 @@ public class CheckBalance : CommandDriver
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error in CheckBalance command: {ex.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error retrieving your balance.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error retrieving your balance.");
         }
     }
 }

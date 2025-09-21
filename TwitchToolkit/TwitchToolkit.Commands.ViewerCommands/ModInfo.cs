@@ -13,8 +13,8 @@ namespace TwitchToolkit.Commands.ViewerCommands;
 
 public class ModInfo : CommandDriver
 {
-	public override void RunCommand(ChatMessage ChatMessage)
+	public override void RunCommand(TwitchMessageWrapper messageWrapper)
 	{
-		TwitchWrapper.SendChatMessage((TaggedString)("@" + ChatMessage.Username + " " + Translator.Translate("TwitchToolkitModInfo") + " https://discord.gg/qrtg224 !"));
+		TwitchWrapper.SendChatMessage((TaggedString)("@" + messageWrapper.Username + " " + Translator.Translate("TwitchToolkitModInfo") + " https://discord.gg/qrtg224 !"));
 	}
 }

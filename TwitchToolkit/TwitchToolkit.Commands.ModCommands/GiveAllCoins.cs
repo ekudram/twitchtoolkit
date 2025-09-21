@@ -27,22 +27,22 @@ namespace TwitchToolkit.Commands.ModCommands;
 
 public class GiveAllCoins : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
-            string[] command = chatMessage.Message.Split(' ');
+            string[] command = messageWrapper.Message.Split(' ');
             if (command.Length < 2)
             {
                 ToolkitLogger.Debug("GiveAllCoins command called with insufficient arguments");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Usage: !giveallcoins <amount>");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Usage: !giveallcoins <amount>");
                 return;
             }
 
             if (!int.TryParse(command[1], out int amount) || amount <= 0)
             {
                 ToolkitLogger.Debug("GiveAllCoins command: Invalid amount format");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Please provide a valid positive number of coins to give.");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Please provide a valid positive number of coins to give.");
                 return;
             }
 
@@ -59,13 +59,13 @@ public class GiveAllCoins : CommandDriver
                 amount.ToString()
             );
 
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} {response}");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} {response}");
             ToolkitLogger.Debug($"GiveAllCoins command executed: {amount} coins given to {viewersAffected} viewers");
         }
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error in GiveAllCoins command: {ex.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error processing giveallcoins command.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error processing giveallcoins command.");
         }
     }
 }

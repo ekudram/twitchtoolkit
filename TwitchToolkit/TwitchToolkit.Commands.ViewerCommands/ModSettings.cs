@@ -15,7 +15,7 @@ namespace TwitchToolkit.Commands.ViewerCommands;
 
 public class ModSettings : CommandDriver
 {
-	public override void RunCommand(ChatMessage ChatMessage)
+	public override void RunCommand(TwitchMessageWrapper messageWrapper)
 	{
 		Command buyCommand = DefDatabase<Command>.GetNamed("Buy", true);
 		string minutess = ((ToolkitSettings.CoinInterval > 1) ? "s" : "");

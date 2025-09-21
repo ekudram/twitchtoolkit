@@ -20,15 +20,15 @@ namespace TwitchToolkit.Commands.ModCommands;
 
 public class CheckUser : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
-            string[] command = chatMessage.Message.Split(' ');
+            string[] command = messageWrapper.Message.Split(' ');
             if (command.Length < 2)
             {
                 ToolkitCoreLogger.Debug("CheckUser command called with insufficient arguments");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Usage: !checkuser <username>");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Usage: !checkuser <username>");
                 return;
             }
 
@@ -38,7 +38,7 @@ public class CheckUser : CommandDriver
             if (targeted == null)
             {
                 ToolkitCoreLogger.Debug($"CheckUser command: Targeted viewer '{target}' not found");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Viewer '{target}' not found.");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Viewer '{target}' not found.");
                 return;
             }
 
@@ -52,12 +52,12 @@ public class CheckUser : CommandDriver
                 karma: targeted.GetViewerKarma().ToString()
             );
 
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} {response}");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} {response}");
         }
         catch (Exception e)
         {
             ToolkitLogger.Error($"Error in CheckUser command: {e.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error processing check user command.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error processing check user command.");
         }
     }
 }

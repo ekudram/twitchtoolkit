@@ -26,11 +26,11 @@ namespace TwitchToolkit.Commands.ViewerCommands;
 
 public class AvailableCommands : CommandDriver
 {
-    public override void RunCommand(ChatMessage chatMessage)
+    public override void RunCommand(TwitchMessageWrapper messageWrapper)
     {
         try
         {
-            ToolkitLogger.Debug($"AvailableCommands requested by {chatMessage.Username}");
+            ToolkitLogger.Debug($"AvailableCommands requested by {messageWrapper.Username}");
 
             List<Command> commands = (from s in DefDatabase<Command>.AllDefs
                                       where !s.requiresAdmin && !s.requiresMod && s.enabled
@@ -39,7 +39,7 @@ public class AvailableCommands : CommandDriver
             if (commands.Count == 0)
             {
                 ToolkitLogger.Warning("No available commands found for viewer listing");
-                TwitchWrapper.SendChatMessage($"@{chatMessage.Username} No commands are currently available.");
+                TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} No commands are currently available.");
                 return;
             }
 
@@ -55,25 +55,25 @@ public class AvailableCommands : CommandDriver
             }
 
             // Create the full message
-            string fullMessage = $"@{chatMessage.Username} viewer commands: {commandList}";
+            string fullMessage = $"@{messageWrapper.Username} viewer commands: {commandList}";
 
             // Handle message length limitations
             if (fullMessage.Length > 500)
             {
                 // Split into multiple messages if needed
-                SendSplitMessages(chatMessage.Username, commandList.ToString());
+                SendSplitMessages(messageWrapper.Username, commandList.ToString());
             }
             else
             {
                 TwitchWrapper.SendChatMessage(fullMessage);
             }
 
-            ToolkitLogger.Debug($"Sent available commands list to {chatMessage.Username}");
+            ToolkitLogger.Debug($"Sent available commands list to {messageWrapper.Username}");
         }
         catch (Exception ex)
         {
             ToolkitLogger.Error($"Error in AvailableCommands: {ex.Message}");
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Error retrieving available commands.");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Error retrieving available commands.");
         }
     }
 
