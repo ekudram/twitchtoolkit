@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using ToolkitCore;
 using TwitchToolkit.PawnQueue;
 using UnityEngine;
 using Verse;
@@ -28,7 +29,7 @@ public class Window_Viewers : Window
 
 	public Window_Viewers()
 	{
-		Helper.Log("constructing viewers window");
+        ToolkitCoreLogger.Log("constructing viewers window");
 		Viewers.RefreshViewers();
 		if (Current.Game != null)
 		{
@@ -39,33 +40,6 @@ public class Window_Viewers : Window
 
 	public override void DoWindowContents(Rect inRect)
 	{
-		//IL_003b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0074: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00f4: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_019f: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0214: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0265: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0272: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_02a2: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_02d2: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0321: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_032e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_035e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_038e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0405: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0433: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_048f: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_04eb: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0599: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0603: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_062e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_06a7: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_06d2: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0748: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_07b1: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_07f8: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_082a: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_086f: Unknown result type (might be due to invalid IL or missing erences)
 		float firstColumn = ((Rect)( inRect)).width * 0.67f;
 		float cellHeight = 28f;
 		Rect searchBar = new Rect(0f,0f, firstColumn * 0.66f, cellHeight);

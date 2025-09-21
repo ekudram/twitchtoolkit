@@ -1,7 +1,8 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
+using ToolkitCore;
 using TwitchToolkit.Votes;
 using Verse;
 
@@ -33,7 +34,7 @@ public class StorytellerComp_HodlBot : StorytellerComp_ToryTalker
 			EventCategory category = RandomCategory();
 			source = source.Where((VotingIncidentEntry s) => s.incident.eventCategory == category).ToList();
 			str = "Which " + category.ToString() + " event should happen?";
-			Helper.Log("rand cat picked " + category);
+            ToolkitCoreLogger.Log("rand catagory picked " + category);
 			break;
 		}
 		case Vote_VotingIncident.VoteLabelType.Type:
@@ -41,7 +42,7 @@ public class StorytellerComp_HodlBot : StorytellerComp_ToryTalker
 			EventType randType = RandomType();
 			source = source.Where((VotingIncidentEntry s) => s.incident.eventType == randType).ToList();
 			str = string.Concat("Which ", randType, " event should happen?");
-			Helper.Log("rand type picked " + randType);
+            ToolkitCoreLogger.Log("rand type picked " + randType);
 			break;
 		}
 		}
@@ -60,7 +61,7 @@ public class StorytellerComp_HodlBot : StorytellerComp_ToryTalker
 		}
 		if (winners.Count < 3)
 		{
-			Helper.Log("Less than 3 possible votes were found");
+            ToolkitCoreLogger.Log("Less than 3 possible votes were found");
 			yield break;
 		}
 		Dictionary<int, VotingIncident> dictionary = new Dictionary<int, VotingIncident>();

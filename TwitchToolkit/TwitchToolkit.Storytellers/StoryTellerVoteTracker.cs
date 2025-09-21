@@ -1,6 +1,7 @@
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
+using ToolkitCore;
 using TwitchToolkit.Votes;
 using Verse;
 
@@ -53,13 +54,13 @@ public class StoryTellerVoteTracker : GameComponent
 		{
 			if (Prefs.DevMode)
 			{
-				Helper.Log($"Checking last voting tick {Find.TickManager.TicksGame} > {lastFiredTick} + ({ToolkitSettings.ToryTalkerMTBDays * 60000f}) : true");
+                ToolkitCoreLogger.Log($"Checking last voting tick {Find.TickManager.TicksGame} > {lastFiredTick} + ({ToolkitSettings.ToryTalkerMTBDays * 60000f}) : true");
 			}
 			return true;
 		}
 		if (Prefs.DevMode)
 		{
-			Helper.Log($"Checking last voting tick {Find.TickManager.TicksGame} > {lastFiredTick} + ({ToolkitSettings.ToryTalkerMTBDays * 60000f}) : false");
+            ToolkitCoreLogger.Log($"Checking last voting tick {Find.TickManager.TicksGame} > {lastFiredTick} + ({ToolkitSettings.ToryTalkerMTBDays * 60000f}) : false");
 		}
 		return false;
 	}

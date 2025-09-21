@@ -19,7 +19,7 @@ public class Vote_ExoticItems : Vote
 		}
 		catch (InvalidCastException e)
 		{
-			Helper.Log(e.Message);
+            ToolkitCoreLogger.Error(e.Message);
 		}
 	}
 

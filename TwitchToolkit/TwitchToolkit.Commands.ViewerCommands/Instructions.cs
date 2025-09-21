@@ -7,9 +7,7 @@
  */
 
 using ToolkitCore;
-using TwitchLib.Client.Models;
 using TwitchToolkit.Utilities;
-using Verse;
 
 namespace TwitchToolkit.Commands.ViewerCommands;
 

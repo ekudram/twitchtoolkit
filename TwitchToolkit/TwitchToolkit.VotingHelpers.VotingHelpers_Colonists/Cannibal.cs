@@ -1,7 +1,8 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
+using ToolkitCore;
 using TwitchToolkit.Votes;
 using Verse;
 
@@ -22,12 +23,12 @@ public class Cannibal : VotingHelper
 			IIncidentTarget obj2 = target;
 			map = (Map)(object)((obj2 is Map) ? obj2 : null);
 			List<Pawn> candidates = map.mapPawns.FreeColonistsSpawned.ToList();
-			Helper.Log("finding candidates");
+            ToolkitCoreLogger.Log("finding candidates");
 			traitDef = DefDatabase<TraitDef>.GetNamed("Cannibal", true);
-			Helper.Log("finding specific candidate");
+            ToolkitCoreLogger.Log("finding specific candidate");
 			if (candidates != null && candidates.Count > 0)
 			{
-				Helper.Log("Randomizing Candiates");
+                ToolkitCoreLogger.Log("Randomizing Candiates");
 				candidates.Shuffle();
 				foreach (Pawn candidate in candidates)
 				{

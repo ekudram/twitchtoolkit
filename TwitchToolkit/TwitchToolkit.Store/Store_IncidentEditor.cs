@@ -1,9 +1,10 @@
+using SimpleJSON;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using SimpleJSON;
+using ToolkitCore;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Utilities;
 using Verse;
@@ -93,12 +94,12 @@ public static class Store_IncidentEditor
 		json.AppendLine("\t\"eventCap\":\"" + incident.eventCap + "\",");
 		json.AppendLine(string.Concat("\t\"karmaType\":\"", incident.karmaType, "\""));
 		json.AppendLine("}");
-		Helper.Log(json.ToString());
+        ToolkitCoreLogger.Log(json.ToString());
 		using (StreamWriter streamWriter = File.CreateText(editorPath + filePath))
 		{
 			streamWriter.Write(json.ToString());
 		}
-		Helper.Log("Backup created");
+        ToolkitCoreLogger.Log("Backup created");
 	}
 
 	public static void SaveCopy(StoreIncidentVariables incident)
@@ -118,19 +119,19 @@ public static class Store_IncidentEditor
 		json.AppendLine("\t\"minPointsToFire\":\"" + incident.minPointsToFire + "\",");
 		json.AppendLine("\t\"maxWager\":\"" + incident.maxWager + "\",");
 		json.AppendLine("}");
-		Helper.Log(json.ToString());
+		ToolkitCoreLogger.Log(json.ToString());
 		using (StreamWriter streamWriter = File.CreateText(editorPath + filePath))
 		{
 			streamWriter.Write(json.ToString());
 		}
-		Helper.Log("Backup created");
+		ToolkitCoreLogger.Log("Backup created");
 	}
 
 	public static void LoadCopies()
 	{
 		if (!EditorPathExists())
 		{
-			Helper.Log("Path for custom store incidents does not exist, creating");
+			ToolkitCoreLogger.Log("Path for custom store incidents does not exist, creating");
 			return;
 		}
 		List<StoreIncidentSimple> simpleIncidents = DefDatabase<StoreIncidentSimple>.AllDefs.ToList();
@@ -161,28 +162,28 @@ public static class Store_IncidentEditor
 			JSONNode node = JSON.Parse(json);
 			if (node["abbreviation"] == null)
 			{
-				Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.abbreviation = node["abbreviation"];
 			if (node["cost"] == null)
 			{
-				Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.cost = node["cost"].AsInt;
 			if (node["eventCap"] == null)
 			{
-				Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.eventCap = node["eventCap"].AsInt;
 			if (node["karmaType"] == null)
 			{
-				Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.karmaType = (KarmaType)Enum.Parse(typeof(KarmaType), node["karmaType"], ignoreCase: true);
 		}
 		catch (UnauthorizedAccessException e)
 		{
-			Helper.Log(e.Message);
+			ToolkitCoreLogger.Log(e.Message);
 		}
 	}
 
@@ -202,18 +203,18 @@ public static class Store_IncidentEditor
 			JSONNode node = JSON.Parse(json);
 			if (node["minPointsToFire"] == null)
 			{
-				Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.minPointsToFire = node["baseCost"].AsInt;
 			if (node["maxWager"] == null)
 			{
-				Helper.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.maxWager = node["maxWager"].AsInt;
 		}
 		catch (UnauthorizedAccessException e)
 		{
-			Helper.Log(e.Message);
+			ToolkitCoreLogger.Log(e.Message);
 		}
 	}
 

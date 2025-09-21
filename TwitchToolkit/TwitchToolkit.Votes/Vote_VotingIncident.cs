@@ -27,7 +27,7 @@ public class Vote_VotingIncident : Vote
 	{
 		List<VoteLabelType> voteLabels = Enum.GetValues(typeof(VoteLabelType)).Cast<VoteLabelType>().ToList();
 		voteLabels.Shuffle();
-		Helper.Log("Shuffled for vote");
+        ToolkitCoreLogger.Log("Shuffled for vote");
 		labelType = voteLabels[0];
 		this.incidents = incidents;
 		this.title = title;

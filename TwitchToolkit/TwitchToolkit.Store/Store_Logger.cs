@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using ToolkitCore;
 using TwitchToolkit.Utilities;
 
 namespace TwitchToolkit.Store;
@@ -25,7 +26,7 @@ public static class Store_Logger
 			}
 			catch (Exception e2)
 			{
-				Helper.Log(e2.Message);
+                ToolkitCoreLogger.Error(e2.Message);
 			}
 		}
 		try
@@ -35,7 +36,7 @@ public static class Store_Logger
 		}
 		catch (Exception e)
 		{
-			Helper.Log(e.Message);
+            ToolkitCoreLogger.Error(e.Message);
 		}
 	}
 

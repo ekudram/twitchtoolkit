@@ -1,7 +1,8 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
+using ToolkitCore;
 using Verse;
 
 namespace TwitchToolkit.Store;
@@ -101,7 +102,7 @@ public class Item
 		IEnumerable<ThingDef> tradeableitems = from t in DefDatabase<ThingDef>.AllDefs
 			where (TradeabilityUtility.TraderCanSell(t.tradeability) || ThingSetMakerUtility.CanGenerate(t)) && (t.building == null || t.Minifiable || ToolkitSettings.MinifiableBuildings)
 			select t;
-		Helper.Log("Found " + tradeableitems.Count() + " items");
+        ToolkitCoreLogger.Log("Found " + tradeableitems.Count() + " items");
 		foreach (ThingDef item in tradeableitems)
 		{
 			string label = string.Join("", ((Def)item).label.Split(' ')).ToLower();
@@ -121,7 +122,7 @@ public class Item
 			}
 			catch (InvalidCastException e)
 			{
-				Helper.Log("Existing item exception " + e.Message);
+                ToolkitCoreLogger.Log("Existing item exception " + e.Message);
 			}
 		}
 	}

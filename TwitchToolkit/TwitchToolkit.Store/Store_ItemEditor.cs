@@ -1,10 +1,11 @@
+using RimWorld;
+using SimpleJSON;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using RimWorld;
-using SimpleJSON;
+using ToolkitCore;
 using TwitchToolkit.Utilities;
 using Verse;
 
@@ -148,7 +149,7 @@ public static class Store_ItemEditor
 			using StreamReader streamReader = File.OpenText(filePath);
 			string jsonString = streamReader.ReadToEnd();
 			JSONNode node = JSON.Parse(jsonString);
-			Helper.Log(node.ToString());
+            ToolkitCoreLogger.Log(node.ToString());
 			if (StoreInventory.items == null)
 			{
 				StoreInventory.items = new List<Item>();
@@ -169,7 +170,7 @@ public static class Store_ItemEditor
 		}
 		catch (UnauthorizedAccessException e)
 		{
-			Helper.Log(e.Message);
+            ToolkitCoreLogger.Error(e.Message);
 		}
 		FindItemsNotInList();
 	}

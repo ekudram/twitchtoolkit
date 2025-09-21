@@ -1,7 +1,8 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
+using ToolkitCore;
 using TwitchToolkit.Votes;
 using Verse;
 
@@ -55,12 +56,12 @@ public class StorytellerComp_ToryTalker : StorytellerComp
 		if (voteTracker.VoteHistory.ContainsKey(voteTracker.lastID))
 		{
 			List<KeyValuePair<int, int>> history = voteTracker.VoteHistory.ToList();
-			Helper.Log("History count " + history.Count);
+            ToolkitCoreLogger.Log("History count " + history.Count);
 			history.OrderBy((KeyValuePair<int, int> s) => s.Value);
 			IEnumerable<VotingIncident> search = from s in DefDatabase<VotingIncident>.AllDefs
 				where ((Def)s).defName == voteTracker.VoteIDs[history[0].Key]
 				select s;
-			Helper.Log("Search count " + search.Count());
+            ToolkitCoreLogger.Log("Search count " + search.Count());
 			if (search != null && search.Count() > 0)
 			{
 				previousVote = search.ElementAt(0);
@@ -72,7 +73,7 @@ public class StorytellerComp_ToryTalker : StorytellerComp
 			candidates = new List<VotingIncident>(from s in DefDatabase<VotingIncident>.AllDefs
 				where s != previousVote
 				select s);
-			Helper.Log("Previous vote was " + ((Def)previousVote).defName);
+            ToolkitCoreLogger.Log("Previous vote was " + ((Def)previousVote).defName);
 		}
 		else
 		{
@@ -82,7 +83,7 @@ public class StorytellerComp_ToryTalker : StorytellerComp
 		foreach (VotingIncident incident in candidates)
 		{
 			int weight = CalculateVotingIncidentWeight(incident);
-			Helper.Log($"Incident {((Def)incident).LabelCap} weighted at {weight}");
+			ToolkitCoreLogger.Log($"Incident {((Def)incident).LabelCap} weighted at {weight}");
 			voteEntries.Add(new VotingIncidentEntry(incident, weight));
 		}
 		return voteEntries;

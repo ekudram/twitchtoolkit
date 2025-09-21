@@ -24,9 +24,6 @@ public class Item : IncidentHelperVariables
 
 	public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
 	{
-		//IL_01de: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01ea: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_030e: Unknown result type (might be due to invalid IL or missing erences)
 		this.separateChannel = separateChannel;
 		Viewer = viewer;
 		string[] command = message.Split(' ');
@@ -54,16 +51,16 @@ public class Item : IncidentHelperVariables
 		ThingDef itemThingDef = ThingDef.Named(item.defname);
 		bool isResearched = true;
 		ResearchProjectDef researchProject = null;
-		Helper.Log("Checking researched");
+        ToolkitCoreLogger.Log("Checking researched");
 		if (itemThingDef.recipeMaker != null && itemThingDef.recipeMaker.researchPrerequisite != null && !itemThingDef.recipeMaker.researchPrerequisite.IsFinished)
 		{
-			Helper.Log("Recipe not researched");
+            ToolkitCoreLogger.Log("Recipe not researched");
 			isResearched = false;
 			researchProject = itemThingDef.recipeMaker.researchPrerequisite;
 		}
 		else if (!((BuildableDef)itemThingDef).IsResearchFinished)
 		{
-			Helper.Log("Building not researched");
+            ToolkitCoreLogger.Log("Building not researched");
 			isResearched = false;
 			researchProject = ((BuildableDef)itemThingDef).researchPrerequisites.ElementAt(0);
 		}
@@ -89,7 +86,7 @@ public class Item : IncidentHelperVariables
 		}
 		catch (OverflowException e)
 		{
-			Helper.Log(e.Message);
+            ToolkitCoreLogger.Log(e.Message);
 			return false;
 		}
 		if (quantity < 1 || price < 1)

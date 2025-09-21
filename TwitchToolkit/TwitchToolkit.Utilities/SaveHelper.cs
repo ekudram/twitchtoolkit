@@ -1,6 +1,7 @@
+using SimpleJSON;
 using System.Collections.Generic;
 using System.IO;
-using SimpleJSON;
+using ToolkitCore;
 using UnityEngine;
 
 namespace TwitchToolkit.Utilities;
@@ -31,7 +32,7 @@ public static class SaveHelper
 
 	public static void SaveAllModData()
 	{
-		Helper.Log("Saving data");
+        ToolkitCoreLogger.Log("Saving data");
 		SaveListOfViewersAsJson();
 	}
 
@@ -82,7 +83,7 @@ public static class SaveHelper
 			using StreamReader streamReader = File.OpenText(viewerDataPath);
 			string jsonString = streamReader.ReadToEnd();
 			JSONNode node = JSON.Parse(jsonString);
-			Helper.Log(node.ToString());
+			ToolkitCoreLogger.Log(node.ToString());
 			List<Viewer> listOfViewers = new List<Viewer>();
 			for (int i = 0; i < (int)node["total"]; i++)
 			{
@@ -95,7 +96,7 @@ public static class SaveHelper
 		}
 		catch (InvalidDataException e)
 		{
-			Helper.Log("Invalid " + e.Message);
+			ToolkitCoreLogger.Error("Invalid " + e.Message);
 		}
 	}
 }

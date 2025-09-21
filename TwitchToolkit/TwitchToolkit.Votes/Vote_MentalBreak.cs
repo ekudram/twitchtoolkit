@@ -21,7 +21,7 @@ public class Vote_MentalBreak : Vote
 		}
 		catch (InvalidCastException e)
 		{
-			Helper.Log(e.Message);
+            ToolkitCoreLogger.Error(e.Message);
 		}
 	}
 

@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using RimWorld;
+using System.Collections.Generic;
+using ToolkitCore;
 using UnityEngine;
 using Verse;
 
@@ -112,7 +113,7 @@ internal class QueueWindow : Window
 			}
 			break;
 		case PawnQueueSelector.FirstDefault:
-			Helper.Log("first or default");
+            ToolkitCoreLogger.Log("first or default");
 			allColonists = Find.ColonistBar.GetColonistsInOrder();
 			unnamedColonists = GetUnamedColonists();
 			selectedUsername = "";

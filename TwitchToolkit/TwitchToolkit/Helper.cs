@@ -363,19 +363,10 @@ public static class Helper
 
     private static bool TryFindMeteoriteCell(out IntVec3 cell, Map map)
     {
-        //IL_000f: Unknown result type (might be due to invalid IL or missing references)
-        //IL_002e: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0034: Unknown result type (might be due to invalid IL or missing references)
         int maxMineables = ThingSetMaker_Meteorite.MineablesCountRange.max;
         return CellFinderLoose.TryFindSkyfallerCell(ThingDefOf.MeteoriteIncoming, map, TerrainAffordanceDefOf.Walkable, out cell, 10, default(IntVec3), -1, true, false, false, false, true, true, (Predicate<IntVec3>)delegate (IntVec3 x)
         {
-            //IL_0015: Unknown result type (might be due to invalid IL or missing references)
-            //IL_0018: Unknown result type (might be due to invalid IL or missing references)
-            //IL_001d: Unknown result type (might be due to invalid IL or missing references)
-            //IL_0022: Unknown result type (might be due to invalid IL or missing references)
-            //IL_0027: Unknown result type (might be due to invalid IL or missing references)
-            //IL_002d: Unknown result type (might be due to invalid IL or missing references)
-            //IL_0041: Unknown result type (might be due to invalid IL or missing references)
+
             int num = Mathf.CeilToInt(Mathf.Sqrt((float)maxMineables)) + 2;
             CellRect val = CellRect.CenteredOn(x, num, num);
             int num2 = 0;
