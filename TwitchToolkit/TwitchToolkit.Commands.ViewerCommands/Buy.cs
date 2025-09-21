@@ -2,7 +2,7 @@
  * File: Buy.cs
  * Project: TwitchToolkit
  * 
- * Updated: September 20, 2025
+ * Updated: [Current Date]
  * 
  * Summary of Changes:
  * 1. Changed warning log to debug log for "reached the override" message
@@ -10,9 +10,9 @@
  * 3. Added input validation for command format
  * 4. Improved error handling
  * 5. Added more descriptive debug logging
+ * 6. Updated to use TwitchMessageWrapper for unified message handling
  */
 
-// Buy.cs (example command driver)
 using System.Linq;
 using ToolkitCore;
 using TwitchToolkit.Store;
@@ -48,6 +48,7 @@ public class Buy : CommandDriver
         }
 
         ToolkitLogger.Debug($"Processing purchase request from {message.Username} for: {commandParts[1]}");
+
         Purchase_Handler.ResolvePurchase(viewer, message);
     }
 }

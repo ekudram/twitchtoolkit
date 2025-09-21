@@ -2,7 +2,7 @@
  * File: CommandsHandler.cs
  * Project: TwitchToolkit
  * 
- * Updated: September 20, 2025
+ * Updated: [Current Date]
  * 
  * Summary of Changes:
  * 1. Added comprehensive XML documentation
@@ -12,9 +12,9 @@
  * 5. Added cooldown system documentation
  * 6. Added user feedback for command restrictions
  * 7. Removed unused SendToChatroom method
+ * 8. Updated to use TwitchMessageWrapper for unified message handling
  */
 
-// CommandsHandler.cs
 using System;
 using System.Linq;
 using Verse;
