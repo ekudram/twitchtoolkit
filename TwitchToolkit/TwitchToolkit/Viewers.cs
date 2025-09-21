@@ -14,10 +14,13 @@
  * 7. Improved JSON parsing safety with null checks on JSON nodes
  * 8. Added input validation for empty usernames and other parameters
  * 9. Preserved all existing functionality while making error handling more robust
+ * 10. Added calls to RemoveDuplicateViewers in key methods to ensure no duplicate viewers exist
+ * 11. Add thread safety with a lock object:
  * 
  * Future Recommendations:
  * 1. Add Subscriber teirs for more granular rewards
  * */
+using RimWorld;
 using SimpleJSON;
 using System;
 using System.Collections.Generic;
@@ -33,8 +36,8 @@ namespace TwitchToolkit;
 public static class Viewers
 {
     public static string jsonallviewers;
-
     public static List<Viewer> All = new List<Viewer>();
+    private static readonly object viewerLock = new object();
 
     public static void AwardViewersCoins(int setamount = 0)
     {
@@ -115,28 +118,36 @@ public static class Viewers
     {
         try
         {
-            if (viewers != null)
+            lock (viewerLock)
             {
-                foreach (Viewer viewer2 in viewers)
+                if (All == null)
                 {
-                    viewer2?.GiveViewerCoins(amount);
+                    All = new List<Viewer>();
                 }
-                return;
-            }
 
-            List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
-            if (usernames == null)
-            {
-                ToolkitLogger.Warning("GiveAllViewersCoins: No active viewers found");
-                return;
-            }
-
-            foreach (string username in usernames)
-            {
-                Viewer viewer = GetViewer(username);
-                if (viewer != null && viewer.GetViewerKarma() > 1)
+                if (viewers != null)
                 {
-                    viewer.GiveViewerCoins(amount);
+                    foreach (Viewer viewer2 in viewers)
+                    {
+                        viewer2?.GiveViewerCoins(amount);
+                    }
+                    return;
+                }
+
+                List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
+                if (usernames == null)
+                {
+                    ToolkitLogger.Warning("GiveAllViewersCoins: No active viewers found");
+                    return;
+                }
+
+                foreach (string username in usernames)
+                {
+                    Viewer viewer = GetViewer(username);
+                    if (viewer != null && viewer.GetViewerKarma() > 1)
+                    {
+                        viewer.GiveViewerCoins(amount);
+                    }
                 }
             }
         }
@@ -150,24 +161,32 @@ public static class Viewers
     {
         try
         {
-            if (viewers != null)
+            lock (viewerLock)
             {
-                foreach (Viewer viewer in viewers)
+                if (All == null)
                 {
-                    viewer?.SetViewerCoins(amount);
+                    All = new List<Viewer>();
                 }
-                return;
-            }
 
-            if (All == null)
-            {
-                ToolkitLogger.Warning("SetAllViewersCoins: All viewers list is null");
-                return;
-            }
+                if (viewers != null)
+                {
+                    foreach (Viewer viewer in viewers)
+                    {
+                        viewer?.SetViewerCoins(amount);
+                    }
+                    return;
+                }
 
-            foreach (Viewer item in All)
-            {
-                item?.SetViewerCoins(amount);
+                if (All == null)
+                {
+                    ToolkitLogger.Warning("SetAllViewersCoins: All viewers list is null");
+                    return;
+                }
+
+                foreach (Viewer item in All)
+                {
+                    item?.SetViewerCoins(amount);
+                }
             }
         }
         catch (Exception ex)
@@ -180,31 +199,34 @@ public static class Viewers
     {
         try
         {
-            if (viewers != null)
+            lock (viewerLock)
             {
-                foreach (Viewer viewer2 in viewers)
+                if (viewers != null)
                 {
-                    if (viewer2 != null)
+                    foreach (Viewer viewer2 in viewers)
                     {
-                        viewer2.SetViewerKarma(Math.Min(ToolkitSettings.KarmaCap, viewer2.GetViewerKarma() + amount));
+                        if (viewer2 != null)
+                        {
+                            viewer2.SetViewerKarma(Math.Min(ToolkitSettings.KarmaCap, viewer2.GetViewerKarma() + amount));
+                        }
                     }
+                    return;
                 }
-                return;
-            }
 
-            List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
-            if (usernames == null)
-            {
-                ToolkitLogger.Warning("GiveAllViewersKarma: No active viewers found");
-                return;
-            }
-
-            foreach (string username in usernames)
-            {
-                Viewer viewer = GetViewer(username);
-                if (viewer != null && viewer.GetViewerKarma() > 1)
+                List<string> usernames = ParseViewersFromJsonAndFindActiveViewers();
+                if (usernames == null)
                 {
-                    viewer.SetViewerKarma(Math.Min(ToolkitSettings.KarmaCap, viewer.GetViewerKarma() + amount));
+                    ToolkitLogger.Warning("GiveAllViewersKarma: No active viewers found");
+                    return;
+                }
+
+                foreach (string username in usernames)
+                {
+                    Viewer viewer = GetViewer(username);
+                    if (viewer != null && viewer.GetViewerKarma() > 1)
+                    {
+                        viewer.SetViewerKarma(Math.Min(ToolkitSettings.KarmaCap, viewer.GetViewerKarma() + amount));
+                    }
                 }
             }
         }
@@ -217,28 +239,36 @@ public static class Viewers
     public static void TakeAllViewersKarma(int amount, List<Viewer> viewers = null)
     {
         try
-        {
-            if (viewers != null)
+        {   
+            lock (viewerLock)
             {
-                foreach (Viewer viewer2 in viewers)
+                if (All == null)
                 {
-                    if (viewer2 != null)
-                    {
-                        viewer2.SetViewerKarma(Math.Max(0, viewer2.GetViewerKarma() - amount));
-                    }
+                    All = new List<Viewer>();
                 }
-                return;
-            }
 
-            if (All == null)
-            {
-                ToolkitLogger.Warning("TakeAllViewersKarma: All viewers list is null");
-                return;
-            }
+                if (viewers != null)
+                {
+                    foreach (Viewer viewer2 in viewers)
+                    {
+                        if (viewer2 != null)
+                        {
+                            viewer2.SetViewerKarma(Math.Max(0, viewer2.GetViewerKarma() - amount));
+                        }
+                    }
+                    return;
+                }
 
-            foreach (Viewer viewer in All)
-            {
-                viewer?.SetViewerKarma(Math.Max(0, viewer.GetViewerKarma() - amount));
+                if (All == null)
+                {
+                    ToolkitLogger.Warning("TakeAllViewersKarma: All viewers list is null");
+                    return;
+                }
+
+                foreach (Viewer viewer in All)
+                {
+                    viewer?.SetViewerKarma(Math.Max(0, viewer.GetViewerKarma() - amount));
+                }
             }
         }
         catch (Exception ex)
@@ -251,24 +281,32 @@ public static class Viewers
     {
         try
         {
-            if (viewers != null)
+            lock (viewerLock)
             {
-                foreach (Viewer viewer in viewers)
+                if (All == null)
                 {
-                    viewer?.SetViewerKarma(amount);
+                    All = new List<Viewer>();
                 }
-                return;
-            }
+            
+                if (viewers != null)
+                {
+                    foreach (Viewer viewer in viewers)
+                    {
+                        viewer?.SetViewerKarma(amount);
+                    }
+                    return;
+                }
 
-            if (All == null)
-            {
-                ToolkitLogger.Warning("SetAllViewersKarma: All viewers list is null");
-                return;
-            }
+                if (All == null)
+                {
+                    ToolkitLogger.Warning("SetAllViewersKarma: All viewers list is null");
+                    return;
+                }
 
-            foreach (Viewer item in All)
-            {
-                item?.SetViewerKarma(amount);
+                foreach (Viewer item in All)
+                {
+                    item?.SetViewerKarma(amount);
+                }
             }
         }
         catch (Exception ex)
@@ -359,6 +397,10 @@ public static class Viewers
             }
 
             jsonallviewers = request.jsonString;
+
+            // Remove duplicates after updating from API
+            RemoveDuplicateViewers();
+
             return true;
         }
         catch (Exception ex)
@@ -370,7 +412,10 @@ public static class Viewers
 
     public static void ResetViewers()
     {
-        All = new List<Viewer>();
+        lock (viewerLock)
+        {
+            All = new List<Viewer>();
+        }
         ToolkitLogger.Log("Viewers list has been reset");
     }
 
@@ -394,11 +439,20 @@ public static class Viewers
                 viewer.SetViewerCoins(ToolkitSettings.StartingBalance);
                 viewer.karma = ToolkitSettings.StartingKarma;
 
-                if (All == null)
+                lock (viewerLock)
                 {
-                    All = new List<Viewer>();
+                    if (All == null)
+                    {
+                        All = new List<Viewer>();
+                    }
+                    // Add the new viewer
+                    All.Add(viewer);
                 }
-                All.Add(viewer);
+                // Occasionally check for duplicates (every 10th new viewer)
+                if (All.Count % 10 == 0)
+                {
+                    RemoveDuplicateViewers();
+                }
             }
 
             return viewer;
@@ -414,6 +468,11 @@ public static class Viewers
     {
         try
         {
+            if (All == null)
+            {
+                ToolkitLogger.Warning("GetViewerById: All viewers list is null");
+                return null;
+            }
             return All?.Find((Viewer s) => s.id == id);
         }
         catch (Exception ex)
@@ -426,16 +485,23 @@ public static class Viewers
     public static void RefreshViewers()
     {
         try
-        {
-            ToolkitLogger.Log("Refreshing Viewers");
-            string channel = ToolkitCoreSettings.channel_username?.ToLower();
-            if (string.IsNullOrEmpty(channel))
+        {   
+            lock (viewerLock)
             {
-                ToolkitLogger.Error("RefreshViewers: Channel username is not set");
-                return;
+                if (All == null)
+                {
+                    All = new List<Viewer>();
+                }
+            
+                ToolkitLogger.Log("Refreshing Viewers");
+                string channel = ToolkitCoreSettings.channel_username?.ToLower();
+                if (string.IsNullOrEmpty(channel))
+                {
+                    ToolkitLogger.Error("RefreshViewers: Channel username is not set");
+                    return;
+                }
+                WebRequest_BeginGetResponse.Main($"https://tmi.twitch.tv/group/user/{channel}/chatters", SaveUsernamesFromJsonResponse);
             }
-
-            WebRequest_BeginGetResponse.Main($"https://tmi.twitch.tv/group/user/{channel}/chatters", SaveUsernamesFromJsonResponse);
         }
         catch (Exception ex)
         {
@@ -446,18 +512,26 @@ public static class Viewers
     public static void ResetViewersCoins()
     {
         try
-        {
-            if (All == null)
+        {   
+            lock (viewerLock)
             {
-                ToolkitLogger.Warning("ResetViewersCoins: All viewers list is null");
-                return;
-            }
+                if (All == null)
+                {
+                    All = new List<Viewer>();
+                }
+            
+                if (All == null)
+                {
+                    ToolkitLogger.Warning("ResetViewersCoins: All viewers list is null");
+                    return;
+                }
 
-            foreach (Viewer viewer in All)
-            {
-                viewer?.SetViewerCoins(ToolkitSettings.StartingBalance);
+                foreach (Viewer viewer in All)
+                {
+                    viewer?.SetViewerCoins(ToolkitSettings.StartingBalance);
+                }
+                ToolkitLogger.Log("All viewers coins have been reset");
             }
-            ToolkitLogger.Log("All viewers coins have been reset");
         }
         catch (Exception ex)
         {
@@ -469,21 +543,80 @@ public static class Viewers
     {
         try
         {
-            if (All == null)
+            lock (viewerLock)
             {
-                ToolkitLogger.Warning("ResetViewersKarma: All viewers list is null");
-                return;
-            }
+                if (All == null)
+                {
+                    ToolkitLogger.Warning("ResetViewersKarma: All viewers list is null");
+                    return;
+                }
 
-            foreach (Viewer viewer in All)
-            {
-                viewer?.SetViewerKarma(ToolkitSettings.StartingKarma);
+                foreach (Viewer viewer in All)
+                {
+                    viewer?.SetViewerKarma(ToolkitSettings.StartingKarma);
+                }
+                ToolkitLogger.Log("All viewers karma has been reset");
             }
-            ToolkitLogger.Log("All viewers karma has been reset");
         }
         catch (Exception ex)
         {
             ToolkitLogger.Error($"ResetViewersKarma: Error: {ex.Message}");
+        } 
+    }
+    
+    public static void RemoveDuplicateViewers()
+    {
+        try
+        {
+            if (All == null || All.Count == 0) return;
+
+            int duplicatesRemoved = 0;
+            int coinsMerged = 0;
+
+            lock (viewerLock)
+            {
+                var duplicates = All
+                    .GroupBy(v => v.username.ToLower())
+                    .Where(g => g.Count() > 1)
+                    .ToList();
+
+                if (duplicates.Count == 0)
+                {
+                    ToolkitLogger.Debug("No duplicate viewers found");
+                    return;
+                }
+
+                foreach (var group in duplicates)
+                {
+                    // Keep the first viewer and merge coins from duplicates
+                    Viewer mainViewer = group.First();
+                    var duplicateViewers = group.Skip(1).ToList();
+
+                    foreach (Viewer duplicate in duplicateViewers)
+                    {
+                        // Merge coins from duplicate viewer
+                        int duplicateCoins = duplicate.GetViewerCoins();
+                        if (duplicateCoins > 0)
+                        {
+                            mainViewer.GiveViewerCoins(duplicateCoins);
+                            coinsMerged += duplicateCoins;
+                        }
+
+                        // Remove the duplicate
+                        All.Remove(duplicate);
+                        duplicatesRemoved++;
+                    }
+                }
+            }
+
+            if (duplicatesRemoved > 0)
+            {
+                ToolkitLogger.Log($"Removed {duplicatesRemoved} duplicate viewers and merged {coinsMerged} coins");
+            }
+        }
+        catch (Exception ex)
+        {
+            ToolkitLogger.Error($"Error removing duplicate viewers: {ex.Message}");
         }
     }
 }
