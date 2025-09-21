@@ -18,8 +18,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using MoonSharp.Interpreter;
 using ToolkitCore;
-using TwitchLib.Client.Models;
-using Verse;
 
 namespace TwitchToolkit;
 

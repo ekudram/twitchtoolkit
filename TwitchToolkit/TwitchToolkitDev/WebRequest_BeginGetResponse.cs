@@ -1,3 +1,10 @@
+/*
+ * Project: TwitchToolkit
+ * File: WebRequest_BeginGetResponse.cs
+ * 
+ * Usage: Provides asynchronous web request handling with callbacks and error management.
+ * Deprecated: TwitchLib 3.4.0 and later have built-in async support; consider using HttpClient for new implementations.
+ */
 using System;
 using System.IO;
 using System.Net;
@@ -17,7 +24,10 @@ public class WebRequest_BeginGetResponse
 
 	public static void Main(string requesturl, Func<RequestState, bool> func = null)
 	{
-		Helper.Log(requesturl);
+		ToolkitLogger.Log("This is a deprecated test class. Use HttpClient or TwitchLib 3.4.0+ for async web requests.");
+		return;
+        // We KNow this is deprecated but leaving it here for reference
+        ToolkitLogger.Log(requesturl);
 		try
 		{
 			ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
@@ -32,15 +42,15 @@ public class WebRequest_BeginGetResponse
 		}
 		catch (WebException e2)
 		{
-			Helper.Log("WebException raised! Main");
-			Helper.Log("\n" + e2.Message);
-			Helper.Log($"\n{e2.Status}");
+            ToolkitLogger.Log("WebException raised! Main");
+			ToolkitLogger.Log("\n" + e2.Message);
+			ToolkitLogger.Log($"\n{e2.Status}");
 		}
 		catch (Exception e)
 		{
-			Helper.Log("Exception raised! - get");
-			Helper.Log("Source : " + e.Source);
-			Helper.Log("Message : " + e.Message + " " + e.StackTrace);
+			ToolkitLogger.Log("Exception raised! - get");
+            ToolkitLogger.Log("Source : " + e.Source);
+            ToolkitLogger.Log("Message : " + e.Message + " " + e.StackTrace);
 		}
 	}
 
@@ -62,15 +72,15 @@ public class WebRequest_BeginGetResponse
 		}
 		catch (WebException e2)
 		{
-			Helper.Log("WebException raised! Delete");
-			Helper.Log("\n" + e2.Message);
-			Helper.Log($"\n{e2.Status}");
+            ToolkitLogger.Log("WebException raised! Delete");
+            ToolkitLogger.Log("\n" + e2.Message);
+            ToolkitLogger.Log($"\n{e2.Status}");
 		}
 		catch (Exception e)
 		{
-			Helper.Log("Exception raised! - get");
-			Helper.Log("Source : " + e.Source);
-			Helper.Log("Message : " + e.Message + " " + e.StackTrace);
+            ToolkitLogger.Log("Exception raised! - get");
+            ToolkitLogger.Log("Source : " + e.Source);
+            ToolkitLogger.Log("Message : " + e.Message + " " + e.StackTrace);
 		}
 	}
 
@@ -92,15 +102,15 @@ public class WebRequest_BeginGetResponse
 		}
 		catch (WebException e2)
 		{
-			Helper.Log("WebException raised!");
-			Helper.Log("\n" + e2.Message);
-			Helper.Log($"\n{e2.Status}");
+            ToolkitLogger.Log("WebException raised!");
+            ToolkitLogger.Log("\n" + e2.Message);
+            ToolkitLogger.Log($"\n{e2.Status}");
 		}
 		catch (Exception e)
 		{
-			Helper.Log("Exception raised! - get");
-			Helper.Log("Source : " + e.Source);
-			Helper.Log("Message : " + e.Message + " " + e.StackTrace);
+            ToolkitLogger.Log("Exception raised! - get");
+            ToolkitLogger.Log("Source : " + e.Source);
+            ToolkitLogger.Log("Message : " + e.Message + " " + e.StackTrace);
 		}
 	}
 
@@ -121,17 +131,17 @@ public class WebRequest_BeginGetResponse
 		}
 		catch (WebException e2)
 		{
-			Helper.Log("WebException raised - callback! RespCallback");
-			Helper.Log("\n" + e2.Message);
-			Helper.Log($"\n{e2.Status}");
+            ToolkitLogger.Log("WebException raised - callback! RespCallback");
+            ToolkitLogger.Log("\n" + e2.Message);
+            ToolkitLogger.Log($"\n{e2.Status}");
 
 			allDone.Set();
 		}
 		catch (Exception e)
 		{
-			Helper.Log("Exception raised!");
-			Helper.Log("Source : " + e.Source);
-			Helper.Log("Message : " + e.Message + " " + e.StackTrace);
+            ToolkitLogger.Log("Exception raised!");
+			ToolkitLogger.Log("Source : " + e.Source);
+			ToolkitLogger.Log("Message : " + e.Message + " " + e.StackTrace);
 
 			allDone.Set();
 		}
@@ -154,7 +164,7 @@ public class WebRequest_BeginGetResponse
 			}
 			if (myRequestState.requestData.Length > 1)
 			{
-				Helper.Log(myRequestState.jsonString = myRequestState.requestData.ToString());
+				ToolkitLogger.Log(myRequestState.jsonString = myRequestState.requestData.ToString());
 				if (myRequestState.Callback != null)
 				{
 					myRequestState.Callback(myRequestState);
@@ -164,15 +174,15 @@ public class WebRequest_BeginGetResponse
 		}
 		catch (WebException e2)
 		{
-			Helper.Log("WebException raised - read!");
-			Helper.Log("\n" + e2.Message);
-			Helper.Log($"\n{e2.Status}");
+			ToolkitLogger.Log("WebException raised - read!");
+			ToolkitLogger.Log("\n" + e2.Message);
+			ToolkitLogger.Log($"\n{e2.Status}");
 		}
 		catch (Exception e)
 		{
-			Helper.Log("Exception raised!");
-			Helper.Log("Source : " + e.Source);
-			Helper.Log("Message : " + e.Message + " " + e.StackTrace);
+			ToolkitLogger.Log("Exception raised!");
+			ToolkitLogger.Log("Source : " + e.Source);
+			ToolkitLogger.Log("Message : " + e.Message + " " + e.StackTrace);
 		}
 
 		allDone.Set();

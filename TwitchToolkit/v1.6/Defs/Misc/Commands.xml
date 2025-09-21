@@ -63,7 +63,7 @@
     <commandDriver>TwitchToolkit.Commands.ModCommands.ToggleCoins</commandDriver>
     <requiresMod>true</requiresMod>
   </TwitchToolkit.Command>
-  
+
   <!-- Viewer Commands -->
   <TwitchToolkit.Command>
     <defName>CheckBalance</defName>

@@ -1,3 +1,10 @@
+/*
+ * Project: Twitch Toolkit
+ * File: CommandEditor.cs
+ * 
+ * Usage: Manages loading, saving, and backing up of Twitch command definitions to and from JSON files.
+ * Is deprecated and will be removed in a future update.
+ */
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -47,7 +54,7 @@ public static class CommandEditor
 	{
 		if (!EditorPathExists())
 		{
-			Helper.Log("Path for custom commands does not exist, creating");
+			ToolkitLogger.Log("Path for custom commands does not exist, creating");
 			return;
 		}
 		List<Command> allCommands = DefDatabase<Command>.AllDefs.ToList();
@@ -64,7 +71,7 @@ public static class CommandEditor
 		}
 		foreach (string custom in ToolkitSettings.CustomCommandDefs)
 		{
-			Helper.Log("Loading custom command with defName " + custom);
+            ToolkitLogger.Log("Loading custom command with defName " + custom);
 			Command newCustom = new Command
 			{
 				defName = custom
@@ -98,43 +105,43 @@ public static class CommandEditor
 			JSONNode node = JSON.Parse(json);
 			if (node["command"] == null)
 			{
-				Helper.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.command = node["command"];
 			if (node["enabled"] == null)
 			{
-				Helper.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.enabled = node["enabled"].AsBool;
 			if (node["shouldBeInSeparateRoom"] == null)
 			{
-				Helper.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.shouldBeInSeparateRoom = node["shouldBeInSeparateRoom"].AsBool;
 			if (node["requiresMod"] == null)
 			{
-				Helper.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.requiresMod = node["requiresMod"].AsBool;
 			if (node["requiresAdmin"] == null)
 			{
-				Helper.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.requiresAdmin = node["requiresAdmin"].AsBool;
 			if (node["outputMessage"] == null)
 			{
-				Helper.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.outputMessage = node["outputMessage"];
 			if (node["isCustomMessage"] == null)
 			{
-				Helper.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.isCustomMessage = node["isCustomMessage"].AsBool;
 		}
 		catch (UnauthorizedAccessException e)
 		{
-			Helper.Log(e.Message);
+            ToolkitLogger.Log(e.Message);
 		}
 	}
 

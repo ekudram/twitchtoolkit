@@ -1,3 +1,10 @@
+/*
+ * Project: TwitchToolkit
+ * File: AnimalTame.cs
+ * 
+ * Usage: Incident helper to tame a random animal on the map
+ * 
+ */
 using RimWorld;
 using TwitchToolkit.Store;
 using Verse;
@@ -12,8 +19,6 @@ public class AnimalTame : IncidentHelper
 
 	public override bool IsPossible()
 	{
-		//IL_0002: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_000c: Expected O, but got Unknown
 		worker = (IncidentWorker)new IncidentWorker_SelfTame();
 		worker.def = IncidentDef.Named("SelfTame");
 		Map map = Helper.AnyPlayerMap;
@@ -21,7 +26,7 @@ public class AnimalTame : IncidentHelper
 		{
 			parms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, (IIncidentTarget)(object)map);
 			bool canFire = worker.CanFireNow(parms);
-			Helper.Log("Can fire " + canFire);
+			ToolkitLogger.Log("Can fire " + canFire);
 			return canFire;
 		}
 		return false;
