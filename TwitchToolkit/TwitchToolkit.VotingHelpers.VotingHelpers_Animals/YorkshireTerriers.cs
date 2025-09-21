@@ -17,8 +17,6 @@ public class YorkshireTerriers : VotingHelper
 
 	public override bool IsPossible()
 	{
-		//IL_000c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0011: Unknown result type (might be due to invalid IL or missing erences)
 		PawnKindDef animalKind = PawnKindDef.Named("YorkshireTerrier");
 		IntRange animalsCount = AnimalsCount;
 		int num = ((IntRange)( animalsCount)).RandomInRange;
