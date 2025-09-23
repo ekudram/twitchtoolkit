@@ -19,36 +19,42 @@ public class MessageInterface : TwitchInterfaceBase
 {
     public MessageInterface(Game game)
     {
+        ToolkitCoreLogger.Debug("MessageInterface initialized");  // Added debug
     }
 
     public override void ParseMessage(ChatMessage chatMessage)
     {
-        // Convert to wrapper and process
+        ToolkitCoreLogger.Debug($"Received chat message from {chatMessage.Username}: {chatMessage.Message}");
+
         TwitchMessageWrapper wrappedMessage = new TwitchMessageWrapper(chatMessage);
         ProcessSpecialMessages(wrappedMessage);
 
-        // Handle command processing based on forceWhispers setting
         if (ToolkitCoreSettings.forceWhispers)
         {
-            // When forceWhispers is enabled, don't process commands from public chat
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Please use whispers for commands (enable whispers in your Twitch settings)");
+            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Please use whispers for commands");
+            ToolkitCoreLogger.Debug("Force whispers enabled - command not processed");
         }
         else
         {
-            // When forceWhispers is disabled, process all messages
+            ToolkitCoreLogger.Debug("Processing command from public chat");
             ProcessCommand(wrappedMessage);
         }
     }
 
     public override void ParseWhisper(WhisperMessage whisperMessage)
     {
-        if (whisperMessage == null) return;
+        if (whisperMessage == null)
+        {
+            ToolkitCoreLogger.Warning("Received null whisper message");
+            return;
+        }
 
-        // Convert to wrapper and process
+        ToolkitCoreLogger.Debug($"Received whisper from {whisperMessage.Username}: {whisperMessage.Message}");
+
         TwitchMessageWrapper wrappedMessage = new TwitchMessageWrapper(whisperMessage);
         ProcessSpecialMessages(wrappedMessage);
 
-        // Always process commands from whispers
+        ToolkitCoreLogger.Debug("Processing command from whisper");
         ProcessCommand(wrappedMessage);
     }
 
@@ -98,6 +104,7 @@ public class MessageInterface : TwitchInterfaceBase
 
     private void ProcessCommand(TwitchMessageWrapper message)
     {
+        ToolkitLogger.Debug($"Processing command/message: {message.Message} from user: {message.Username}");
         Viewer viewer = Viewers.GetViewer(message.Username);
         if (viewer == null) return;
 

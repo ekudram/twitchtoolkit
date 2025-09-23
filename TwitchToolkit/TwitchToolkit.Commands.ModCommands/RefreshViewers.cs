@@ -42,8 +42,8 @@ public class RefreshViewers : CommandDriver
 
             ToolkitLogger.Debug($"Refreshing viewers from API: {apiUrl}");
 
-            // Make the API request
-            WebRequest_BeginGetResponse.Main(apiUrl, Viewers.SaveUsernamesFromJsonResponse);
+            // No Longer using WebRequest_BeginGetResponse due to async issues
+            // NO! WebRequest_BeginGetResponse.Main(apiUrl, Viewers.SaveUsernamesFromJsonResponse);
 
             TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Viewer refresh initiated. It may take a few moments to complete.");
             ToolkitLogger.Debug($"Viewer refresh initiated by {messageWrapper.Username}");

@@ -3,6 +3,7 @@
  * Project: TwitchToolkit
  * 
  * Updated: [Current Date]
+ * Usage: Handles processing and execution of Twitch chat commands
  * 
  * Summary of Changes:
  * 1. Added comprehensive XML documentation
@@ -35,6 +36,7 @@ public static class CommandsHandler
     /// <param name="message">The wrapped Twitch message to process</param>
     public static void CheckCommand(TwitchMessageWrapper message)
     {
+        ToolkitLogger.Debug($"CheckCommand called for: {message.Username} - {message.Message}");
         if (message == null)
         {
             ToolkitLogger.Warning("Received null twitch message in CheckCommand");
