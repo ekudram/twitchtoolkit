@@ -32,7 +32,7 @@ public static class SaveHelper
 
 	public static void SaveAllModData()
 	{
-        ToolkitCoreLogger.Log("Saving data");
+        ToolkitLogger.Log("Saving data");
 		SaveListOfViewersAsJson();
 	}
 
@@ -83,8 +83,8 @@ public static class SaveHelper
 			using StreamReader streamReader = File.OpenText(viewerDataPath);
 			string jsonString = streamReader.ReadToEnd();
 			JSONNode node = JSON.Parse(jsonString);
-			ToolkitCoreLogger.Log(node.ToString());
-			List<Viewer> listOfViewers = new List<Viewer>();
+            //  ToolkitCoreLogger.Log(node.ToString());  CAUSES LOG SPAM!
+            List<Viewer> listOfViewers = new List<Viewer>();
 			for (int i = 0; i < (int)node["total"]; i++)
 			{
 				Viewer viewer = new Viewer(node["viewers"][i]["username"]);
@@ -96,7 +96,7 @@ public static class SaveHelper
 		}
 		catch (InvalidDataException e)
 		{
-			ToolkitCoreLogger.Error("Invalid " + e.Message);
+			ToolkitLogger.Error("Invalid " + e.Message);
 		}
 	}
 }

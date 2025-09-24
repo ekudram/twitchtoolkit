@@ -27,7 +27,7 @@ public class CheckUser : CommandDriver
             string[] command = messageWrapper.Message.Split(' ');
             if (command.Length < 2)
             {
-                ToolkitCoreLogger.Debug("CheckUser command called with insufficient arguments");
+                ToolkitLogger.Debug("CheckUser command called with insufficient arguments");
                 TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Usage: !checkuser <username>");
                 return;
             }
@@ -37,7 +37,7 @@ public class CheckUser : CommandDriver
 
             if (targeted == null)
             {
-                ToolkitCoreLogger.Debug($"CheckUser command: Targeted viewer '{target}' not found");
+                ToolkitLogger.Debug($"CheckUser command: Targeted viewer '{target}' not found");
                 TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Viewer '{target}' not found.");
                 return;
             }

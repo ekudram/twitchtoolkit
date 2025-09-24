@@ -94,12 +94,12 @@ public static class Store_IncidentEditor
 		json.AppendLine("\t\"eventCap\":\"" + incident.eventCap + "\",");
 		json.AppendLine(string.Concat("\t\"karmaType\":\"", incident.karmaType, "\""));
 		json.AppendLine("}");
-        ToolkitCoreLogger.Log(json.ToString());
-		using (StreamWriter streamWriter = File.CreateText(editorPath + filePath))
+        // ToolkitLogger.Log(json.ToString()); commented out to reduce log spam
+        using (StreamWriter streamWriter = File.CreateText(editorPath + filePath))
 		{
 			streamWriter.Write(json.ToString());
 		}
-        ToolkitCoreLogger.Log("Backup created");
+        ToolkitLogger.Log("Backup created");
 	}
 
 	public static void SaveCopy(StoreIncidentVariables incident)
@@ -119,19 +119,19 @@ public static class Store_IncidentEditor
 		json.AppendLine("\t\"minPointsToFire\":\"" + incident.minPointsToFire + "\",");
 		json.AppendLine("\t\"maxWager\":\"" + incident.maxWager + "\",");
 		json.AppendLine("}");
-		ToolkitCoreLogger.Log(json.ToString());
-		using (StreamWriter streamWriter = File.CreateText(editorPath + filePath))
+        // ToolkitLogger.Log(json.ToString()); commented out to reduce log spam
+        using (StreamWriter streamWriter = File.CreateText(editorPath + filePath))
 		{
 			streamWriter.Write(json.ToString());
 		}
-		ToolkitCoreLogger.Log("Backup created");
+        ToolkitLogger.Log("Backup created");
 	}
 
 	public static void LoadCopies()
 	{
 		if (!EditorPathExists())
 		{
-			ToolkitCoreLogger.Log("Path for custom store incidents does not exist, creating");
+            ToolkitLogger.Log("Path for custom store incidents does not exist, creating");
 			return;
 		}
 		List<StoreIncidentSimple> simpleIncidents = DefDatabase<StoreIncidentSimple>.AllDefs.ToList();
@@ -162,28 +162,28 @@ public static class Store_IncidentEditor
 			JSONNode node = JSON.Parse(json);
 			if (node["abbreviation"] == null)
 			{
-				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.abbreviation = node["abbreviation"];
 			if (node["cost"] == null)
 			{
-				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.cost = node["cost"].AsInt;
 			if (node["eventCap"] == null)
 			{
-				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.eventCap = node["eventCap"].AsInt;
 			if (node["karmaType"] == null)
 			{
-				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.karmaType = (KarmaType)Enum.Parse(typeof(KarmaType), node["karmaType"], ignoreCase: true);
 		}
 		catch (UnauthorizedAccessException e)
 		{
-			ToolkitCoreLogger.Log(e.Message);
+			ToolkitLogger.Log(e.Message);
 		}
 	}
 
@@ -203,18 +203,18 @@ public static class Store_IncidentEditor
 			JSONNode node = JSON.Parse(json);
 			if (node["minPointsToFire"] == null)
 			{
-				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.minPointsToFire = node["baseCost"].AsInt;
 			if (node["maxWager"] == null)
 			{
-				ToolkitCoreLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
+				ToolkitLogger.Log("Copy of store incident file is missing critical info, delete file " + editorPath + filePath);
 			}
 			incident.maxWager = node["maxWager"].AsInt;
 		}
 		catch (UnauthorizedAccessException e)
 		{
-			ToolkitCoreLogger.Log(e.Message);
+			ToolkitLogger.Log(e.Message);
 		}
 	}
 

@@ -19,12 +19,12 @@ public class MessageInterface : TwitchInterfaceBase
 {
     public MessageInterface(Game game)
     {
-        ToolkitCoreLogger.Debug("MessageInterface initialized");  // Added debug
+        ToolkitLogger.Debug("MessageInterface initialized");  // Added debug
     }
 
     public override void ParseMessage(ChatMessage chatMessage)
     {
-        ToolkitCoreLogger.Debug($"Received chat message from {chatMessage.Username}: {chatMessage.Message}");
+        ToolkitLogger.Debug($"Received chat message from {chatMessage.Username}: {chatMessage.Message}");
 
         TwitchMessageWrapper wrappedMessage = new TwitchMessageWrapper(chatMessage);
         ProcessSpecialMessages(wrappedMessage);
@@ -32,11 +32,11 @@ public class MessageInterface : TwitchInterfaceBase
         if (ToolkitCoreSettings.forceWhispers)
         {
             TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Please use whispers for commands");
-            ToolkitCoreLogger.Debug("Force whispers enabled - command not processed");
+            ToolkitLogger.Debug("Force whispers enabled - command not processed");
         }
         else
         {
-            ToolkitCoreLogger.Debug("Processing command from public chat");
+            ToolkitLogger.Debug("Processing command from public chat");
             ProcessCommand(wrappedMessage);
         }
     }
@@ -45,16 +45,16 @@ public class MessageInterface : TwitchInterfaceBase
     {
         if (whisperMessage == null)
         {
-            ToolkitCoreLogger.Warning("Received null whisper message");
+            ToolkitLogger.Warning("Received null whisper message");
             return;
         }
 
-        ToolkitCoreLogger.Debug($"Received whisper from {whisperMessage.Username}: {whisperMessage.Message}");
+        ToolkitLogger.Debug($"Received whisper from {whisperMessage.Username}: {whisperMessage.Message}");
 
         TwitchMessageWrapper wrappedMessage = new TwitchMessageWrapper(whisperMessage);
         ProcessSpecialMessages(wrappedMessage);
 
-        ToolkitCoreLogger.Debug("Processing command from whisper");
+        ToolkitLogger.Debug("Processing command from whisper");
         ProcessCommand(wrappedMessage);
     }
 

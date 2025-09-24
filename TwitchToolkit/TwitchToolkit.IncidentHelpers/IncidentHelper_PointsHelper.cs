@@ -25,7 +25,7 @@ public static class IncidentHelper_PointsHelper
 		chanceAtHigherRaid += 22.9181728f * pointsRatio;
 		chanceAtHigherRaid -= 1.28649545f;
 		float chanceAtSmallerRaid = Math.Min(100f, 100f - chanceAtHigherRaid);
-        ToolkitCoreLogger.Log($"points wager: {pointsWager} threat points: {threatPoints} chanceBigRaid: {chanceAtHigherRaid} chanceSmallRaid: {chanceAtSmallerRaid}");
+        ToolkitLogger.Log($"points wager: {pointsWager} threat points: {threatPoints} chanceBigRaid: {chanceAtHigherRaid} chanceSmallRaid: {chanceAtSmallerRaid}");
 		float multiplier = 1f;
 		if (chanceAtHigherRaid * 10f > (float)Rand.Range(1, 1000))
 		{
@@ -60,7 +60,7 @@ public static class IncidentHelper_PointsHelper
 			}
 		}
 		float finalPoints = pointsPurchased * ((float)highestRoll / 100f);
-        ToolkitCoreLogger.Log($"wager: {pointsWager} gamePoints: {gamePoints} pointsPurchased: {pointsPurchased} totalRolls: {totalRolls} highestRoll: {highestRoll} finalPoints: {finalPoints}");
+        ToolkitLogger.Log($"wager: {pointsWager} gamePoints: {gamePoints} pointsPurchased: {pointsPurchased} totalRolls: {totalRolls} highestRoll: {highestRoll} finalPoints: {finalPoints}");
 		Store_Logger.LogString($"wager: {pointsWager} gamePoints: {gamePoints} pointsPurchased: {pointsPurchased} totalRolls: {totalRolls} highestRoll: {highestRoll} finalPoints: {finalPoints}");
 		return Math.Max(finalPoints, 35f);
 	}

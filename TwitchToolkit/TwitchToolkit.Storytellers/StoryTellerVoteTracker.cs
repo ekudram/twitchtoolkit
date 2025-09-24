@@ -54,13 +54,13 @@ public class StoryTellerVoteTracker : GameComponent
 		{
 			if (Prefs.DevMode)
 			{
-                ToolkitCoreLogger.Log($"Checking last voting tick {Find.TickManager.TicksGame} > {lastFiredTick} + ({ToolkitSettings.ToryTalkerMTBDays * 60000f}) : true");
+                ToolkitLogger.Log($"Checking last voting tick {Find.TickManager.TicksGame} > {lastFiredTick} + ({ToolkitSettings.ToryTalkerMTBDays * 60000f}) : true");
 			}
 			return true;
 		}
 		if (Prefs.DevMode)
 		{
-            ToolkitCoreLogger.Log($"Checking last voting tick {Find.TickManager.TicksGame} > {lastFiredTick} + ({ToolkitSettings.ToryTalkerMTBDays * 60000f}) : false");
+            ToolkitLogger.Log($"Checking last voting tick {Find.TickManager.TicksGame} > {lastFiredTick} + ({ToolkitSettings.ToryTalkerMTBDays * 60000f}) : false");
 		}
 		return false;
 	}

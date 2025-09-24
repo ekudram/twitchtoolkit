@@ -51,16 +51,16 @@ public class Item : IncidentHelperVariables
 		ThingDef itemThingDef = ThingDef.Named(item.defname);
 		bool isResearched = true;
 		ResearchProjectDef researchProject = null;
-        ToolkitCoreLogger.Log("Checking researched");
+        ToolkitLogger.Log("Checking researched");
 		if (itemThingDef.recipeMaker != null && itemThingDef.recipeMaker.researchPrerequisite != null && !itemThingDef.recipeMaker.researchPrerequisite.IsFinished)
 		{
-            ToolkitCoreLogger.Log("Recipe not researched");
+            ToolkitLogger.Log("Recipe not researched");
 			isResearched = false;
 			researchProject = itemThingDef.recipeMaker.researchPrerequisite;
 		}
 		else if (!((BuildableDef)itemThingDef).IsResearchFinished)
 		{
-            ToolkitCoreLogger.Log("Building not researched");
+            ToolkitLogger.Log("Building not researched");
 			isResearched = false;
 			researchProject = ((BuildableDef)itemThingDef).researchPrerequisites.ElementAt(0);
 		}
@@ -86,7 +86,7 @@ public class Item : IncidentHelperVariables
 		}
 		catch (OverflowException e)
 		{
-            ToolkitCoreLogger.Log(e.Message);
+            ToolkitLogger.Log(e.Message);
 			return false;
 		}
 		if (quantity < 1 || price < 1)

@@ -30,8 +30,8 @@ public class WebClientHelper
 				}
 			}
 		}
-        ToolkitCoreLogger.Log(client.Headers.ToString());
-        ToolkitCoreLogger.Log(args[0] + "?" + urlParams);
+        ToolkitLogger.Log(client.Headers.ToString());
+        ToolkitLogger.Log(args[0] + "?" + urlParams);
 		using WebClient wc = new WebClient();
 		wc.Headers[HttpRequestHeader.ContentType] = "application/json";
 		Uri uri = new Uri(args[0]);
@@ -62,8 +62,8 @@ public class WebClientHelper
 				}
 			}
 		}
-		ToolkitCoreLogger.Log(client.Headers.ToString());
-		ToolkitCoreLogger.Log(args[0] + "?" + urlParams);
+		ToolkitLogger.Log(client.Headers.ToString());
+		ToolkitLogger.Log(args[0] + "?" + urlParams);
 		using WebClient wc = new WebClient();
 		wc.Headers[HttpRequestHeader.ContentType] = "application/json";
 		Uri uri = new Uri(args[0]);

@@ -52,42 +52,55 @@
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Buffers">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\System.Buffers.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Memory">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\System.Memory.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Numerics.Vectors">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\System.Numerics.Vectors.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ToolkitCore">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\ToolkitCore.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Api.Core.Enums">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\TwitchLib.Api.Core.Enums.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Api.Core.Interfaces">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\TwitchLib.Api.Core.Interfaces.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Client">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\TwitchLib.Client.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Client.Enums">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Client.Models">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\TwitchLib.Client.Models.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Communication">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ToolkitCore\1.6\Assemblies\TwitchLib.Communication.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

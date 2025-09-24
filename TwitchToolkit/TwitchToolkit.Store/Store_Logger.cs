@@ -26,7 +26,7 @@ public static class Store_Logger
 			}
 			catch (Exception e2)
 			{
-                ToolkitCoreLogger.Error(e2.Message);
+                ToolkitLogger.Error(e2.Message);
 			}
 		}
 		try
@@ -36,7 +36,7 @@ public static class Store_Logger
 		}
 		catch (Exception e)
 		{
-            ToolkitCoreLogger.Error(e.Message);
+            ToolkitLogger.Error(e.Message);
 		}
 	}
 

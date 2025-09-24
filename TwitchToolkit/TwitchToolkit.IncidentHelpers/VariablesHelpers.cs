@@ -28,7 +28,7 @@ public static class VariablesHelpers
 			}
 			catch (OverflowException e)
 			{
-                ToolkitCoreLogger.Error(e.Message);
+                ToolkitLogger.Error(e.Message);
 				TwitchWrapper.SendChatMessage("@" + viewer.username + " points wager is invalid.");
 				return false;
 			}

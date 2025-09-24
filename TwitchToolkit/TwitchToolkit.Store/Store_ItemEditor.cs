@@ -149,8 +149,8 @@ public static class Store_ItemEditor
 			using StreamReader streamReader = File.OpenText(filePath);
 			string jsonString = streamReader.ReadToEnd();
 			JSONNode node = JSON.Parse(jsonString);
-            ToolkitCoreLogger.Log(node.ToString());
-			if (StoreInventory.items == null)
+            //ToolkitCoreLogger.Log(node.ToString()); commented out to reduce log spam
+            if (StoreInventory.items == null)
 			{
 				StoreInventory.items = new List<Item>();
 			}
@@ -170,7 +170,7 @@ public static class Store_ItemEditor
 		}
 		catch (UnauthorizedAccessException e)
 		{
-            ToolkitCoreLogger.Error(e.Message);
+            ToolkitLogger.Error(e.Message);
 		}
 		FindItemsNotInList();
 	}

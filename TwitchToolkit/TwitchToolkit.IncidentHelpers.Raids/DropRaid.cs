@@ -35,7 +35,7 @@ public class DropRaid : IncidentHelperVariables
 		{
 			return false;
 		}
-		ToolkitCoreLogger.Log("Finding target");
+        ToolkitLogger.Log("Finding target");
 		target = (IIncidentTarget)(object)Current.Game.AnyPlayerHomeMap;
 		if (target == null)
 		{

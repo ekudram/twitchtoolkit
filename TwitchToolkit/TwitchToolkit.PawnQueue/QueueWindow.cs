@@ -113,7 +113,7 @@ internal class QueueWindow : Window
 			}
 			break;
 		case PawnQueueSelector.FirstDefault:
-            ToolkitCoreLogger.Log("first or default");
+            ToolkitLogger.Debug("first or default");
 			allColonists = Find.ColonistBar.GetColonistsInOrder();
 			unnamedColonists = GetUnamedColonists();
 			selectedUsername = "";

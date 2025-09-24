@@ -29,7 +29,7 @@ public class Window_Viewers : Window
 
 	public Window_Viewers()
 	{
-        ToolkitCoreLogger.Log("constructing viewers window");
+        ToolkitLogger.Log("constructing viewers window");
 		Viewers.RefreshViewers();
 		if (Current.Game != null)
 		{

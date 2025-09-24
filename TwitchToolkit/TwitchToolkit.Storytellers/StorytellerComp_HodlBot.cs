@@ -34,7 +34,7 @@ public class StorytellerComp_HodlBot : StorytellerComp_ToryTalker
 			EventCategory category = RandomCategory();
 			source = source.Where((VotingIncidentEntry s) => s.incident.eventCategory == category).ToList();
 			str = "Which " + category.ToString() + " event should happen?";
-            ToolkitCoreLogger.Log("rand catagory picked " + category);
+            ToolkitLogger.Log("rand catagory picked " + category);
 			break;
 		}
 		case Vote_VotingIncident.VoteLabelType.Type:
@@ -42,7 +42,7 @@ public class StorytellerComp_HodlBot : StorytellerComp_ToryTalker
 			EventType randType = RandomType();
 			source = source.Where((VotingIncidentEntry s) => s.incident.eventType == randType).ToList();
 			str = string.Concat("Which ", randType, " event should happen?");
-            ToolkitCoreLogger.Log("rand type picked " + randType);
+            ToolkitLogger.Log("rand type picked " + randType);
 			break;
 		}
 		}
@@ -61,7 +61,7 @@ public class StorytellerComp_HodlBot : StorytellerComp_ToryTalker
 		}
 		if (winners.Count < 3)
 		{
-            ToolkitCoreLogger.Log("Less than 3 possible votes were found");
+            ToolkitLogger.Log("Less than 3 possible votes were found");
 			yield break;
 		}
 		Dictionary<int, VotingIncident> dictionary = new Dictionary<int, VotingIncident>();

@@ -23,12 +23,12 @@ public class Cannibal : VotingHelper
 			IIncidentTarget obj2 = target;
 			map = (Map)(object)((obj2 is Map) ? obj2 : null);
 			List<Pawn> candidates = map.mapPawns.FreeColonistsSpawned.ToList();
-            ToolkitCoreLogger.Log("finding candidates");
+            ToolkitLogger.Log("finding candidates");
 			traitDef = DefDatabase<TraitDef>.GetNamed("Cannibal", true);
-            ToolkitCoreLogger.Log("finding specific candidate");
+            ToolkitLogger.Log("finding specific candidate");
 			if (candidates != null && candidates.Count > 0)
 			{
-                ToolkitCoreLogger.Log("Randomizing Candiates");
+                ToolkitLogger.Log("Randomizing Candiates");
 				candidates.Shuffle();
 				foreach (Pawn candidate in candidates)
 				{

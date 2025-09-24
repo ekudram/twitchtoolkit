@@ -26,7 +26,7 @@ public class ChangeGender : IncidentHelperVariables
 			return false;
 		}
 		pawn = gameComponent.PawnAssignedToUser(viewer.username);
-        ToolkitCoreLogger.Log("changing gender");
+        ToolkitLogger.Log("changing gender");
 		return true;
 	}
 
