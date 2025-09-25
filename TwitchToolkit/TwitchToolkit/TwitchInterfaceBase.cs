@@ -1,8 +1,8 @@
 ﻿/*
  * File: TwitchInterfaceBase.cs
- * Project: ToolkitCore
+ * Project: TwitchToolkit
  * 
- * Updated: October 26, 2023
+ * Updated: September 25, 2023
  * Modified Using: DeepSeek AI
  * 
  * Summary of Changes:
