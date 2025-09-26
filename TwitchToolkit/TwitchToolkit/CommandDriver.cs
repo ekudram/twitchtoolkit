@@ -31,14 +31,14 @@ public class CommandDriver
     /// <summary>
     /// Executes the command with MoonSharp Lua scripting support
     /// </summary>
-    /// <param name="chatMessage">The Twitch message that triggered the command</param>
-    /// <exception cref="ArgumentNullException">Thrown if chatMessage or command is null</exception>
-    public virtual void RunCommand(TwitchMessageWrapper chatMessage)
+    /// <param name="messageWrapper">The Twitch message that triggered the command</param>
+    /// <exception cref="ArgumentNullException">Thrown if messageWrapper or command is null</exception>
+    public virtual void RunCommand(TwitchMessageWrapper messageWrapper)
     {
-        if (chatMessage == null)
+        if (messageWrapper == null)
         {
             ToolkitLogger.Error("Twitch message cannot be null");
-            throw new ArgumentNullException(nameof(chatMessage));
+            throw new ArgumentNullException(nameof(messageWrapper));
         }
 
         if (command == null)
@@ -50,7 +50,7 @@ public class CommandDriver
         ToolkitLogger.Debug("Reached CommandDriver.RunCommand"); // Updated debug line
 
         ToolkitLogger.Debug("Filtering command");
-        string output = FilterTags(chatMessage, command.outputMessage);
+        string output = FilterTags(messageWrapper, command.outputMessage);
         ToolkitLogger.Debug("Command filtered");
 
         try
@@ -87,10 +87,10 @@ public class CommandDriver
     /// <summary>
     /// Replaces template tags in the input string with viewer-specific data
     /// </summary>
-    /// <param name="chatMessage">The source Twitch message</param>
+    /// <param name="messageWrapper">The source Twitch message</param>
     /// <param name="input">The input string with template tags</param>
     /// <returns>The processed string with tags replaced</returns>
-    public string FilterTags(TwitchMessageWrapper chatMessage, string input)
+    public string FilterTags(TwitchMessageWrapper messageWrapper, string input)
     {
         if (string.IsNullOrEmpty(input))
         {
@@ -99,7 +99,7 @@ public class CommandDriver
         }
 
         ToolkitLogger.Debug("Starting filter");
-        Viewer viewer = Viewers.GetViewer(chatMessage.Username);
+        Viewer viewer = Viewers.GetViewer(messageWrapper.Username);
         StringBuilder output = new StringBuilder(input);
 
         // Replace basic template tags
