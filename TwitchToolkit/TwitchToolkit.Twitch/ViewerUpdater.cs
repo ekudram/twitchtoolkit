@@ -6,7 +6,7 @@
  * Updated: September 14, 2025
  * 
  * Summary of Changes:
- * 1. Updated ParseMessage to handle ChatMessage instead of ITwitchMessage
+ * 1. Updated ParseMessage to handle TwitchMessageWrapper instead of ChatMessage
  * 2. Added ParseWhisper method implementation for handling whispers
  * 3. Added additional null checks and error handling
  * 4. Added debug logging for troubleshooting
@@ -37,6 +37,31 @@ public class ViewerUpdater : TwitchInterfaceBase
         }
     }
 
+    // NEW: Override the TwitchMessageWrapper version
+    public override void ParseMessage(TwitchMessageWrapper messageWrapper)
+    {
+        try
+        {
+            if (messageWrapper == null)
+            {
+                ToolkitLogger.Warning("Received null message wrapper");
+                return;
+            }
+
+            Viewer viewer = Viewers.GetViewer(messageWrapper.Username);
+            UpdateViewerFromMessageWrapper(viewer, messageWrapper);
+
+            // Update last seen timestamp for activity tracking
+            viewer.last_seen = DateTime.Now;
+        }
+        catch (System.Exception e)
+        {
+            ToolkitLogger.Error($"Error processing message from {messageWrapper?.Username}: {e.Message}");
+        }
+    }
+
+    // REMOVE or COMMENT OUT the old ParseMessage method that takes ChatMessage
+    /*
     public override void ParseMessage(ChatMessage chatMessage)
     {
         try
@@ -58,7 +83,10 @@ public class ViewerUpdater : TwitchInterfaceBase
             ToolkitLogger.Error($"Error processing chat message from {chatMessage?.Username}: {e.Message}");
         }
     }
+    */
 
+    // REMOVE or COMMENT OUT the old ParseWhisper method that takes WhisperMessage
+    /*
     public override void ParseWhisper(WhisperMessage whisperMessage)
     {
         try
@@ -80,6 +108,7 @@ public class ViewerUpdater : TwitchInterfaceBase
             ToolkitLogger.Error($"Error processing whisper from {whisperMessage?.Username}: {e.Message}");
         }
     }
+    */
 
     // New method to handle UserState changes
     private void OnUserStateChangedHandler(object sender, OnUserStateChangedArgs e)
@@ -110,46 +139,43 @@ public class ViewerUpdater : TwitchInterfaceBase
         }
     }
 
-    // Helper method to update viewer from ChatMessage
-    private void UpdateViewerFromMessage(Viewer viewer, ChatMessage chatMessage)
+    // NEW: Helper method to update viewer from TwitchMessageWrapper
+    private void UpdateViewerFromMessageWrapper(Viewer viewer, TwitchMessageWrapper messageWrapper)
     {
-        if (viewer == null || chatMessage == null) return;
+        if (viewer == null || messageWrapper == null) return;
 
         // Update viewer color code
-        if (!string.IsNullOrEmpty(chatMessage.ColorHex))
+        if (!string.IsNullOrEmpty(messageWrapper.ColorHex))
         {
-            ToolkitSettings.ViewerColorCodes[chatMessage.Username.ToLower()] =
-                chatMessage.ColorHex.Replace("#", "");
+            ToolkitSettings.ViewerColorCodes[messageWrapper.Username.ToLower()] =
+                messageWrapper.ColorHex.Replace("#", "");
         }
 
-        // Update moderator status
-        if (chatMessage.IsModerator && !viewer.mod)
+        // Update moderator status using HasBadges
+        if (messageWrapper.HasBadges("moderator", "broadcaster", "global_mod", "staff") && !viewer.mod)
         {
             viewer.SetAsModerator();
-            ToolkitLogger.Debug($"Updated {chatMessage.Username} to moderator via chat message");
+            ToolkitLogger.Debug($"Updated {messageWrapper.Username} to moderator via message wrapper");
         }
 
-        // Update subscriber status
-        if (chatMessage.IsSubscriber && !viewer.IsSub)
+        // Update subscriber status using HasBadges
+        if (messageWrapper.HasBadges("subscriber", "founder") && !viewer.IsSub)
         {
             viewer.subscriber = true;
-            ToolkitLogger.Debug($"Updated {chatMessage.Username} to subscriber via chat message");
+            ToolkitLogger.Debug($"Updated {messageWrapper.Username} to subscriber via message wrapper");
         }
 
-        // Update VIP status
-        if (chatMessage.IsVip && !viewer.IsVIP)
+        // Update VIP status using HasBadges
+        if (messageWrapper.HasBadges("vip") && !viewer.IsVIP)
         {
             viewer.vip = true;
-            ToolkitLogger.Debug($"Updated {chatMessage.Username} to VIP via chat message");
+            ToolkitLogger.Debug($"Updated {messageWrapper.Username} to VIP via message wrapper");
         }
 
-        // Update user type from chat message
-        UpdateViewerFromUserType(viewer, chatMessage.UserType);
-
-        // Update badges from chat message if available
-        if (chatMessage.Badges != null && chatMessage.Badges.Count > 0)
+        // Update broadcaster status
+        if (messageWrapper.IsBroadcaster)
         {
-            UpdateViewerBadges(viewer, chatMessage.Badges);
+            ToolkitLogger.Debug($"{messageWrapper.Username} is the broadcaster");
         }
     }
 
@@ -205,13 +231,6 @@ public class ViewerUpdater : TwitchInterfaceBase
                     ToolkitLogger.Debug($"Updated {viewer.username} to moderator via user type");
                 }
                 break;
-            //case TwitchLib.Client.Enums.UserType.VIP:
-            //    if (!viewer.IsVIP)
-            //    {
-            //        viewer.vip = true;
-            //        ToolkitLogger.Debug($"Updated {viewer.username} to VIP via user type");
-            //    }
-            //    break;
             case TwitchLib.Client.Enums.UserType.Admin:
             case TwitchLib.Client.Enums.UserType.GlobalModerator:
             case TwitchLib.Client.Enums.UserType.Staff:

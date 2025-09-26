@@ -8,20 +8,23 @@
  * Summary of Changes:
  * 1. Removed incorrect constructor that tried to pass Game parameter to base.
  * 2. Added default constructor required for GameComponent.
- * 
- * Why These Changes Were Made:
- * GameComponent in RimWorld does not have a constructor that accepts parameters.
- * The base GameComponent class only has a default constructor, so we must use that.
+ * 3. Updated to use TwitchMessageWrapper instead of separate ChatMessage/WhisperMessage methods
  */
 
 using ToolkitCore;
 using TwitchLib.Client.Models;
+using Verse;
 
 namespace TwitchToolkit
 {
-    public abstract class TwitchToolkitInterfaceBase : ToolkitCore.TwitchInterfaceBase
+    public abstract class TwitchInterfaceBase : ToolkitCore.TwitchInterfaceBase
     {
-        // Add the new method that takes TwitchMessageWrapper
+        // Default constructor required for GameComponent
+        public TwitchInterfaceBase() { }
+
+        public TwitchInterfaceBase(Game game) { }
+
+        // NEW: Main method that takes TwitchMessageWrapper
         public abstract void ParseMessage(TwitchMessageWrapper messageWrapper);
 
         // Override the existing methods to route to the new method
@@ -36,14 +39,3 @@ namespace TwitchToolkit
         }
     }
 }
-
-//using TwitchLib.Client.Models.Interfaces;
-//using Verse;
-
-//namespace ToolkitCore
-//{
-//    public abstract class TwitchInterfaceBase : GameComponent
-//    {
-//        public abstract void ParseMessage(ITwitchMessage twitchMessage);
-//    }
-//}
