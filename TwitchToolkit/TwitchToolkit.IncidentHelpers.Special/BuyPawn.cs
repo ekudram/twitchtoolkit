@@ -1,3 +1,8 @@
+/*
+ * Project: Twitch Toolkit
+ * File: BuyPawn.cs
+ * 
+ */
 using System;
 using System.Collections.Generic;
 using RimWorld;
@@ -47,16 +52,7 @@ public class BuyPawn : IncidentHelperVariables
 
 	public override void TryExecute()
 	{
-		//IL_0082: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00b0: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00ba: Expected O, but got Unknown
-		//IL_00bd: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00d4: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00d9: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00f5: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00fa: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_010c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_010e: Unknown result type (might be due to invalid IL or missing erences)
+
 		PawnKindDef pawnKind = PawnKindDefOf.Colonist;
 		Faction ofPlayer = Faction.OfPlayer;
 		PawnGenerationRequest request = new PawnGenerationRequest(pawnKind, ofPlayer, (PawnGenerationContext)2, map.Tile, false, false, false, false, true, 1f, false, false, true, true, true, false, false, false, false, 0f, 0f, (Pawn)null, 1f);
