@@ -22,46 +22,27 @@ public class MessageInterface : TwitchInterfaceBase
         ToolkitLogger.Debug("MessageInterface initialized");  // Added debug
     }
 
-    public override void ParseMessage(ChatMessage chatMessage)
+    public override void ParseMessage(TwitchMessageWrapper messageWrapper)
     {
-        ToolkitLogger.Debug($"Received chat message from {chatMessage.Username}: {chatMessage.Message}");
+        ToolkitLogger.Debug($"Received chat message from {messageWrapper.Username}: {messageWrapper.Message}");
 
-        TwitchMessageWrapper wrappedMessage = new TwitchMessageWrapper(chatMessage);
-        ProcessSpecialMessages(wrappedMessage);
+        ProcessSpecialMessages(messageWrapper);
 
         if (ToolkitCoreSettings.forceWhispers)
         {
-            TwitchWrapper.SendChatMessage($"@{chatMessage.Username} Please use whispers for commands");
+            TwitchWrapper.SendChatMessage($"@{messageWrapper.Username} Please use whispers for commands");
             ToolkitLogger.Debug("Force whispers enabled - command not processed");
         }
         else
         {
             ToolkitLogger.Debug("Processing command from public chat");
-            ProcessCommand(wrappedMessage);
+            ProcessCommand(messageWrapper);
         }
     }
-
-    public override void ParseWhisper(WhisperMessage whisperMessage)
+    private void ProcessSpecialMessages(TwitchMessageWrapper messageWrapper)
     {
-        if (whisperMessage == null)
-        {
-            ToolkitLogger.Warning("Received null whisper message");
-            return;
-        }
-
-        ToolkitLogger.Debug($"Received whisper from {whisperMessage.Username}: {whisperMessage.Message}");
-
-        TwitchMessageWrapper wrappedMessage = new TwitchMessageWrapper(whisperMessage);
-        ProcessSpecialMessages(wrappedMessage);
-
-        ToolkitLogger.Debug("Processing command from whisper");
-        ProcessCommand(wrappedMessage);
-    }
-
-    private void ProcessSpecialMessages(TwitchMessageWrapper message)
-    {
-        string lowerMessage = message.Message.ToLower();
-        string lowerUsername = message.Username.ToLower();
+        string lowerMessage = messageWrapper.Message.ToLower();
+        string lowerUsername = messageWrapper.Username.ToLower();
 
         if (lowerMessage == "!easteregg")
         {
@@ -101,19 +82,18 @@ public class MessageInterface : TwitchInterfaceBase
             }
         }
     }
-
-    private void ProcessCommand(TwitchMessageWrapper message)
+    private void ProcessCommand(TwitchMessageWrapper messageWrapper)
     {
-        ToolkitLogger.Debug($"Processing command/message: {message.Message} from user: {message.Username}");
-        Viewer viewer = Viewers.GetViewer(message.Username);
+        ToolkitLogger.Debug($"Processing command/message: {messageWrapper.Message} from user: {messageWrapper.Username}");
+        Viewer viewer = Viewers.GetViewer(messageWrapper.Username);
         if (viewer == null) return;
 
         if (Helper.ModActive)
         {
-            CommandsHandler.CheckCommand(message);
+            CommandsHandler.CheckCommand(messageWrapper);
         }
 
-        if (VoteHandler.voteActive && int.TryParse(message.Message, out int voteId))
+        if (VoteHandler.voteActive && int.TryParse(messageWrapper.Message, out int voteId))
         {
             VoteHandler.currentVote.RecordVote(viewer.id, voteId - 1);
         }

@@ -60,57 +60,6 @@ public class ViewerUpdater : TwitchInterfaceBase
         }
     }
 
-    // REMOVE or COMMENT OUT the old ParseMessage method that takes ChatMessage
-    /*
-    public override void ParseMessage(ChatMessage chatMessage)
-    {
-        try
-        {
-            if (chatMessage == null)
-            {
-                ToolkitLogger.Warning("Received null chat message");
-                return;
-            }
-
-            Viewer viewer = Viewers.GetViewer(chatMessage.Username);
-            UpdateViewerFromMessage(viewer, chatMessage);
-
-            // Update last seen timestamp for activity tracking
-            viewer.last_seen = DateTime.Now;
-        }
-        catch (System.Exception e)
-        {
-            ToolkitLogger.Error($"Error processing chat message from {chatMessage?.Username}: {e.Message}");
-        }
-    }
-    */
-
-    // REMOVE or COMMENT OUT the old ParseWhisper method that takes WhisperMessage
-    /*
-    public override void ParseWhisper(WhisperMessage whisperMessage)
-    {
-        try
-        {
-            if (whisperMessage == null)
-            {
-                ToolkitLogger.Warning("Received null whisper message");
-                return;
-            }
-
-            Viewer viewer = Viewers.GetViewer(whisperMessage.Username);
-            viewer.last_seen = DateTime.Now;
-
-            ToolkitLogger.Debug($"Received whisper from {whisperMessage.Username}: {whisperMessage.Message}");
-            // Add whisper-specific handling here if needed
-        }
-        catch (System.Exception e)
-        {
-            ToolkitLogger.Error($"Error processing whisper from {whisperMessage?.Username}: {e.Message}");
-        }
-    }
-    */
-
-    // New method to handle UserState changes
     private void OnUserStateChangedHandler(object sender, OnUserStateChangedArgs e)
     {
         try

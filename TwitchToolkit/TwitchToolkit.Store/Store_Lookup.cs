@@ -22,11 +22,11 @@ public class Store_Lookup : TwitchInterfaceBase
 	{
 	}
 
-	public override void ParseMessage(ChatMessage ChatMessage)
+	public override void ParseMessage(TwitchMessageWrapper messageWrapper)
 	{
-		if (ChatMessage.Message.StartsWith("!lookup"))
+		if (messageWrapper.Message.StartsWith("!lookup"))
 		{
-			string[] command = ChatMessage.Message.Split(' ');
+			string[] command = messageWrapper.Message.Split(' ');
 			if (command.Length < 2)
 			{
 				return;
@@ -45,33 +45,33 @@ public class Store_Lookup : TwitchInterfaceBase
 			{
 				searchQuery = "";
 			}
-			FindLookup(ChatMessage, searchObject, searchQuery);
+			FindLookup(messageWrapper, searchObject, searchQuery);
 		}
 		Store_Logger.LogString("Finished lookup parse");
 	}
 
-	public void FindLookup(ChatMessage ChatMessage, string searchObject, string searchQuery)
+	public void FindLookup(TwitchMessageWrapper messageWrapper, string searchObject, string searchQuery)
 	{
 		List<string> results = new List<string>();
 		switch (searchObject)
 		{
 		case "disease":
-			FindLookup(ChatMessage, "diseases", searchQuery);
+			FindLookup(messageWrapper, "diseases", searchQuery);
 			break;
 		case "skill":
-			FindLookup(ChatMessage, "skills", searchQuery);
+			FindLookup(messageWrapper, "skills", searchQuery);
 			break;
 		case "event":
-			FindLookup(ChatMessage, "events", searchQuery);
+			FindLookup(messageWrapper, "events", searchQuery);
 			break;
 		case "item":
-			FindLookup(ChatMessage, "items", searchQuery);
+			FindLookup(messageWrapper, "items", searchQuery);
 			break;
 		case "animal":
-			FindLookup(ChatMessage, "animals", searchQuery);
+			FindLookup(messageWrapper, "animals", searchQuery);
 			break;
 		case "trait":
-			FindLookup(ChatMessage, "traits", searchQuery);
+			FindLookup(messageWrapper, "traits", searchQuery);
 			break;
 		case "diseases":
 		{
@@ -104,7 +104,7 @@ public class Store_Lookup : TwitchInterfaceBase
 				TaggedString labelCap = ((Def)disease).LabelCap;
 				results.Add(string.Join("", ((TaggedString)( labelCap)).RawText.Split(' ')).ToLower());
 			}
-			SendTenResults(ChatMessage, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
+			SendTenResults(messageWrapper, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
 			break;
 		}
 		case "skills":
@@ -130,7 +130,7 @@ public class Store_Lookup : TwitchInterfaceBase
 			{
 				results.Add(((Def)skill).defName.ToLower());
 			}
-			SendTenResults(ChatMessage, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
+			SendTenResults(messageWrapper, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
 			break;
 		}
 		case "events":
@@ -143,7 +143,7 @@ public class Store_Lookup : TwitchInterfaceBase
 			{
 				results.Add(string.Join("", evt.abbreviation.Split(' ')).ToLower());
 			}
-			SendTenResults(ChatMessage, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
+			SendTenResults(messageWrapper, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
 			break;
 		}
 		case "items":
@@ -154,7 +154,7 @@ public class Store_Lookup : TwitchInterfaceBase
 			{
 				results.Add(string.Join("", item.abr.Split(' ')).ToLower());
 			}
-			SendTenResults(ChatMessage, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
+			SendTenResults(messageWrapper, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
 			break;
 		}
 		case "animals":
@@ -190,7 +190,7 @@ public class Store_Lookup : TwitchInterfaceBase
 			{
 				results.Add(((Def)animal).defName.ToLower());
 			}
-			SendTenResults(ChatMessage, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
+			SendTenResults(messageWrapper, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
 			break;
 		}
 		case "traits":
@@ -201,13 +201,13 @@ public class Store_Lookup : TwitchInterfaceBase
 			{
 				results.Add(trait.label);
 			}
-			SendTenResults(ChatMessage, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
+			SendTenResults(messageWrapper, GenText.CapitalizeFirst(searchObject), searchQuery, results.ToArray());
 			break;
 		}
 		}
 	}
 
-	public void SendTenResults(ChatMessage ChatMessage, string searchObject, string searchQuery, string[] results)
+	public void SendTenResults(TwitchMessageWrapper messageWrapper, string searchObject, string searchQuery, string[] results)
 	{
 		if (results.Count() < 1)
 		{
@@ -224,9 +224,4 @@ public class Store_Lookup : TwitchInterfaceBase
 		}
 		TwitchWrapper.SendChatMessage(output);
 	}
-
-    public override void ParseWhisper(WhisperMessage whisperMessage)
-    {
-        throw new System.NotImplementedException();
-    }
 }

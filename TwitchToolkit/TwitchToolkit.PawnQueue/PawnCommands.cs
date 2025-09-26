@@ -18,11 +18,11 @@ public class PawnCommands : TwitchInterfaceBase
 	{
 	}
 
-	public override void ParseMessage(ChatMessage ChatMessage)
+	public override void ParseMessage(TwitchMessageWrapper messageWrapper)
 	{
-		Viewer viewer = Viewers.GetViewer(ChatMessage.Username);
+		Viewer viewer = Viewers.GetViewer(messageWrapper.Username);
 		GameComponentPawns component = Current.Game.GetComponent<GameComponentPawns>();
-		if (ChatMessage.Message.StartsWith("!mypawnskills"))
+		if (messageWrapper.Message.StartsWith("!mypawnskills"))
 		{
 			if (!component.HasUserBeenNamed(viewer.username))
 			{
@@ -50,7 +50,7 @@ public class PawnCommands : TwitchInterfaceBase
 			}
 			TwitchWrapper.SendChatMessage(output);
 		}
-		if (ChatMessage.Message.StartsWith("!mypawnstory"))
+		if (messageWrapper.Message.StartsWith("!mypawnstory"))
 		{
 			if (!component.HasUserBeenNamed(viewer.username))
 			{
@@ -108,9 +108,9 @@ public class PawnCommands : TwitchInterfaceBase
 			}
 			TwitchWrapper.SendChatMessage(output2);
 		}
-		if (ChatMessage.Message.StartsWith("!changepawnname"))
+		if (messageWrapper.Message.StartsWith("!changepawnname"))
 		{
-			string[] command3 = ChatMessage.Message.Split(' ');
+			string[] command3 = messageWrapper.Message.Split(' ');
 			if (command3.Length < 2)
 			{
 				return;
@@ -136,13 +136,13 @@ public class PawnCommands : TwitchInterfaceBase
 		}
 		if (Viewer.IsModerator(viewer.username) || viewer.username == ToolkitSettings.Channel)
 		{
-			if (ChatMessage.Message.StartsWith("!unstickpeople"))
+			if (messageWrapper.Message.StartsWith("!unstickpeople"))
 			{
 				Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
 			}
-			if (ChatMessage.Message.StartsWith("!approvename"))
+			if (messageWrapper.Message.StartsWith("!approvename"))
 			{
-				string[] command2 = ChatMessage.Message.Split(' ');
+				string[] command2 = messageWrapper.Message.Split(' ');
 				if (command2.Length < 2)
 				{
 					return;
@@ -163,9 +163,9 @@ public class PawnCommands : TwitchInterfaceBase
 				pawn.Name = ((Name)new NameTriple(old.First, nameRequests[username2], old.Last));
 				TwitchWrapper.SendChatMessage($"@{viewer.username} approved request for name change from {old} to {pawn.Name}");
 			}
-			if (ChatMessage.Message.StartsWith("!declinename"))
+			if (messageWrapper.Message.StartsWith("!declinename"))
 			{
-				string[] command = ChatMessage.Message.Split(' ');
+				string[] command = messageWrapper.Message.Split(' ');
 				if (command.Length < 2)
 				{
 					return;
@@ -197,9 +197,4 @@ public class PawnCommands : TwitchInterfaceBase
 			}
 		}
 	}
-
-    public override void ParseWhisper(WhisperMessage whisperMessage)
-    {
-        throw new NotImplementedException();
-    }
 }
