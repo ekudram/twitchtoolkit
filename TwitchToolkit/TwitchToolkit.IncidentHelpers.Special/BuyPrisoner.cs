@@ -1,3 +1,7 @@
+/*
+ * Project: TwitchToolkit
+ * File: BuyPrisoner.cs
+ */
 using RimWorld;
 using ToolkitCore;
 using TwitchToolkit.Incidents;
