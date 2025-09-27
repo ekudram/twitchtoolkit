@@ -2,8 +2,8 @@
  * File: ToolkitInitializer.cs
  * Project: Toolkit
  * 
- * Created: [Current Date]
- * Updated: [Current Date]
+ * Created: September 16, 2025
+ * Updated: September 20, 2025
  * 
  * Summary of Changes:
  * 1. Initial version - mod initializer that runs after all mods are loaded
@@ -26,7 +26,7 @@ namespace Toolkit
             // Queue initialization to run on the main thread after loading is complete
             LongEventHandler.QueueLongEvent(
                 Initialize,
-                "ToolkitInitialization",
+                null,
                 false,
                 ExceptionHandler
             );

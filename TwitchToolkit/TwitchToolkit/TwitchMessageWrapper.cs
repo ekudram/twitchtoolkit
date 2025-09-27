@@ -5,6 +5,32 @@
  * Used to wrap TwitchLib ChatMessage and WhisperMessage for unified access
  * 
  * Updated: Added viewer badge lookup for whisper messages
+ * 
+ * Key Features:
+ * 1. Unified interface for chat and whisper messages
+ * 2. Badge status checking
+ * 3. Implicit conversion operators for ease of use
+ * 4. Immutable properties for safety
+ * 5. Use this instead of ChatMessage or WhisperMessage directly in commands and other handlers
+ * 6. Replaces previous ITwitchMessage class
+ *
+ * Copyright (c) 2025 Captolamia
+ * 
+ *  * This file is part of TwitchToolkit.
+ * TwitchToolkit is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * TwitchToolkit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with TwitchToolkit. If not, see <http://www.gnu.org/licenses/>.
+
+ * 
  */
 using System;
 using System.Collections.Generic;

@@ -3,15 +3,17 @@
  * Project: TwitchToolkit
  * 
  * Updated: September 25, 2023
- * Modified Using: DeepSeek AI
- * 
+ *  * 
  * Summary of Changes:
  * 1. Removed incorrect constructor that tried to pass Game parameter to base.
  * 2. Added default constructor required for GameComponent.
  * 3. Updated to use TwitchMessageWrapper instead of separate ChatMessage/WhisperMessage methods
+ * 4. Added abstract ParseMessage method for TwitchMessageWrapper
+ * 5. Overrode existing ParseMessage and ParseWhisper to route to new method
+ * 6. Removed unused usings TooltkitCore and System
+ * 
  */
 
-using ToolkitCore;
 using TwitchLib.Client.Models;
 using Verse;
 

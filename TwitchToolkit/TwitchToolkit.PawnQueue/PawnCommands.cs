@@ -1,10 +1,19 @@
+/*
+ * Program: TwitchToolkit
+ * File: PawnCommands.cs
+ * 
+ * Usage: Handles pawn-related commands from Twitch chat, including skill and story inquiries, and name change requests.
+ * 
+ * Changes:
+ *  Now uses TwitchMessageWrapper instead of ChatMessage for better integration.
+ *  
+ */
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RimWorld;
 using ToolkitCore;
-using TwitchLib.Client.Models;
 using TwitchToolkit.Store;
 using Verse;
 

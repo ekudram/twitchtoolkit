@@ -1,3 +1,13 @@
+/*
+ * Project: TwitchToolkit
+ * File: Viewer.cs
+ * 
+ * Usage: Represents a Twitch viewer with properties and methods for managing their status, coins, and karma.
+ * 
+ * File under the MIT License.
+ * File is unchanged from original.
+ * 
+ */
 using System;
 using System.Collections.Generic;
 using TwitchToolkit.Store;
