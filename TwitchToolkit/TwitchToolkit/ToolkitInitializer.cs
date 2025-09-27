@@ -28,7 +28,7 @@ namespace Toolkit
                 Initialize,
                 null,
                 false,
-                ExceptionHandler
+                ExceptionHandler, true
             );
         }
 

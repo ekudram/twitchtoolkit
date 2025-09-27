@@ -69,7 +69,7 @@ public class Command : Def
     /// <exception cref="InvalidOperationException">Thrown if command text is null</exception>
     public void RunCommand(TwitchMessageWrapper messageWrapper)
     {
-        ToolkitLogger.Debug($"Running command: {command}");
+        ToolkitLogger.Debug($"Running command: {command} Message: {messageWrapper.Message}");
 
         if (messageWrapper == null)
         {
