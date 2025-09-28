@@ -1,9 +1,14 @@
+/*
+ * Project: TwitchToolkit
+ * File: IncidentWorker_Raid.cs
+ */
+
+using LudeonTK;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LudeonTK;
-using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -41,7 +46,7 @@ public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 			}
 			else if (!GenCollection.TryRandomElementByWeight<PawnsArrivalModeDef>(parms.raidStrategy.arriveModes.Where((PawnsArrivalModeDef x) => x.Worker.CanUseWith(parms)), (Func<PawnsArrivalModeDef, float>)((PawnsArrivalModeDef x) => x.Worker.GetSelectionWeight(parms)), out parms.raidArrivalMode))
 			{
-				Log.Error("Could not resolve arrival mode for raid. Defaulting to EdgeWalkIn. parms=" + parms);
+				ToolkitLogger.Error("Could not resolve arrival mode for raid. Defaulting to EdgeWalkIn. parms=" + parms);
 				parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
 			}
 		}
@@ -49,17 +54,6 @@ public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 
 	protected override bool TryExecuteWorker(IncidentParms parms)
 	{
-		//IL_0149: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0150: Expected O, but got Unknown
-		//IL_028a: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_028f: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0299: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_029e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_031c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_036b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_03a9: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_03b6: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_03b8: Unknown result type (might be due to invalid IL or missing erences)
 		ResolveRaidPoints(parms);
 		if (disableEvent)
 		{
@@ -103,7 +97,7 @@ public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 		}
 		if (list.Count == 0)
 		{
-			Log.Error("Got no pawns spawning raid from parms " + parms);
+			ToolkitLogger.Error("Got no pawns spawning raid from parms " + parms);
 			return false;
 		}
 		parms.raidArrivalMode.Worker.Arrive(list, parms);
@@ -159,8 +153,6 @@ public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 
 	public void DoTable_RaidFactionSampled()
 	{
-		//IL_00cc: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00d3: Expected O, but got Unknown
 		int ticksGame = Find.TickManager.TicksGame;
 		Find.TickManager.DebugSetTicksGame(36000000);
 		List<TableDataGetter<Faction>> list = new List<TableDataGetter<Faction>>();
@@ -194,8 +186,6 @@ public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 
 	public void DoTable_RaidStrategySampled(Faction fac)
 	{
-		//IL_00ca: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00d1: Expected O, but got Unknown
 		int ticksGame = Find.TickManager.TicksGame;
 		Find.TickManager.DebugSetTicksGame(36000000);
 		List<TableDataGetter<RaidStrategyDef>> list = new List<TableDataGetter<RaidStrategyDef>>();
@@ -234,8 +224,6 @@ public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 
 	public void DoTable_RaidArrivalModeSampled(Faction fac)
 	{
-		//IL_00c7: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00ce: Expected O, but got Unknown
 		int ticksGame = Find.TickManager.TicksGame;
 		Find.TickManager.DebugSetTicksGame(36000000);
 		List<TableDataGetter<PawnsArrivalModeDef>> list = new List<TableDataGetter<PawnsArrivalModeDef>>();
@@ -269,4 +257,5 @@ public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 		Find.TickManager.DebugSetTicksGame(ticksGame);
 		DebugTables.MakeTablesDialog<PawnsArrivalModeDef>(DefDatabase<PawnsArrivalModeDef>.AllDefs, list.ToArray());
 	}
+
 }

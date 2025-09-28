@@ -68,16 +68,6 @@ public class LevelPawn : IncidentHelperVariables
 
 	public override void TryExecute()
 	{
-		//IL_00f9: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00fe: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0100: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0103: Invalid comparison between Unknown and I4
-		//IL_011b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_011e: Invalid comparison between Unknown and I4
-		//IL_014a: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01c1: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_021b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0222: Unknown result type (might be due to invalid IL or missing erences)
 		float customMultiplier = ((LevelPawnSettings.xpMultiplier > 0f) ? LevelPawnSettings.xpMultiplier : 0.5f);
 		float xpWon = pawn.skills.GetSkill(skill).XpRequiredForLevelUp * customMultiplier * Rand.Range(0.5f, 1.5f);
 		xpWon = IncidentHelper_PointsHelper.RollProportionalGamePoints(storeIncident, pointsWager, xpWon);
