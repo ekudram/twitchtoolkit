@@ -54,7 +54,7 @@ public static class CommandEditor
 	{
 		if (!EditorPathExists())
 		{
-			ToolkitLogger.Log("Path for custom commands does not exist, creating");
+			ToolkitLogger.Error("Path for custom commands does not exist, creating");
 			return;
 		}
 		List<Command> allCommands = DefDatabase<Command>.AllDefs.ToList();
@@ -71,7 +71,7 @@ public static class CommandEditor
 		}
 		foreach (string custom in ToolkitSettings.CustomCommandDefs)
 		{
-            ToolkitLogger.Log("Loading custom command with defName " + custom);
+            //ToolkitLogger.Debug("Loading custom command with defName " + custom);
 			Command newCustom = new Command
 			{
 				defName = custom
@@ -100,93 +100,66 @@ public static class CommandEditor
 		string filePath = ((Def)command).defName + ".json";
 		try
 		{
-            ToolkitLogger.Log("CommandEditor: Starting LoadCopies");
-
-            // DEBUG: Check what commands are in DefDatabase BEFORE loading copies
             var initialCommands = DefDatabase<Command>.AllDefs.ToList();
-            ToolkitLogger.Log($"CommandEditor: Initial commands in DefDatabase: {initialCommands.Count}");
-            foreach (Command cmd in initialCommands)
-            {
-                ToolkitLogger.Log($"CommandEditor: Initial command: '{cmd.defName}' -> '{cmd.command}'");
-            }
-
-            if (!EditorPathExists())
-            {
-                ToolkitLogger.Log("CommandEditor: Path for custom commands does not exist, creating");
-                return;
-            }
 
             List<Command> allCommands = DefDatabase<Command>.AllDefs.ToList();
             ToolkitLogger.Log($"CommandEditor: Found {allCommands.Count} commands in DefDatabase");
-
 
             using StreamReader reader = File.OpenText(editorPath + filePath);
 			string json = reader.ReadToEnd();
 			JSONNode node = JSON.Parse(json);
 			if (node["command"] == null)
 			{
-                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Error("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.command = node["command"];
 			if (node["enabled"] == null)
 			{
-                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Error("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.enabled = node["enabled"].AsBool;
 			if (node["shouldBeInSeparateRoom"] == null)
 			{
-                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Error("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.shouldBeInSeparateRoom = node["shouldBeInSeparateRoom"].AsBool;
 			if (node["requiresMod"] == null)
 			{
-                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Error("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.requiresMod = node["requiresMod"].AsBool;
 			if (node["requiresAdmin"] == null)
 			{
-                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Error("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.requiresAdmin = node["requiresAdmin"].AsBool;
 			if (node["outputMessage"] == null)
 			{
-                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Error("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.outputMessage = node["outputMessage"];
 			if (node["isCustomMessage"] == null)
 			{
-                ToolkitLogger.Log("Copy of command file is missing critical info, delete file " + editorPath + filePath);
+                ToolkitLogger.Error("Copy of command file is missing critical info, delete file " + editorPath + filePath);
 			}
 			command.isCustomMessage = node["isCustomMessage"].AsBool;
 		}
 		catch (UnauthorizedAccessException e)
 		{
-            ToolkitLogger.Log(e.Message);
+            ToolkitLogger.Error(e.Message);
 		}
 	}
 
     private static bool EditorPathExists()
     {
         bool dataPathExists = Directory.Exists(editorPath);
-        ToolkitLogger.Log($"CommandEditor: Editor path '{editorPath}' exists: {dataPathExists}");
+		ToolkitLogger.Debug($"CommandEditor: Editor path '{editorPath}' exists: {dataPathExists}");
 
         if (!dataPathExists)
         {
-            ToolkitLogger.Log($"CommandEditor: Creating directory '{editorPath}'");
+            ToolkitLogger.Debug($"CommandEditor: Creating directory '{editorPath}'");
             Directory.CreateDirectory(editorPath);
         }
-
-        // List files in the directory for debugging
-        if (Directory.Exists(editorPath))
-        {
-            string[] files = Directory.GetFiles(editorPath, "*.json");
-            ToolkitLogger.Log($"CommandEditor: Found {files.Length} JSON files in editor path");
-            foreach (string file in files)
-            {
-                ToolkitLogger.Log($"CommandEditor: - {Path.GetFileName(file)}");
-            }
-        }
-
         return dataPathExists;
     }
 
@@ -213,6 +186,7 @@ public static class CommandEditor
 		{
 			throw new DirectoryNotFoundException();
 		}
+		ToolkitLogger.Debug($"SaveCopy of Commands");
 		string filePath = ((Def)command).defName + ".json";
 		StringBuilder json = new StringBuilder();
 		json.AppendLine("{");
