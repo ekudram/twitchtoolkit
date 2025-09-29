@@ -100,7 +100,27 @@ public static class CommandEditor
 		string filePath = ((Def)command).defName + ".json";
 		try
 		{
-			using StreamReader reader = File.OpenText(editorPath + filePath);
+            ToolkitLogger.Log("CommandEditor: Starting LoadCopies");
+
+            // DEBUG: Check what commands are in DefDatabase BEFORE loading copies
+            var initialCommands = DefDatabase<Command>.AllDefs.ToList();
+            ToolkitLogger.Log($"CommandEditor: Initial commands in DefDatabase: {initialCommands.Count}");
+            foreach (Command cmd in initialCommands)
+            {
+                ToolkitLogger.Log($"CommandEditor: Initial command: '{cmd.defName}' -> '{cmd.command}'");
+            }
+
+            if (!EditorPathExists())
+            {
+                ToolkitLogger.Log("CommandEditor: Path for custom commands does not exist, creating");
+                return;
+            }
+
+            List<Command> allCommands = DefDatabase<Command>.AllDefs.ToList();
+            ToolkitLogger.Log($"CommandEditor: Found {allCommands.Count} commands in DefDatabase");
+
+
+            using StreamReader reader = File.OpenText(editorPath + filePath);
 			string json = reader.ReadToEnd();
 			JSONNode node = JSON.Parse(json);
 			if (node["command"] == null)
@@ -145,17 +165,32 @@ public static class CommandEditor
 		}
 	}
 
-	private static bool EditorPathExists()
-	{
-		bool dataPathExists = Directory.Exists(editorPath);
-		if (!dataPathExists)
-		{
-			Directory.CreateDirectory(editorPath);
-		}
-		return dataPathExists;
-	}
+    private static bool EditorPathExists()
+    {
+        bool dataPathExists = Directory.Exists(editorPath);
+        ToolkitLogger.Log($"CommandEditor: Editor path '{editorPath}' exists: {dataPathExists}");
 
-	public static void LoadBackups()
+        if (!dataPathExists)
+        {
+            ToolkitLogger.Log($"CommandEditor: Creating directory '{editorPath}'");
+            Directory.CreateDirectory(editorPath);
+        }
+
+        // List files in the directory for debugging
+        if (Directory.Exists(editorPath))
+        {
+            string[] files = Directory.GetFiles(editorPath, "*.json");
+            ToolkitLogger.Log($"CommandEditor: Found {files.Length} JSON files in editor path");
+            foreach (string file in files)
+            {
+                ToolkitLogger.Log($"CommandEditor: - {Path.GetFileName(file)}");
+            }
+        }
+
+        return dataPathExists;
+    }
+
+    public static void LoadBackups()
 	{
 		foreach (Command backup in commandBackups)
 		{
