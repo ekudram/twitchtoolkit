@@ -11,7 +11,7 @@
   <PropertyGroup>
     <NuGetAuditMode>all</NuGetAuditMode>
     <NuGetAudit>True</NuGetAudit>
-    <BaseOutputPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\TwitchToolkit\v1.6\Assemblies</BaseOutputPath>
+    <BaseOutputPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\TwitchToolkit2_0e\v1.6\Assemblies</BaseOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <OutputPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\TwitchToolkit\v1.6\Assemblies</OutputPath>
