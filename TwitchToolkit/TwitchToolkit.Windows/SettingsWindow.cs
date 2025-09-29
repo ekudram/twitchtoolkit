@@ -17,7 +17,6 @@ public class SettingsWindow : Window
 
 	public override void DoWindowContents(Rect inRect)
 	{
-		//IL_0007: Unknown result type (might be due to invalid IL or missing erences)
 		Mod.DoSettingsWindowContents(inRect);
 	}
 

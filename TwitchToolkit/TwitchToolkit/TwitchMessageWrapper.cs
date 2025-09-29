@@ -52,6 +52,8 @@ namespace TwitchToolkit
         public bool IsVip { get; }
         public bool IsBroadcaster { get; }
         public string ColorHex { get; }
+        public string CustomRewardId { get; }
+        public int Bits { get; }
 
         // Add badge collections for more granular badge checking
         public List<KeyValuePair<string, string>> Badges { get; }
@@ -71,6 +73,8 @@ namespace TwitchToolkit
             IsVip = chatMessage.IsVip;
             IsBroadcaster = chatMessage.IsBroadcaster;
             ColorHex = chatMessage.ColorHex;
+            CustomRewardId = chatMessage.CustomRewardId;
+            Bits = chatMessage.Bits;
 
             // Initialize badges from ChatMessage
             Badges = chatMessage.Badges?.ToList() ?? new List<KeyValuePair<string, string>>();
@@ -87,6 +91,8 @@ namespace TwitchToolkit
             Message = whisperMessage.Message;
             IsWhisper = true;
             ColorHex = whisperMessage.ColorHex;
+            CustomRewardId = "";  // blank because this wont be called if its a whisper
+            Bits = 0; // bits are public only
 
             // For whispers, we need to check our viewer database for badge status
             var viewerBadgeInfo = GetViewerBadgeStatus(whisperMessage.Username);
@@ -119,6 +125,7 @@ namespace TwitchToolkit
             IsVip = original.IsVip;
             IsBroadcaster = original.IsBroadcaster;
             ColorHex = original.ColorHex;
+            CustomRewardId = original.CustomRewardId;
 
             // Copy the badge collections (they're immutable so sharing is safe)
             Badges = original.Badges;
