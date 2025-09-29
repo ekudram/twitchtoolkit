@@ -103,7 +103,7 @@ public static class CommandEditor
             var initialCommands = DefDatabase<Command>.AllDefs.ToList();
 
             List<Command> allCommands = DefDatabase<Command>.AllDefs.ToList();
-            ToolkitLogger.Log($"CommandEditor: Found {allCommands.Count} commands in DefDatabase");
+            // ToolkitLogger.Log($"CommandEditor: Found {allCommands.Count} commands in DefDatabase");
 
             using StreamReader reader = File.OpenText(editorPath + filePath);
 			string json = reader.ReadToEnd();
@@ -153,7 +153,7 @@ public static class CommandEditor
     private static bool EditorPathExists()
     {
         bool dataPathExists = Directory.Exists(editorPath);
-		ToolkitLogger.Debug($"CommandEditor: Editor path '{editorPath}' exists: {dataPathExists}");
+		// ToolkitLogger.Debug($"CommandEditor: Editor path '{editorPath}' exists: {dataPathExists}");
 
         if (!dataPathExists)
         {
