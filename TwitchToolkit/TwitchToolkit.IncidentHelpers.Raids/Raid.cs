@@ -1,6 +1,5 @@
 using RimWorld;
 using ToolkitCore;
-using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
 using IncidentWorker_RaidEnemy = RimWorld.IncidentWorker_RaidEnemy;
@@ -38,6 +37,7 @@ public class Raid : IncidentHelperVariables
 		target = (IIncidentTarget)(object)Current.Game.AnyPlayerHomeMap;
 		if (target == null)
 		{
+			ToolkitLogger.Debug("Raid is possilble no map!");
 			return false;
 		}
 		parms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatSmall, target);
