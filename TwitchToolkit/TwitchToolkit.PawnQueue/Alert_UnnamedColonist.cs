@@ -25,13 +25,6 @@ public class Alert_UnnamedColonist : Alert
 
 	public override AlertReport GetReport()
 	{
-		//IL_0014: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0019: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0092: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0097: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_009c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00a1: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00a4: Unknown result type (might be due to invalid IL or missing erences)
 		if (!ToolkitSettings.ViewerNamedColonistQueue)
 		{
 			return (AlertReport)(false);
@@ -51,9 +44,6 @@ public class Alert_UnnamedColonist : Alert
 
 	public override TaggedString GetExplanation()
 	{
-		//IL_0006: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_000b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_000e: Unknown result type (might be due to invalid IL or missing erences)
 		return (TaggedString)("These colonists need names");
 	}
 
