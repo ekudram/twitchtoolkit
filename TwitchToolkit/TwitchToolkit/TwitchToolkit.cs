@@ -24,7 +24,7 @@ namespace TwitchToolkit
 			this.RegisterTicker();
 		}
 
-		public override string SettingsCategory() => "Twitch Toolkit";
+		public override string SettingsCategory() => "Twitch Toolkit 2.0e";
 
 		public override void DoSettingsWindowContents(Rect inRect) => this.GetSettings<ToolkitSettings>().DoWindowContents(inRect);
 
@@ -45,6 +45,6 @@ namespace TwitchToolkit
 			this._lastTick = now;
 		}
 
-		public void RegisterTicker() => this.ticker = Ticker.Instance;
+        public void RegisterTicker() => this.ticker = Ticker.Instance;
 	}
 }

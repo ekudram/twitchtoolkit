@@ -117,7 +117,7 @@ public static class Settings_Storyteller
         // Added: Always show storyteller button option
         optionsListing.CheckboxLabeled("Always Show Storyteller Button", ref ToolkitSettings.AlwaysShowStorytellerButton);
 
-        if (optionsListing.ButtonTextLabeled("Edit Storyteller Packs", "Storyteller Packs"))
+        if (optionsListing.ButtonTextLabeled("Edit Storyteller Packs", "TTK Storyteller Packs", TextAnchor.UpperLeft, null, "TTK Polls"))
         {
             Window_StorytellerPacks window = new Window_StorytellerPacks();
             Find.WindowStack.TryRemove(window.GetType(), true);

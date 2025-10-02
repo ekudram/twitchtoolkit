@@ -10,7 +10,8 @@ public class AddTraitSettings : IncidentHelperVariablesSettings
 
 	public override void ExposeData()
 	{
-		Scribe_Values.Look<int>(ref maxTraits, "AddTraitSettings.maxTraits", 4, false);
+        ToolkitLogger.Debug($"=== ExposeData AddTraitSettings called! Mode: {Scribe.mode}");
+        Scribe_Values.Look<int>(ref maxTraits, "AddTraitSettings.maxTraits", 4, false);
 	}
 
 	public override void EditSettings()

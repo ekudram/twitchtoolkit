@@ -10,7 +10,8 @@ public class LevelPawnSettings : IncidentHelperVariablesSettings
 
 	public override void ExposeData()
 	{
-		Scribe_Values.Look<float>(ref xpMultiplier, "LevelPawnSettings.xpMultiplier", 1f, false);
+		ToolkitLogger.Debug($"=== ExposeData LevelPawnSettings called! Mode: {Scribe.mode}");
+        Scribe_Values.Look<float>(ref xpMultiplier, "LevelPawnSettings.xpMultiplier", 1f, false);
 	}
 
 	public override void EditSettings()

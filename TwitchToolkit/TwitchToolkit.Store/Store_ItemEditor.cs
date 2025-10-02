@@ -1,3 +1,8 @@
+/*
+ * Project: TwitchToolkit
+ * File: StoreItemEditor.cs
+ */ 
+
 using RimWorld;
 using SimpleJSON;
 using System;
@@ -28,8 +33,6 @@ public static class Store_ItemEditor
 			where (TradeabilityUtility.TraderCanSell(t.tradeability) || ThingSetMakerUtility.CanGenerate(t)) && (t.building == null || t.Minifiable || ToolkitSettings.MinifiableBuildings) && (t.FirstThingCategory != null || t.race != null) && t.BaseMarketValue > 0f && ((Def)t).defName != "Human"
 			select t).OrderBy(delegate(ThingDef t)
 		{
-			//IL_0001: Unknown result type (might be due to invalid IL or missing erences)
-			//IL_0006: Unknown result type (might be due to invalid IL or missing erences)
 			TaggedString labelCap = ((Def)t).LabelCap;
 			return ((TaggedString)( labelCap)).RawText;
 		});
@@ -66,10 +69,6 @@ public static class Store_ItemEditor
 
 	public static void UpdateStoreItems(List<ThingDef> allItems, List<int> itemPrices)
 	{
-		//IL_008d: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0092: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0096: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_009b: Unknown result type (might be due to invalid IL or missing erences)
 		int i;
 		for (i = 0; i < allItems.Count; i++)
 		{
@@ -90,8 +89,6 @@ public static class Store_ItemEditor
 
 	public static void UpdateStoreItemList()
 	{
-		//IL_011d: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_012b: Unknown result type (might be due to invalid IL or missing erences)
 		StringBuilder json = new StringBuilder();
 		if (!Directory.Exists(dataPath))
 		{
@@ -114,7 +111,7 @@ public static class Store_ItemEditor
 			if (search == null || search.Count() < 1)
 			{
 				finalCount--;
-				Log.Message($"Skipping Item: {allItems[i].defname} i: {i} finalCount: {finalCount}");
+				// ToolkitCoreLogger.Debug($"Skipping Item: {allItems[i].defname} i: {i} finalCount: {finalCount}");
 				continue;
 			}
 			ThingDef thing = search.ElementAt(0);

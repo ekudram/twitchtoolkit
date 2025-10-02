@@ -136,7 +136,8 @@ public class Store_Component : GameComponent
 
 	public override void ExposeData()
 	{
-		Scribe_Values.Look<int>(ref lastID, "logID", 0, false);
+        ToolkitLogger.Debug($"=== ExposeData Store_Component called! Mode: {Scribe.mode}");
+        Scribe_Values.Look<int>(ref lastID, "logID", 0, false);
 		Scribe_Collections.Look<int, int>(ref tickHistory, "tickHistory", (LookMode)1, (LookMode)1);
 		Scribe_Collections.Look<int, string>(ref abbreviationHistory, "incidentHistory", (LookMode)1, (LookMode)1);
 		Scribe_Collections.Look<int, string>(ref karmaHistory, "karmaHistory", (LookMode)1, (LookMode)1);

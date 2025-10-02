@@ -8,6 +8,7 @@ public class CompPawnNamed : ThingComp
 
 	public override void PostExposeData()
 	{
-		Scribe_Values.Look<bool>(ref PropsName.isNamed, "isNamed", false, false);
+        ToolkitLogger.Debug($"=== ExposeData CompPawnNamed called! Mode: {Scribe.mode}");
+        Scribe_Values.Look<bool>(ref PropsName.isNamed, "isNamed", false, false);
 	}
 }

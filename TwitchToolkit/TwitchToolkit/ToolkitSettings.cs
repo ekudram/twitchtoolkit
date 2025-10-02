@@ -12,12 +12,8 @@
  * 5. Added "Always Show Storyteller Button" option in Storyteller tab
  */
 
-using System;
 using System.Collections.Generic;
-using System.Reflection;
 using TwitchToolkit.Settings;
-using TwitchToolkit.Storytellers.StorytellerPackWindows;
-using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
 
@@ -144,21 +140,9 @@ public class ToolkitSettings : ModSettings
     public static bool NotifiedAboutUtils = false;
 
     // Added: Always show storyteller button setting
-    public static bool AlwaysShowStorytellerButton = false;
+    public static bool AlwaysShowStorytellerButton = true;
 
-    private static Vector2 scrollVector2;
     public static SettingsTab currentTab = SettingsTab.Chat;
-
-    private static string[] PubliclyKnownBots = new string[69]
-    {
-        "0_applebadapple_0", "activeenergy", "Anotherttvviewer", "apricotdrupefruit", "avocadobadado", "bananennanen", "benutzer", "BloodLustr", "Chloescookieworld", "cleverusernameduh",
-        "cogwhistle", "commanderroot", "commanderrott", "communityshowcase", "cutehealgirl", "danCry", "decafsmurf", "djcozby", "dosrev", "electricallongboard",
-        "electricalskateboard", "faegwent", "freast", "freddyybot", "himekoelectric", "host_giveaway", "hostgiveaway", "jade_elephant_association", "laf21", "lanfusion",
-        "llorx_falso", "luki4fun_bot_master", "M0psy", "mattmongaming", "mwmwmwmwmwmwmwmmwmwmwmwmw", "n0tahacker", "n0tahacker_", "n3td3v", "norkdorf", "nosebleedgg",
-        "not47y", "ogqp", "p0sitivitybot", "philderbeast", "royalestreamers", "shoutgamers", "sickfold", "skinnyseahorse", "SkumShop", "slocool",
-        "smallstreamersconnect", "spectre_807", "Stay_hydrated_bot", "Stockholm_Sweden", "StreamElixir", "StreamPromoteBot", "Subcentraldotnet", "Texastryhard", "teyd", "thatsprettyokay",
-        "thelurkertv", "thronezilla", "tj_target", "twitchprimereminder", "uehebot", "v_and_k", "virgoproz", "woppes", "zanekyber"
-    };
 
     // Tab system implementation
     private static Vector2 tabScrollPosition = Vector2.zero;
@@ -456,6 +440,7 @@ public class ToolkitSettings : ModSettings
     }
     public override void ExposeData()
     {
+        ToolkitLogger.Debug($"=== ExposeData Settings called! Mode: { Scribe.mode}");
         // Expose all settings data here (unchanged from original)
         Scribe_Values.Look(ref FirstTimeInstallation, "FirstTimeInstallation", true);
         Scribe_Values.Look(ref Channel, "Channel", "");
@@ -560,7 +545,8 @@ public class ToolkitSettings : ModSettings
         Scribe_Values.Look(ref NotifiedAboutUtils, "NotifiedAboutUtils", false);
 
         // Added: Expose the new setting
-        Scribe_Values.Look(ref AlwaysShowStorytellerButton, "AlwaysShowStorytellerButton", false);
+        Scribe_Values.Look(ref AlwaysShowStorytellerButton, "AlwaysShowStorytellerButton", true);
     }
+
 }
 

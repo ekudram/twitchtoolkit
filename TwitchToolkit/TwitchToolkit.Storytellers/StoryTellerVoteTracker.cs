@@ -144,7 +144,8 @@ public class StoryTellerVoteTracker : GameComponent
 
 	public override void ExposeData()
 	{
-		Scribe_Collections.Look<int, string>(ref VoteIDs, "VoteIDs", (LookMode)1, (LookMode)1);
+        ToolkitLogger.Debug($"=== ExposeData StoryTellerVoteTracker called! Mode: {Scribe.mode}");
+        Scribe_Collections.Look<int, string>(ref VoteIDs, "VoteIDs", (LookMode)1, (LookMode)1);
 		Scribe_Collections.Look<int, int>(ref VoteHistory, "VoteHistory", (LookMode)1, (LookMode)1);
 		Scribe_Collections.Look<string, int>(ref StorytellerLastTickTracker, "StorytellerLastTickTracker", (LookMode)1, (LookMode)1);
 		Scribe_Values.Look<int>(ref lastID, "LastID", -1, false);

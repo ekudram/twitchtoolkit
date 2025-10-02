@@ -10,7 +10,8 @@ public class BuyItemSettings : IncidentHelperVariablesSettings
 
 	public override void ExposeData()
 	{
-		Scribe_Values.Look<bool>(ref mustResearchFirst, "BuyItemSettings.mustResearchFirst", true, false);
+        ToolkitLogger.Debug($"=== ExposeData AddTraitSettings called! Mode: {Scribe.mode}");
+        Scribe_Values.Look<bool>(ref mustResearchFirst, "BuyItemSettings.mustResearchFirst", true, false);
 	}
 
 	public override void EditSettings()

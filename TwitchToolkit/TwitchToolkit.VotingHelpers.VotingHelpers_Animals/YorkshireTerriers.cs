@@ -7,7 +7,7 @@ namespace TwitchToolkit.VotingHelpers.VotingHelpers_Animals;
 
 public class YorkshireTerriers : VotingHelper
 {
-	private Map map;
+	private readonly Map map;
 
 	private IncidentWorker worker;
 

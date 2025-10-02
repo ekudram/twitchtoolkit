@@ -122,7 +122,8 @@ public class GameComponentPawns : GameComponent
 
 	public override void ExposeData()
 	{
-		Scribe_Collections.Look<string, Pawn>(ref pawnHistory, "pawnHistory", (LookMode)1, (LookMode)3, ref pawnNames, ref listPawns);
+        ToolkitLogger.Debug($"=== ExposeData GameComponentPawns called! Mode: {Scribe.mode}");
+        Scribe_Collections.Look<string, Pawn>(ref pawnHistory, "pawnHistory", (LookMode)1, (LookMode)3, ref pawnNames, ref listPawns);
 		Scribe_Collections.Look<string>(ref viewerNameQueue, "viewerNameQueue", (LookMode)1, Array.Empty<object>());
 	}
 }

@@ -11,16 +11,9 @@ public class Window_StorytellerPacks : Window
 	{
 		base.doCloseButton = true;
 	}
-
+	// 
 	public override void DoWindowContents(Rect inRect)
 	{
-		//IL_0001: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0007: Expected O, but got Unknown
-		//IL_0008: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0022: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0047: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0065: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00d5: Unknown result type (might be due to invalid IL or missing erences)
 		Listing_Standard listing = new Listing_Standard();
 		((Listing)listing).Begin(inRect);
 		Text.Font =((GameFont)2);

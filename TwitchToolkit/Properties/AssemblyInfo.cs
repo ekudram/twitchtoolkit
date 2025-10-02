@@ -8,7 +8,7 @@ using TwitchToolkit.Commands.ViewerCommands;
 using static Unity.Burst.Intrinsics.Arm;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 
-[assembly: AssemblyTitle("Toolkit")]
+[assembly: AssemblyTitle("Toolkit 2.0e")]
 [assembly: AssemblyDescription("2.0e Toolkit Mod for Rimworld")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]

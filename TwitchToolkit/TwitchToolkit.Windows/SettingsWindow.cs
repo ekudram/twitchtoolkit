@@ -20,8 +20,10 @@ public class SettingsWindow : Window
 		Mod.DoSettingsWindowContents(inRect);
 	}
 
-	public override void PostClose()
-	{
+    public override void Close(bool doCloseSound = true)
+    {
+		base.Close();
+		ToolkitLogger.Debug("Close() Called");
 		Mod.WriteSettings();
 	}
 }
