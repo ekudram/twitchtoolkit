@@ -32,9 +32,9 @@ public class CallForAid : IncidentHelper
         // Debug logging
         ToolkitLogger.Debug($"[CallForAid] Attempting to execute CallForAid incident");
 
-        ToolkitLogger.Debug($"[CallForAid] Points: {incidentParms.points}");
-        ToolkitLogger.Debug($"[CallForAid] RaidArrivalMode: {incidentParms.raidArrivalMode?.defName ?? "null"}");
-        ToolkitLogger.Debug($"[CallForAid] RaidStrategy: {incidentParms.raidStrategy?.defName ?? "null"}");
+        //ToolkitLogger.Debug($"[CallForAid] Points: {incidentParms.points}");
+        //ToolkitLogger.Debug($"[CallForAid] RaidArrivalMode: {incidentParms.raidArrivalMode?.defName ?? "null"}");
+        //ToolkitLogger.Debug($"[CallForAid] RaidStrategy: {incidentParms.raidStrategy?.defName ?? "null"}");
 
         IncidentWorker_CallForAid incident = new IncidentWorker_CallForAid
         {
@@ -44,14 +44,15 @@ public class CallForAid : IncidentHelper
         bool success = ((IncidentWorker)incident).TryExecute(incidentParms);
 
         // Handle chat feedback here instead of in the incident worker
-        if (success)
-        {
-            string factionName = incidentParms.faction?.Name ?? "Allies";
-            TwitchWrapper.SendChatMessage($"@{this.Viewer} → Call for aid successful! {factionName} is sending reinforcements!");
-        }
-        else
+        if (!success)
         {
             TwitchWrapper.SendChatMessage($"@{this.Viewer} → Call for aid failed: No friendly factions available to help");
         }
+        //else
+        //{
+           // nothing we sent it in the Incident worker.
+           // string factionName = incidentParms.faction?.Name ?? "Allies";
+           // TwitchWrapper.SendChatMessage($"@{this.Viewer} → Call for aid successful! {factionName} is sending reinforcements!");
+        //}
     }
 }

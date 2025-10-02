@@ -4,9 +4,10 @@
  * Updated: September 16, 2025
  * 
  * Change log:
- * 1. Line 128: This change checks if any worn apparel has a CompShield component instead of checking if the apparel itself is a CompShield, which correctly identifies shield belts while eliminating the type checking warning.
+ * 1. Line 128: This change checks if any worn apparel has a CompShield component instead of checking if the apparel itself
  * 2. Added debug logging for raid arrival mode resolution
  * 3. Added chat feedback for failures
+ * 4. Now checks for Odessy space maps and uses drop pods if there is a faction that can do this.
  * 
  */
 
@@ -45,13 +46,11 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
         catch (Exception e)
         {
             ToolkitLogger.Error($"[CallForAid] Error getting base candidate factions: {e}");
-            //SendChatMessage("Call for aid failed: Error finding friendly factions");
             return false;
         }
 
         if (baseFactions == null)
         {
-            //SendChatMessage("Call for aid failed: No friendly factions available");
             return false;
         }
 
@@ -87,7 +86,6 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
         if (!validFactions.Any())
         {
             ToolkitLogger.Error("[CallForAid] No valid factions after filtering");
-            //SendChatMessage("Call for aid failed: No friendly factions willing to help");
             return false;
         }
 
@@ -118,20 +116,20 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
     protected override bool TryExecuteWorker(IncidentParms parms)
     {
 
-        ToolkitLogger.Debug($"[CallForAid] TryExecuteWorker started");
+        //ToolkitLogger.Debug($"[CallForAid] TryExecuteWorker started");
         ToolkitLogger.Debug($"[CallForAid] Target: {parms.target}");
-        ToolkitLogger.Debug($"[CallForAid] Faction: {parms.faction?.Name ?? "null"}");
-        ToolkitLogger.Debug($"[CallForAid] Points before resolve: {parms.points}");
+        //ToolkitLogger.Debug($"[CallForAid] Faction: {parms.faction?.Name ?? "null"}");
+        //ToolkitLogger.Debug($"[CallForAid] Points before resolve: {parms.points}");
 
         ResolveRaidPoints(parms);
         ToolkitLogger.Debug($"[CallForAid] Points after resolve: {parms.points}");
 
         if (!TryResolveRaidFaction(parms))
         {
-            ToolkitLogger.Error("[CallForAid] Failed to resolve raid faction");
-            // Message already sent in TryResolveRaidFaction
-            return false; // "FAILED: No friendly factions available to help";
+            ToolkitLogger.Debug("[CallForAid] Failed to resolve raid faction");
+            return false;
         }
+
         ToolkitLogger.Debug($"[CallForAid] Resolved faction: {parms.faction?.Name ?? "null"}");
 
         PawnGroupKindDef combat = PawnGroupKindDefOf.Combat;
@@ -178,10 +176,8 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
             {
                 // If no drop modes are available, we can't proceed in space
                 ToolkitLogger.Error("[CallForAid] No valid drop modes available for space map - cannot execute");
-                //SendChatMessage("Call for aid failed: No drop pods available for space rescue");
                 return false;
             }
-
             // Don't allow fallback to EdgeWalkIn for space maps - it won't work
         }
         else
@@ -193,23 +189,20 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
                                   ?? PawnsArrivalModeDefOf.EdgeWalkIn;
             ToolkitLogger.Debug($"[CallForAid] Normal map detected, selected walk-in mode: {parms.raidArrivalMode?.defName}");
         }
-
-
-        // Remove the problematic fallback checks for space maps
         // Only do these checks for non-space maps
         if (!IsSpaceMap(map))
         {
             // FIX: Double-check that we have a valid arrival mode
             if (parms.raidArrivalMode == null)
             {
-                ToolkitLogger.Warning($"[CallForAid] Raid arrival mode still null after selection, forcing EdgeWalkIn");
+                ToolkitLogger.Debug($"[CallForAid] Raid arrival mode still null after selection, forcing EdgeWalkIn");
                 parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
             }
 
             // FIX: Check if the arrival mode can actually be used with current parameters
             if (!parms.raidArrivalMode.Worker.CanUseWith(parms))
             {
-                ToolkitLogger.Warning($"[CallForAid] Selected arrival mode {parms.raidArrivalMode.defName} cannot be used, falling back to EdgeWalkIn");
+                ToolkitLogger.Debug($"[CallForAid] Selected arrival mode {parms.raidArrivalMode.defName} cannot be used, falling back to EdgeWalkIn");
                 parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
             }
         }
@@ -218,15 +211,13 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
         if (!parms.raidArrivalMode.Worker.TryResolveRaidSpawnCenter(parms))
         {
             ToolkitLogger.Error("[CallForAid] Failed to resolve raid spawn center");
-            //SendChatMessage("Call for aid failed: Cannot find valid spawn location");
             return false;
         }
 
         parms.points = IncidentWorker_Raid.AdjustedRaidPoints(parms.points, parms.raidArrivalMode, parms.raidStrategy, parms.faction, combat);
         ToolkitLogger.Debug($"[CallForAid] Adjusted points: {parms.points}");
-        // ... rest of the method remains the same
-        List<Pawn> list = parms.raidStrategy.Worker.SpawnThreats(parms);
 
+        List<Pawn> list = parms.raidStrategy.Worker.SpawnThreats(parms);
 
         if (list == null)
         {
@@ -234,7 +225,6 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
             if (list.Count == 0)
             {
                 ToolkitLogger.Error($"Got no pawns spawning raid from parms {parms}");
-                //SendChatMessage("Call for aid failed: No allies available to send");
                 return false;
             }
             parms.raidArrivalMode.Worker.Arrive(list, parms);
@@ -309,7 +299,7 @@ public class IncidentWorker_CallForAid : IncidentWorker_RaidFriendly
             successMessage += " marching to your location";
         }
 
-        //SendChatMessage(successMessage);
+        TwitchWrapper.SendChatMessage(successMessage);
 
         ToolkitLogger.Debug($"[CallForAid] TryExecuteWorker completed successfully");
         return true;
