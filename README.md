@@ -7,7 +7,7 @@ This file must be used with 2.0e versions only and is not compatible with 1.0 ve
 
 ## 🎯 Purpose
 
-The original TwitchToolkit mod was abandoned 6+ years ago. This fork:
+The original TwitchToolkit original mod is only maintained for critical updates. This fork:
 - Fixes critical bugs and compatibility issues
 - Modernizes dependencies (TwitchLib, etc.)
 - Maintains AGPL v3 licensing to keep code open
