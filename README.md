@@ -1,8 +1,9 @@
 # TwitchToolkit (Community Preservation Fork)
 
-**Status: Active Maintenance** | **Fixes critical issues in abandoned mod**
+**Status: Active Maintenance** 
 
 A community-maintained fork of TwitchToolkit focused on stability, modernization, and keeping this essential mod alive for the RimWorld community.
+This file must be used with 2.0e versions only and is not compatible with 1.0 versions of TTK
 
 ## 🎯 Purpose
 
