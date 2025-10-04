@@ -1,3 +1,18 @@
+/*
+ * TwitchToolkit Mod - Community Preservation Fork
+ * 
+ * Original Source: TwitchToolkit (GNU Affero GPL v3)
+ * Original Copyright: 2019 from original repository
+ * 
+ * MAJOR MODIFICATIONS © 2025 Captolamia:
+ * Modifications listed above if any.
+ * 
+ * This work is licensed under GNU Affero GPL v3
+ * This is a community preservation effort to maintain and improve
+ * abandoned mod code for the benefit of all users.
+ * 
+ * See LICENSE file for full terms.
+ */
 using System.Collections.Generic;
 using RimWorld;
 using Verse;
@@ -15,21 +30,6 @@ public class IncidentWorker_ResourcePodFrenzy : IncidentWorker
 
 	protected override bool TryExecuteWorker(IncidentParms parms)
 	{
-		//IL_0007: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_000d: Expected O, but got Unknown
-		//IL_0024: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0029: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_002b: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0050: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0055: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0066: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_006c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0071: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0072: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0090: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0095: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00a1: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00a6: Unknown result type (might be due to invalid IL or missing erences)
 		Map map = (Map)parms.target;
 		for (int x = 0; x < 10; x++)
 		{

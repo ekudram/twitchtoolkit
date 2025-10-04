@@ -3,10 +3,22 @@
  * File: Viewer.cs
  * 
  * Usage: Represents a Twitch viewer with properties and methods for managing their status, coins, and karma.
+ */
+
+/*
+ * TwitchToolkit Mod - Community Preservation Fork
  * 
- * File under the MIT License.
- * File is unchanged from original.
+ * Original Source: TwitchToolkit (GNU Affero GPL v3)
+ * Original Copyright: 2019 from original repository
  * 
+ * MAJOR MODIFICATIONS © 2025 Captolamia:
+ * Modifications listed above if any.
+ * 
+ * This work is licensed under GNU Affero GPL v3
+ * This is a community preservation effort to maintain and improve
+ * abandoned mod code for the benefit of all users.
+ * 
+ * See LICENSE file for full terms.
  */
 using System;
 using System.Collections.Generic;

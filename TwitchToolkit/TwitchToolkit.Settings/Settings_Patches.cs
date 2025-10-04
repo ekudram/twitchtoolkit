@@ -1,18 +1,17 @@
-/* This file is part of TwitchToolkit.
-	TwitchToolkit is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-	TwitchToolkit is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-	You should have received a copy of the GNU General Public License
-	along with TwitchToolkit.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * TwitchToolkit Mod - Community Preservation Fork
  * 
- * File: Settings_Patches.cs
+ * Original Source: TwitchToolkit (GNU Affero GPL v3)
+ * Original Copyright: 2019 from original repository
  * 
-
+ * MAJOR MODIFICATIONS © 2025 Captolamia:
+ * Modifications listed above if any.
+ * 
+ * This work is licensed under GNU Affero GPL v3
+ * This is a community preservation effort to maintain and improve
+ * abandoned mod code for the benefit of all users.
+ * 
+ * See LICENSE file for full terms.
  */
 
 using System;

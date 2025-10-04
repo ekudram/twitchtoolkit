@@ -1,3 +1,18 @@
+/*
+ * TwitchToolkit Mod - Community Preservation Fork
+ * 
+ * Original Source: TwitchToolkit (GNU Affero GPL v3)
+ * Original Copyright: 2019 from original repository
+ * 
+ * MAJOR MODIFICATIONS © 2025 Captolamia:
+ * Modifications listed above if any.
+ * 
+ * This work is licensed under GNU Affero GPL v3
+ * This is a community preservation effort to maintain and improve
+ * abandoned mod code for the benefit of all users.
+ * 
+ * See LICENSE file for full terms.
+ */
 using System;
 using System.Collections.Generic;
 using RimWorld;
@@ -16,20 +31,6 @@ public class IncidentWorker_PrisonerJoins : IncidentWorker_WandererJoin
 
 	protected override bool TryExecuteWorker(IncidentParms parms)
 	{
-		//IL_0007: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_000d: Expected O, but got Unknown
-		//IL_0036: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_003c: Invalid comparison between Unknown and I4
-		//IL_004d: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00ed: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0122: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0129: Expected O, but got Unknown
-		//IL_01b1: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01b6: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01d2: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01d7: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01ea: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01ec: Unknown result type (might be due to invalid IL or missing erences)
 		Map map = (Map)parms.target;
 		if (!TryFindEntryCell(map, out var _))
 		{

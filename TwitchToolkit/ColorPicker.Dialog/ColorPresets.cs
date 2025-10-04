@@ -1,3 +1,18 @@
+/*
+ * TwitchToolkit Mod - Community Preservation Fork
+ * 
+ * Original Source: TwitchToolkit (GNU Affero GPL v3)
+ * Original Copyright: 2019 from original repository
+ * 
+ * MAJOR MODIFICATIONS © 2025 Captolamia:
+ * Modifications listed above if any.
+ * 
+ * This work is licensed under GNU Affero GPL v3
+ * This is a community preservation effort to maintain and improve
+ * abandoned mod code for the benefit of all users.
+ * 
+ * See LICENSE file for full terms.
+ */
 using UnityEngine;
 
 namespace ColorPicker.Dialog;
@@ -16,14 +31,10 @@ public class ColorPresets
 	{
 		get
 		{
-			//IL_0008: Unknown result type (might be due to invalid IL or missing erences)
-			//IL_000d: Unknown result type (might be due to invalid IL or missing erences)
-			//IL_0010: Unknown result type (might be due to invalid IL or missing erences)
 			return Colors[i];
 		}
 		set
 		{
-			//IL_0003: Unknown result type (might be due to invalid IL or missing erences)
 			SetColor(i, value);
 		}
 	}
@@ -42,9 +53,6 @@ public class ColorPresets
 
 	public Color GetSelectedColor()
 	{
-		//IL_000d: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0012: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0015: Unknown result type (might be due to invalid IL or missing erences)
 		return Colors[SelectedIndex];
 	}
 
@@ -60,9 +68,6 @@ public class ColorPresets
 
 	public void SetColor(int i, Color c)
 	{
-		//IL_000d: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0022: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0023: Unknown result type (might be due to invalid IL or missing erences)
 		if (!((Color)(Colors[i])).Equals(c))
 		{
 			Colors[i] = c;
@@ -77,8 +82,6 @@ public class ColorPresets
 
 	internal void SetSelectedColor(Color c)
 	{
-		//IL_000d: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_000e: Unknown result type (might be due to invalid IL or missing erences)
 		Colors[SelectedIndex] = c;
 		IsModified = true;
 	}
