@@ -1,58 +1,40 @@
-#WARNING
-Do not pull from this
-This fork is a major upgrade that does not use the same TwitchLib or Toolkitcore mods.  
-This is a major upgrade in progress.
+# TwitchToolkit (Community Preservation Fork)
 
-Current Progress:
-Upgrade to TwitchLib 3.4 in progress 
-Removed most if not all Threading outside of the Rimworld Main Thread for Stability.
-Todo:  Handle WhisperMessage Parsing. 
-Fixed: ITwitchMessage Removed changed to ChatMessage (New Method from TwitchLib)
+**Status: Active Maintenance** 
 
+A community-maintained fork of TwitchToolkit focused on stability, modernization, and keeping this essential mod alive for the RimWorld community.
+This file must be used with 2.0e versions only and is not compatible with 1.0 versions of TTK
 
+## 🎯 Purpose
 
-# Build
-Either use your preferred way to compile C# code, just make sure to target .NET 3.5 and then manually copy the files to the RimWorld Mods folder.
-Or you can use the provided Makefile, which also automates the copying part including filling up missing languages.
+The original TwitchToolkit original mod is only maintained for critical updates. This fork:
+- Fixes critical bugs and compatibility issues
+- Modernizes dependencies (TwitchLib, etc.)
+- Maintains AGPL v3 licensing to keep code open
+- Preserves functionality for current RimWorld versions
 
-# Contribute
-Just fork this repository, add your changes, push them to your fork and open a merge request to merge your changes into this repository.
-Also feel free to join the [Discord](https://discord.gg/qrtg224) if you have any questions or want to hang out.
+## 🛠 Modifications
 
-# Translations
-We are currently not accepting translations, I am sorry for the inconvenience.
+### Critical Fixes
+- [Viewer duplication in JSON fixed]
+- [Twitch API updates and compatibility]
+- [RimWorld version compatibility patches]
 
-# Commands
-## User Commands:
+### Code Quality
+- [Architectural improvements]
+- [Deprecation cleanup]
+- [Performance enhancements]
 
-**!balance, !bal, !coins** - check balance and karma rate
+## 📄 Licensing
 
-**!buyevent** - Syntax: !buyevent skillincrease - purchase an event
+- **Original License**: GNU Affero General Public License v3
+- **Modifications**: © 2025 Captolamia - Also under AGPL v3
+- **Compliance**: Full source available, modifications documented
 
-**!buyitem** - Syntax: !buyitem beer 2 - purchase an item
+## 🤝 Community Preservation
 
-**!whatiskarma, !karma** - explains what the karma system is
+This fork continues the original author's intent to keep TwitchToolkit free and open source. All modifications respect the original AGPL v3 terms while ensuring the mod remains usable for the community.
 
-**!purchaselist, !instructions** - gives users a link to the public purchase list and info on using the mod
+---
 
-**!modinfo** - gives users info about the mod
-
-## Admin Commands:
-
-**!refreshviewers** - updates viewers watching channel, this is for debugging mostly
-
-**!karmaround** - simulates a coin reward round
-
-**!givecoins** - Syntax: !givecoins @username 1000 - gives user 1000 coins
-
-**!giveallcoins** - Syntax: !giveallcoins 1000 - gives all users 1000 coins (can also be used with negative numbers to take coins)
-
-**!resetviewers** - resets all viewers data back to default, must confirm twice
-
-**!checkuser** - Syntax: !checkuser @username - do a balance check on the user
-
-**!setkarma** - Syntax: !setuserkarma @username 100 - set user karma to 100% (needs message)
-
-**!togglestore** - toggle ability for users to purchase items/events
-
-**!togglecoins** - toggle ability for users to earn coins while viewing
+*Keeping abandoned mods alive for the RimWorld community*
