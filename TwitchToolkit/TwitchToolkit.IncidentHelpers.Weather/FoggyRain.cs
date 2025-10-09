@@ -14,6 +14,8 @@
  * See LICENSE file for full terms.
  */
 using RimWorld;
+using System.Collections.Generic;
+using System.Linq;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -27,7 +29,12 @@ namespace TwitchToolkit.IncidentHelpers.Weather
 		public override bool IsPossible()
 		{
 			this.weather = DefDatabase<WeatherDef>.GetNamed(nameof (FoggyRain));
-			foreach (Map map in Current.Game.Maps)
+
+            List<Map> playerHomeMaps = Current.Game.Maps.Where(map => map.IsPlayerHome).ToList();
+
+            // Shuffle the list of player maps to randomize which one is checked first
+            playerHomeMaps.Shuffle();
+            foreach (Map map in playerHomeMaps)
 			{
 				if (map.weatherManager.curWeather != this.weather)
 				{

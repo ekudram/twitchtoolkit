@@ -13,8 +13,9 @@
  * 
  * See LICENSE file for full terms.
  */
-using System.Collections.Generic;
 using RimWorld;
+using System.Collections.Generic;
+using System.Linq;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -30,9 +31,11 @@ namespace TwitchToolkit.IncidentHelpers.Weather
 			this.worker = (IncidentWorker) new IncidentWorker_MakeGameCondition();
 			this.worker.def = IncidentDef.Named(nameof (VolcanicWinter));
 			this.parms = new IncidentParms();
-			List<Map> maps = Current.Game.Maps;
-			maps.Shuffle<Map>();
-			foreach (IIncidentTarget incidentTarget in maps)
+            List<Map> playerHomeMaps = Current.Game.Maps.Where(map => map.IsPlayerHome).ToList();
+
+            // Shuffle the list of player maps to randomize which one is checked first
+            playerHomeMaps.Shuffle();
+            foreach (IIncidentTarget incidentTarget in playerHomeMaps)
 			{
 				this.parms.target = incidentTarget;
 				if (this.worker.CanFireNow(this.parms))
