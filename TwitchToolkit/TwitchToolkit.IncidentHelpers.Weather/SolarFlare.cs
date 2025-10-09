@@ -13,8 +13,9 @@
  * 
  * See LICENSE file for full terms.
  */
-using System.Collections.Generic;
 using RimWorld;
+using System.Collections.Generic;
+using System.Linq;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -25,23 +26,28 @@ namespace TwitchToolkit.IncidentHelpers.Weather
 		private IncidentParms parms = (IncidentParms) null;
 		private IncidentWorker worker = (IncidentWorker) null;
 
-		public override bool IsPossible()
-		{
-			this.worker = (IncidentWorker) new IncidentWorker_MakeGameCondition();
-			this.worker.def = IncidentDefOf.SolarFlare;
-			this.parms = new IncidentParms();
-			List<Map> maps = Current.Game.Maps;
-			maps.Shuffle<Map>();
-			foreach (IIncidentTarget incidentTarget in maps)
-			{
-				this.parms.target = incidentTarget;
-				this.parms.forced = true;
-				if (this.worker.CanFireNow(this.parms))
-					return true;
-			}
-			return false;
-		}
+        public override bool IsPossible()
+        {
+            this.worker = new IncidentWorker_MakeGameCondition();
+            this.worker.def = IncidentDefOf.SolarFlare;
+            this.parms = new IncidentParms();
 
-		public override void TryExecute() => this.worker.TryExecute(this.parms);
+            // Get all maps and filter for player home maps only
+            List<Map> playerHomeMaps = Current.Game.Maps.Where(map => map.IsPlayerHome).ToList();
+
+            // Shuffle the list of player maps to randomize which one is checked first
+            playerHomeMaps.Shuffle();
+
+            foreach (Map playerMap in playerHomeMaps)
+            {
+                this.parms.target = playerMap; // IIncidentTarget is implemented by Map
+                this.parms.forced = true;
+                if (this.worker.CanFireNow(this.parms))
+                    return true;
+            }
+            return false;
+        }
+
+        public override void TryExecute() => this.worker.TryExecute(this.parms);
 	}
 }

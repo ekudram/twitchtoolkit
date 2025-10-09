@@ -1,5 +1,5 @@
 /*
- * Project: Twitch Toolkit
+ * Project: TwitchToolkit
  * File: BuyPawn.cs
  * 
  */
@@ -43,8 +43,7 @@ public class BuyPawn : IncidentHelperVariables
 
 	public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
 	{
-		//IL_008e: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0098: Expected O, but got Unknown
+		ToolkitLogger.Debug("=== IsPossible Called ===");
 		if (!Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, storeIncident.cost))
 		{
 			return false;
@@ -68,8 +67,8 @@ public class BuyPawn : IncidentHelperVariables
 
 	public override void TryExecute()
 	{
-
-		PawnKindDef pawnKind = PawnKindDefOf.Colonist;
+        ToolkitLogger.Debug("=== TryExecute Called ===");
+        PawnKindDef pawnKind = PawnKindDefOf.Colonist;
 		Faction ofPlayer = Faction.OfPlayer;
 		PawnGenerationRequest request = new PawnGenerationRequest(pawnKind, ofPlayer, (PawnGenerationContext)2, map.Tile, false, false, false, false, true, 1f, false, false, true, true, true, false, false, false, false, 0f, 0f, (Pawn)null, 1f);
 		Pawn pawn = PawnGenerator.GeneratePawn(request);

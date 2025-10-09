@@ -20,7 +20,7 @@
   <TwitchToolkitWhatIsKarma>karma is the rate at which you earn coins. Buying bad events lowers karma while good events/items raise your karma. You are currently earning karma at a rate of</TwitchToolkitWhatIsKarma>
   <TwitchToolkitPurchaseList>Purchase list:</TwitchToolkitPurchaseList>
   <TwitchToolkitGiftCoins>you have been gifted {amount} coins from @{from}</TwitchToolkitGiftCoins>
-  <TwitchToolkitModInfo>TwitchToolkit is a mod written by Twitch.tv/hodlhodl that integrates storytelling decisions into chat votes, awards viewers coins for watching, and those coins can be spent on items/events in game. Use !purchaselist to get more info. Join the discord</TwitchToolkitModInfo>
+  <TwitchToolkitModInfo>TwitchToolkit 2.0e is based on a mod by Twitch.tv/hodlhodl and upgraded by Captolamia, that integrates storytelling decisions into chat votes, awards viewers coins for watching, and those coins can be spent on items/events in game. Use !purchaselist to get more info. Join the discord</TwitchToolkitModInfo>
   <TwitchToolkitModSettings>Twitch toolkit is rewarding viewers {amount} coins every {first} minute(s), the store is {second} and coin rewards are {third}. Karma cap is {karma}%.</TwitchToolkitModSettings>
   <TwitchToolkitUserCommands>You can use the following commands:</TwitchToolkitUserCommands>
   <TwitchToolKitVoteInstructions>Say the number of the option you want to vote!</TwitchToolKitVoteInstructions>
