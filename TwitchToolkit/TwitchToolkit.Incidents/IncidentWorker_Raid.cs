@@ -33,9 +33,17 @@ public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 	public static TwitchToolkit _mod = LoadedModManager.GetMod<TwitchToolkit>();
 
 	public bool disableEvent = false;
-
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="parms"></param>
+	/// <returns></returns>
 	protected abstract bool TryResolveRaidFaction(IncidentParms parms);
-
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="parms"></param>
+	/// <param name="groupKind"></param>
 	protected abstract void ResolveRaidStrategy(IncidentParms parms, PawnGroupKindDef groupKind);
 
 	protected abstract string GetLetterLabel(IncidentParms parms);
@@ -47,8 +55,11 @@ public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 	protected abstract string GetRelatedPawnsInfoLetterText(IncidentParms parms);
 
 	protected abstract void ResolveRaidPoints(IncidentParms parms);
-
-	protected virtual void ResolveRaidArriveMode(IncidentParms parms)
+    /// <summary>
+    /// This method resolves the arrival mode for the raid if it hasn't been set already.
+    /// </summary>
+    /// <param name="parms"></param>
+    protected virtual void ResolveRaidArriveMode(IncidentParms parms)
 	{
 		if (parms.raidArrivalMode == null)
 		{
@@ -65,8 +76,11 @@ public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 			}
 		}
 	}
-
-	protected override bool TryExecuteWorker(IncidentParms parms)
+    /// <summary>
+	/// 
+	/// </summary>
+	/// <param name="parms"></param>
+    protected override bool TryExecuteWorker(IncidentParms parms)
 	{
 		ResolveRaidPoints(parms);
 		if (disableEvent)
