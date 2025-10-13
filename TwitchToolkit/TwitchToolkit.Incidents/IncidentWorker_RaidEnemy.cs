@@ -42,8 +42,6 @@ public class IncidentWorker_RaidEnemy : IncidentWorker_Raid
 
 	protected override bool TryResolveRaidFaction(IncidentParms parms)
 	{
-		//IL_0015: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_001f: Expected O, but got Unknown
 		Map map = (Map)parms.target;
 		if (parms.faction != null)
 		{
@@ -68,8 +66,6 @@ public class IncidentWorker_RaidEnemy : IncidentWorker_Raid
 
 	protected override void ResolveRaidStrategy(IncidentParms parms, PawnGroupKindDef groupKind)
 	{
-		//IL_0039: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0043: Expected O, but got Unknown
 		if (parms.raidStrategy != null)
 		{
 			return;
@@ -94,11 +90,6 @@ public class IncidentWorker_RaidEnemy : IncidentWorker_Raid
 
 	protected override string GetLetterText(IncidentParms parms, List<Pawn> pawns)
 	{
-		//IL_009c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00a7: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00b2: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00b7: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00bc: Unknown result type (might be due to invalid IL or missing erences)
 		string text = string.Format(parms.raidArrivalMode.textEnemy, parms.faction.def.pawnsPlural, parms.faction.Name);
 		text += "\n\n";
 		text += parms.raidStrategy.arrivalTextEnemy;
@@ -118,9 +109,6 @@ public class IncidentWorker_RaidEnemy : IncidentWorker_Raid
 
 	protected override string GetRelatedPawnsInfoLetterText(IncidentParms parms)
 	{
-		//IL_0015: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_002a: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_002f: Unknown result type (might be due to invalid IL or missing erences)
 		return (TaggedString)(TranslatorFormattedStringExtensions.Translate("LetterRelatedPawnsRaidEnemy", (NamedArgument)(Faction.OfPlayer.def.pawnsPlural), (NamedArgument)(parms.faction.def.pawnsPlural)));
 	}
 }

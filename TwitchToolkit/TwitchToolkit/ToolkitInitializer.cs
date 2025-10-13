@@ -39,10 +39,7 @@ namespace Toolkit
             // Queue initialization to run on the main thread after loading is complete
             LongEventHandler.QueueLongEvent(
                 Initialize,
-                null,
-                false,
-                ExceptionHandler, true
-            );
+                null, false, null, showExtraUIInfo: false, forceHideUI: true);
         }
 
         private static void Initialize()

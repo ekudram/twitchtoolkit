@@ -35,23 +35,7 @@ public class StoreItemsWindow : Window
 
 	public override void DoWindowContents(Rect inRect)
 	{
-		//IL_0022: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_004c: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0051: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0059: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0065: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0088: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_00c1: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0101: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01a2: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01a7: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01a9: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01b4: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01c1: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_01c9: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0288: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0347: Unknown result type (might be due to invalid IL or missing erences)
-		//IL_0424: Unknown result type (might be due to invalid IL or missing erences)
+
 		if (searchQuery != lastSearch)
 		{
 			GetTradeables();
